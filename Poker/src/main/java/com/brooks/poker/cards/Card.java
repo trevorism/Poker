@@ -3,7 +3,7 @@
  */
 package com.brooks.poker.cards;
 
-import com.brooks.poker.player.ui.EnumPrinter;
+import com.brooks.poker.util.EnumPrinter;
 
 /**
  * @author Trevor and Sean

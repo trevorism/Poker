@@ -1,4 +1,4 @@
-package com.brooks.poker.player.ui;
+package com.brooks.poker.util;
 
 import java.util.ArrayList;
 import java.util.List;

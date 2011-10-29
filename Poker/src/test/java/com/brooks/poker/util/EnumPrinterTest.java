@@ -1,4 +1,4 @@
-package com.brooks.poker.player.ui;
+package com.brooks.poker.util;
 
 import org.junit.Test;
 
@@ -6,6 +6,7 @@ import com.brooks.poker.cards.Card.Suit;
 import com.brooks.poker.cards.Card.Value;
 import com.brooks.poker.cards.HandValue.HandValueType;
 import com.brooks.poker.game.data.GamePhase;
+import com.brooks.poker.util.EnumPrinter;
 
 import static org.junit.Assert.assertEquals;
 
