@@ -9,7 +9,8 @@ import java.util.List;
 import com.brooks.poker.evaluator.HandValueAlgorithm;
 
 /**
- * @author Trevor Takes N cards, converts to the best 5 card hand.
+ * Takes N cards, converts to the best 5 card hand.
+ * @author Trevor
  */
 public class Hand implements Comparable<Hand>{
 

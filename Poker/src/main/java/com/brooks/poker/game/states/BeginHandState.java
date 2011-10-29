@@ -10,13 +10,12 @@ import com.brooks.poker.game.data.Table;
 import com.brooks.poker.player.Player;
 
 /**
+ * In the begin state we:
+ * 
+ * Make sure on the game constants are set up properly. Deal two cards to each
+ * player.
+ * 
  * @author Trevor
- * 
- *         In the begin state we:
- * 
- *         Make sure on the game constants are set up properly. Deal two cards
- *         to each player.
- * 
  */
 public class BeginHandState extends GameStateHandler{
 

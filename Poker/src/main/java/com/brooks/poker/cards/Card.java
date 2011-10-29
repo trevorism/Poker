@@ -6,7 +6,7 @@ package com.brooks.poker.cards;
 import com.brooks.poker.util.EnumPrinter;
 
 /**
- * @author Trevor and Sean
+ * @author Trevor
  * 
  */
 public final class Card implements Comparable<Card>{
