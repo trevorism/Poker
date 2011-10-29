@@ -1,0 +1,17 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.6
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+buildscript {
+    def githubBase = 'https://github.com/valkolovos/gradle_cobertura/raw/master/ivy'
+    apply from: "${githubBase}/gradle_cobertura/gradle_cobertura/1.0-rc4/coberturainit.gradle"
+}
+
+dependencies {
+    testCompile	'junit:junit:4.7'
+}

@@ -1,0 +1,28 @@
+/**
+ * 
+ */
+package com.brooks.poker.game.states;
+
+import com.brooks.poker.game.data.GamePhase;
+import com.brooks.poker.game.data.GameState;
+
+
+/**
+ * @author Trevor
+ *
+ */
+public class TurnBetState extends FlopBetState {
+
+    public TurnBetState(GameState gameState){
+        super(gameState);
+       
+    }
+
+    @Override
+    public GamePhase getNextPhase(){
+        if(shouldEndHand())
+            return GamePhase.END_HAND;
+        
+        return GamePhase.RIVER;
+    }
+}
