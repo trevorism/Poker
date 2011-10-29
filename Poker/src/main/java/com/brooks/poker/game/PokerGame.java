@@ -9,12 +9,12 @@ import com.brooks.poker.game.states.GameStateFactory;
 import com.brooks.poker.game.states.GameStateHandler;
 
 /**
- * @author Trevor This class launches and handles game level logic ( how many
- *         players etc.)
+ * @author Trevor
+ * Play poker, this runs until one player remains.
  */
 public class PokerGame{
 
-    public void playGame(GameState gameState){
+    public static void playGame(GameState gameState){
         GameStateFactory factory = new GameStateFactory(gameState);
         GamePhase currentPhase = GamePhase.BEGIN_HAND;
 
@@ -24,4 +24,5 @@ public class PokerGame{
             currentPhase = handler.getNextPhase();
         }
     }
+
 }
