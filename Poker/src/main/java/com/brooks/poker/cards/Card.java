@@ -57,8 +57,8 @@ public final class Card implements Comparable<Card>{
     public int hashCode(){
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((suit == null) ? 0 : suit.hashCode());
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        result = prime * result + suit.hashCode();
+        result = prime * result + value.hashCode();
         return result;
     }
 
@@ -66,22 +66,13 @@ public final class Card implements Comparable<Card>{
     public boolean equals(Object obj){
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
         if (getClass() != obj.getClass())
             return false;
         final Card other = (Card) obj;
-        if (suit == null){
-            if (other.suit != null)
-                return false;
-        }
-        else if (!suit.equals(other.suit))
+
+        if (!suit.equals(other.suit))
             return false;
-        if (value == null){
-            if (other.value != null)
-                return false;
-        }
-        else if (!value.equals(other.value))
+        if (!value.equals(other.value))
             return false;
         return true;
     }
