@@ -14,8 +14,7 @@ public final class HandValue implements Comparable<HandValue>{
     public static HandValue NOT_VALID_HAND = new HandValue(HandValueType.NULL_VALUE, Collections.<Value> emptyList());
 
     public enum HandValueType{
-        NULL_VALUE, HIGH_CARD, PAIR, TWO_PAIR, THREE_OF_A_KIND, 
-        STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH
+        NULL_VALUE, HIGH_CARD, PAIR, TWO_PAIR, THREE_OF_A_KIND, STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH
     }
 
     private final HandValueType type;
@@ -51,8 +50,8 @@ public final class HandValue implements Comparable<HandValue>{
     public int hashCode(){
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((tieBreaker == null) ? 0 : tieBreaker.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + tieBreaker.hashCode();
+        result = prime * result + type.hashCode();
         return result;
     }
 
@@ -60,16 +59,10 @@ public final class HandValue implements Comparable<HandValue>{
     public boolean equals(Object obj){
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
         if (getClass() != obj.getClass())
             return false;
         HandValue other = (HandValue) obj;
-        if (tieBreaker == null){
-            if (other.tieBreaker != null)
-                return false;
-        }
-        else if (!tieBreaker.equals(other.tieBreaker))
+        if (!tieBreaker.equals(other.tieBreaker))
             return false;
         if (type != other.type)
             return false;

@@ -5,14 +5,14 @@ import com.brooks.poker.game.data.GameState;
 
 /**
  * @author Trevor
- *
+ * 
  */
 public class NullHandState extends GameStateHandler{
 
     public static final NullHandState NULL_HAND_STATE = new NullHandState(null);
-    
+
     protected NullHandState(GameState gameState){
-        super(gameState);        
+        super(gameState);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class NullHandState extends GameStateHandler{
     }
 
     @Override
-    public GamePhase getNextPhase(){        
+    public GamePhase getNextPhase(){
         return GamePhase.END_GAME;
     }
 

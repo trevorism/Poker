@@ -10,6 +10,7 @@ import com.brooks.poker.evaluator.HandValueAlgorithm;
 
 /**
  * Takes N cards, converts to the best 5 card hand.
+ * 
  * @author Trevor
  */
 public class Hand implements Comparable<Hand>{
@@ -45,7 +46,7 @@ public class Hand implements Comparable<Hand>{
     public List<Card> getCards(){
         return new ArrayList<Card>(cards);
     }
-    
+
     public int compareTo(Hand hand){
         return getHandValue().compareTo(hand.getHandValue());
     }
@@ -54,12 +55,12 @@ public class Hand implements Comparable<Hand>{
         HandValueAlgorithm algorithm = HandValueAlgorithm.getInstance();
         handValue = algorithm.calculateHandValue(cards);
     }
-    
+
     @Override
     public int hashCode(){
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((handValue == null) ? 0 : handValue.hashCode());
+        result = prime * result + handValue.hashCode();
         return result;
     }
 
@@ -67,16 +68,10 @@ public class Hand implements Comparable<Hand>{
     public boolean equals(Object obj){
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
         if (getClass() != obj.getClass())
             return false;
         Hand other = (Hand) obj;
-        if (handValue == null){
-            if (other.handValue != null)
-                return false;
-        }
-        else if (!handValue.equals(other.handValue))
+        if (!handValue.equals(other.handValue))
             return false;
         return true;
     }
