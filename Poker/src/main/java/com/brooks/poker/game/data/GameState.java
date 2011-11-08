@@ -1,5 +1,7 @@
 package com.brooks.poker.game.data;
 
+import java.util.List;
+
 import com.brooks.poker.cards.Card;
 import com.brooks.poker.cards.Deck;
 import com.brooks.poker.game.data.pot.Pots;
@@ -7,7 +9,6 @@ import com.brooks.poker.player.Player;
 
 /**
  * @author Trevor
- * 
  */
 public class GameState{
     private final BlindsAnte blindsAnte;
@@ -15,13 +16,44 @@ public class GameState{
     private final Deck deck;
     private final Pots pots;
     private final CommunityCards communityCards;
-    
-    public GameState(){
+        
+    protected GameState(){
         blindsAnte = new BlindsAnte();
         table = new Table();
         deck = new Deck();
         pots = new Pots();
         communityCards = new CommunityCards();
+    }
+
+    public static GameState configureGameState(BlindsAnte blindsAnte, List<Player> players){
+        if(playersIsInvalid(players))
+            throw new IllegalArgumentException("Must have between 2 and 20 players.");
+
+        GameState gameState = new GameState();
+        gameState.blindsAnte.bigBlind = blindsAnte.bigBlind;
+        gameState.blindsAnte.smallBlind = blindsAnte.smallBlind;
+        gameState.blindsAnte.ante = blindsAnte.ante;
+        
+        for(Player player: players){
+            gameState.getTable().joinTable(player);
+        }
+        gameState.getTable().randomizeDealer();
+        
+        return gameState;
+    }
+
+    public static GameState configureGameState(BlindsAnte blindsAnte, Player... players){
+        return configureGameState(blindsAnte, players);
+    }
+    
+    private static boolean playersIsInvalid(List<Player> players){
+        if(players == null)
+            return true;
+        if(players.size() < 2)
+            return true;
+        if(players.size() > 20)
+            return true;        
+        return false;
     }
 
     public void beginHand(){

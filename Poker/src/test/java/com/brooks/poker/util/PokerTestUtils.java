@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.brooks.poker.game.data.BlindsAnte;
 import com.brooks.poker.game.data.GameState;
-import com.brooks.poker.game.data.Table;
 import com.brooks.poker.player.Player;
 
 import static org.junit.Assert.assertEquals;
@@ -18,20 +17,15 @@ public final class PokerTestUtils{
     private PokerTestUtils(){}
     
     public static GameState getDefaultGameState(List<Player> players){
-        GameState gameState = new GameState();
-
-        BlindsAnte blindsAnte = gameState.getBlindsAnte();
+        BlindsAnte blindsAnte = new BlindsAnte();
         blindsAnte.ante = 0;
         blindsAnte.smallBlind = 25;
         blindsAnte.bigBlind = 35;
 
-        Table table = gameState.getTable();
-        for(Player player : players){
-            table.joinTable(player);
-        }
-
+        GameState gameState = GameState.configureGameState(blindsAnte, players);
+        
         gameState.getTable().setDealer(players.get(0));
-        gameState.getPots().reset(table.getAllPlayers());
+        gameState.getPots().reset(gameState.getTable().getAllPlayers());
 
         return gameState;
     }

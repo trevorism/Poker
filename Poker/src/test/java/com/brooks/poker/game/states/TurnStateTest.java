@@ -29,7 +29,7 @@ public class TurnStateTest{
 
     @Test
     public void testGetNextPhase(){
-        TurnState turnState = new TurnState(new GameState());
+        TurnState turnState = new TurnState(PokerTestUtils.getDefaultGameState(PlayerTestSetups.allCallingPlayers()));
         assertEquals(GamePhase.TURN_BET, turnState.getNextPhase());
     }
 
