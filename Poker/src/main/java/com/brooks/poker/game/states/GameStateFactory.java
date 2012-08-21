@@ -54,6 +54,8 @@ public class GameStateFactory{
                 return riverBetState;
             case END_HAND:
                 return endHandState;
+            case END_GAME:
+                return NullHandState.NULL_HAND_STATE;
         }
         return NullHandState.NULL_HAND_STATE;
     }
