@@ -41,10 +41,6 @@ public class GameState{
         
         return gameState;
     }
-
-    public static GameState configureGameState(BlindsAnte blindsAnte, Player... players){
-        return configureGameState(blindsAnte, players);
-    }
     
     private static boolean playersIsInvalid(List<Player> players){
         if(players == null)
