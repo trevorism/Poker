@@ -8,6 +8,7 @@ import com.brooks.poker.player.Player;
  * @author Trevor
  */
 public interface PlayerAction{
+
     public BettingOutcome getBettingOutcome(GameState gameState, Player player);
 
 }

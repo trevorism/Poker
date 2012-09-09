@@ -35,10 +35,6 @@ public class Deck{
         }
     }
 
-    public void shuffle(){
-        Collections.shuffle(cards);
-    }
-
     public Card dealCard(){
         Card card = cards.remove(0);
         usedCards.add(card);

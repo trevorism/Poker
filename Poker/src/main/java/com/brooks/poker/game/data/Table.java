@@ -30,7 +30,7 @@ public class Table{
             if (player.isNullPlayer()){
                 return Player.NOBODY;
             }
-            if(player.equals(startPlayer)){
+            if (player.equals(startPlayer)){
                 return Player.NOBODY;
             }
         }
@@ -88,42 +88,38 @@ public class Table{
 
     public List<Player> getSortedActivePlayers(){
         final List<Player> activePlayers = new LinkedList<Player>();
-        
+
         Player firstActivePlayer = getNextActivePlayer(getDealer());
         executeOnEachActivePlayer(firstActivePlayer, new PlayerCommand(){
             @Override
             public void execute(Player player){
                 activePlayers.add(player);
-            }            
+            }
         });
-        
+
         return activePlayers;
     }
 
     public int getActivePlayersSize(){
         return collapsedPositions.size() - notActivePlayers.size();
     }
-    
+
     public void executeOnEachActivePlayer(Player startPlayer, PlayerCommand command){
-        if(isInactive(startPlayer))
+        if (isInactive(startPlayer))
             startPlayer = getNextActivePlayer(startPlayer);
         Player firstPlayer = startPlayer;
-        
+
         do{
             command.execute(startPlayer);
             startPlayer = getNextActivePlayer(startPlayer);
-            
-            if(startPlayer.isNullPlayer())
+
+            if (startPlayer.isNullPlayer())
                 break;
-            
+
         } while (!firstPlayer.equals(startPlayer));
     }
 
     private Player getNextPlayer(Player player){
-        return attemptGetNextPlayer(player);
-    }
-
-    private Player attemptGetNextPlayer(Player player){
         int playerIndex = collapsedPositions.indexOf(player);
         if (playerIndex == -1)
             return Player.NOBODY;
