@@ -1,0 +1,61 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+version = '1.0'
+group = 'com.brooks'
+
+def tomcatLocation = 'C:/apache/apache-tomcat-7.0.16/webapps'
+def appSimpleName = "poker"
+
+repositories {
+    ivy {
+        name "repo"
+        url "file://C:/Users/Trevor/.ivy2/cache"
+        artifactPattern "C:/Users/Trevor/.ivy2/cache/[organisation]/[module]-[revision](-[classifier]).[ext]"
+    }
+}
+
+dependencies {
+    providedCompile "com.google.gwt:gwt-dev:2.4.0@jar"
+    compile "com.google.gwt:gwt-user:2.4.0@jar"
+    runtime "com.google.gwt:gwt-servlet:2.4.0@jar"
+    compile "com.brooks:GwtCommon:1.0@jar"
+}
+
+clean{
+    delete file(tomcatLocation + "/${appSimpleName}.war")
+    delete file(tomcatLocation + "/${appSimpleName}")
+}
+
+classes{
+    inputs.dir('src/main')
+    outputs.dir('build/classes')
+}
+
+task ('compileGwt', type: JavaExec){
+    outputs.dir('build/gwtCompile')
+    dependsOn 'classes'
+    
+    FileCollection gwtClasspath = files(configurations.compile, 'build/resources/main', 'src/main/java')
+    classpath(gwtClasspath)
+    main("com.google.gwt.dev.Compiler")
+    maxHeapSize("256m")
+    args("-war")
+    args("${buildDir}\\gwtCompile")
+    args("com.brooks.poker.Poker")
+    
+}
+
+war{
+    dependsOn 'compileGwt'
+    from "${buildDir}\\gwtCompile"
+}
+
+task ('deployApp', type: Copy){
+    dependsOn 'war'
+    from(file('build/libs'))
+    into(file(tomcatLocation))
+    rename('PokerGWT-1.0.war', "${appSimpleName}.war")
+}
+
