@@ -4,5 +4,6 @@
 
 	<inherits name='com.google.gwt.user.theme.standard.Standard' />
 	<entry-point class='com.brooks.poker.client.Poker' />
-
+	<stylesheet src='Poker.css' />
+	
 </module>
