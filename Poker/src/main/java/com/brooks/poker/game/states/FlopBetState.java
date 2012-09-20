@@ -25,7 +25,7 @@ public class FlopBetState extends BetState {
     
     @Override
     public GamePhase getNextPhase(){
-        if(shouldEndHand())
+        if(onePlayerInThePot())
             return GamePhase.END_HAND;
         
         return GamePhase.TURN;

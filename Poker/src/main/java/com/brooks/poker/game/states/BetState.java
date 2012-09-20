@@ -26,7 +26,7 @@ public abstract class BetState extends GameStateHandler{
     public void bettingRound(Player startPlayer){
         startPlayer = firstPlayerBets(startPlayer);
 
-        if (endRound())
+        if (shouldEndRound())
             return;
 
         Table table = gameState.getTable();
@@ -46,7 +46,7 @@ public abstract class BetState extends GameStateHandler{
         Table table = gameState.getTable();
         while (!startPlayer.equals(endPlayer)){
             modifyGameState(startPlayer);
-            if (endRound())
+            if (shouldEndRound())
                 return;
 
             if (hasMaxBet(endPlayer, startPlayer)){
@@ -69,7 +69,7 @@ public abstract class BetState extends GameStateHandler{
         outcome.modifyGameState(gameState, player);
     }
 
-    protected boolean shouldEndHand(){
+    protected boolean onePlayerInThePot(){
         Pots pots = gameState.getPots();
 
         for (Pot pot : pots.getPots()){
@@ -80,15 +80,15 @@ public abstract class BetState extends GameStateHandler{
         return true;
     }
 
-    private boolean shouldEndRound(){
+    private boolean onePlayerAtTheTable(){
         Table table = gameState.getTable();
         if (table.getActivePlayersSize() <= 1)
             return true;
         return false;
     }
 
-    private boolean endRound(){
-        if (shouldEndHand() || shouldEndRound()){
+    private boolean shouldEndRound(){
+        if (onePlayerInThePot() || onePlayerAtTheTable()){
             gameState.endBettingRound();
             return true;
         }
