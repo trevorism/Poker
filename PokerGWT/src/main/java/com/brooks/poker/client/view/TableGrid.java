@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class TableGrid extends Composite{
 
-    public static final int GRID_WIDTH = 350;
+    public static final int GRID_WIDTH = 500;
     public static final int GRID_HEIGHT = 200;
     private Grid grid;
 

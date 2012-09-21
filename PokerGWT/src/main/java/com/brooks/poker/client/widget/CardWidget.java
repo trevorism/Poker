@@ -7,23 +7,32 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * @author Trevor
- *
+ * 
  */
 public class CardWidget extends Composite{
 
     private static final String CARD_IMAGE_FOLDER = "../cardImages";
-    
+
+    private SimplePanel simplePanel;
     private Image image;
-    
+
     public CardWidget(){
-        SimplePanel simplePanel = new SimplePanel();
-        
+        simplePanel = new SimplePanel();
         image = new Image();
-        simplePanel.add(image);                
+        simplePanel.add(image);
         initWidget(simplePanel);
+        setCard(Card.NULL_CARD);
     }
-    
+
     public void setCard(Card card){
         image.setUrl(CARD_IMAGE_FOLDER + "/" + card.toString() + ".png");
+        setWidgetVisibility(card);
+    }
+
+    private void setWidgetVisibility(Card card){
+        if (card.isNull())
+            simplePanel.setVisible(false);
+        else
+            simplePanel.setVisible(true);
     }
 }

@@ -28,9 +28,18 @@ public class KeyValueWidget extends Composite{
         mainPanel.add(keyLabel);
         mainPanel.add(valueLabel);
         mainPanel.setCellWidth(keyLabel, "100px");
+        setValue(0);
     }
 
     public void setValue(int value){
         valueLabel.setText(String.valueOf(value));
+        setWidgetVisibility(value);
+    }
+    
+    private void setWidgetVisibility(int value){
+        if(value <= 0)
+            mainPanel.setVisible(false);
+        else
+            mainPanel.setVisible(true);
     }
 }

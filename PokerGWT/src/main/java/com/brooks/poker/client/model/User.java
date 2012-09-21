@@ -10,7 +10,7 @@ public class User{
     private int chips;
     private Card card1;
     private Card card2;
-    private int currentBet;
+    private int pendingBet;
     private boolean sitting;
     private boolean inHand;
 
@@ -55,12 +55,12 @@ public class User{
         this.chips = chips;
     }
 
-    public int getCurrentBet(){
-        return currentBet;
+    public int getPendingBet(){
+        return pendingBet;
     }
 
-    public void setCurrentBet(int currentBet){
-        this.currentBet = currentBet;
+    public void setPendingBet(int currentBet){
+        this.pendingBet = currentBet;
     }
 
     public boolean isSitting(){
