@@ -1,8 +1,8 @@
  package com.brooks.poker.client.widget;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author Trevor
@@ -10,17 +10,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class KeyValueWidget extends Composite{
     
-    private VerticalPanel mainPanel;
+    private HorizontalPanel mainPanel;
     private Label keyLabel;
     private Label valueLabel;
     
-    public KeyValueWidget(String key, String value){
-        this(key);
-        setValue(value);
-    }
-
     public KeyValueWidget(String key){
-        this.mainPanel = new VerticalPanel();
+        this.mainPanel = new HorizontalPanel();
         this.keyLabel = new Label(key + ":");
         this.valueLabel = new Label();
         
@@ -35,7 +30,7 @@ public class KeyValueWidget extends Composite{
         mainPanel.setCellWidth(keyLabel, "100px");
     }
 
-    public void setValue(String value){
-        valueLabel.setText(value);
+    public void setValue(int value){
+        valueLabel.setText(String.valueOf(value));
     }
 }

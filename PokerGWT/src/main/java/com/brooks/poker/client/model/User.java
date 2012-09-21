@@ -1,7 +1,5 @@
 package com.brooks.poker.client.model;
 
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Trevor
@@ -10,21 +8,35 @@ import java.util.List;
 public class User{
     private String name;
     private int chips;
-    private List<Card> cards;
+    private Card card1;
+    private Card card2;
     private int currentBet;
     private boolean sitting;
     private boolean inHand;
 
     public User(){
-        cards = new LinkedList<>();
-    }
-
-    public void addCard(Card card){
-        cards.add(card);
+        clearCards();
     }
 
     public void clearCards(){
-        cards.clear();
+        card1 = Card.NULL_CARD;
+        card2 = Card.NULL_CARD;
+    }    
+    
+    public Card getCard1(){
+        return card1;
+    }
+
+    public void setCard1(Card card1){
+        this.card1 = card1;
+    }
+
+    public Card getCard2(){
+        return card2;
+    }
+
+    public void setCard2(Card card2){
+        this.card2 = card2;
     }
 
     public String getName(){

@@ -13,11 +13,17 @@ public class CardWidget extends Composite{
 
     private static final String CARD_IMAGE_FOLDER = "../cardImages";
     
-    public CardWidget(Card card){
+    private Image image;
+    
+    public CardWidget(){
         SimplePanel simplePanel = new SimplePanel();
         
-        Image image = new Image(CARD_IMAGE_FOLDER + "/" + card.toString() + ".png");
+        image = new Image();
         simplePanel.add(image);                
         initWidget(simplePanel);
+    }
+    
+    public void setCard(Card card){
+        image.setUrl(CARD_IMAGE_FOLDER + "/" + card.toString() + ".png");
     }
 }
