@@ -1,11 +1,14 @@
 package com.brooks.poker.client.model;
 
+import java.io.Serializable;
+
 
 /**
  * @author Trevor
  * 
  */
-public class User{
+public class User implements Serializable{
+    
     private String name;
     private int chips;
     private Card card1;

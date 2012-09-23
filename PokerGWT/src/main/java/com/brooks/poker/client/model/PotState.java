@@ -1,10 +1,12 @@
 package com.brooks.poker.client.model;
 
+import java.io.Serializable;
+
 /**
  * @author Trevor
  *
  */
-public class PotState{
+public class PotState implements Serializable{
     private int pot;
     private int amountOwed;
     

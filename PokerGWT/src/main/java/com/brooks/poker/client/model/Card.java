@@ -1,15 +1,21 @@
 package com.brooks.poker.client.model;
 
+import java.io.Serializable;
+
 /**
  * @author Trevor
  * 
  */
-public class Card{
+public class Card implements Serializable{
 
-    public static final Card NULL_CARD = new Card("", "");
-    private final String value;
-    private final String suit;
+    public static final Card NULL_CARD = new Card();
+    private String value;
+    private String suit;
 
+    public Card(){
+        this("", "");
+    }
+    
     public Card(String value, String suit){
         super();
         this.value = value.toUpperCase();

@@ -13,22 +13,25 @@ public class TableGrid extends Composite{
 
     public static final int GRID_WIDTH = 500;
     public static final int GRID_HEIGHT = 200;
+    
+    private static final int GRID_SIZE = 2;
     private Grid grid;
-
+    
+    
     public TableGrid(){
-        grid = new Grid(3, 3);
+        grid = new Grid(GRID_SIZE, GRID_SIZE);
         initWidget(grid);
         styleGrid();
     }
 
     private void styleGrid(){
-        grid.setSize(SizeUtils.toPx(GRID_WIDTH * 3), SizeUtils.toPx(GRID_HEIGHT * 2));
+        grid.setSize(SizeUtils.toPx(GRID_WIDTH * GRID_SIZE), SizeUtils.toPx(GRID_HEIGHT * GRID_SIZE));
         grid.setBorderWidth(2);
 
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++){
-                grid.getCellFormatter().setWidth(i, j, "300px");
-                grid.getCellFormatter().setHeight(i, j, "300px");
+        for (int i = 0; i < GRID_SIZE; i++){
+            for (int j = 0; j < GRID_SIZE; j++){
+                grid.getCellFormatter().setWidth(i, j, SizeUtils.toPx(GRID_WIDTH));
+                grid.getCellFormatter().setHeight(i, j, SizeUtils.toPx(GRID_HEIGHT));
             }
         }
     }
