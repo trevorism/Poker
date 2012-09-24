@@ -7,7 +7,8 @@ import java.io.Serializable;
  * 
  */
 public class Card implements Serializable{
-
+    private static final long serialVersionUID = 1L;
+    
     public static final Card NULL_CARD = new Card();
     private String value;
     private String suit;

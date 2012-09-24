@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Trevor
  * 
  */
-public class ShowingCardsWidget extends Composite{
+public class ShowingCardsWidget extends Composite implements PlayerShowingWidget{
 
     private VerticalPanel mainPanel;
     private HorizontalPanel cardPanel;

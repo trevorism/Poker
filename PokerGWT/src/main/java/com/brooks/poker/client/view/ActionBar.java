@@ -88,6 +88,10 @@ public class ActionBar extends Composite{
     public HowMuchDialog getHowMuch(){
         return howMuch;        
     }
+ 
+    public Button getStartGame(){
+        return startGame;
+    }
 
     public User getUser(){
         return user;

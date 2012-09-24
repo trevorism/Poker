@@ -11,9 +11,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author Trevor
- *
+ * 
  */
-public class InHandHidingCardsWidget extends Composite{
+public class InHandHidingCardsWidget extends Composite implements PlayerShowingWidget{
 
     private VerticalPanel mainPanel;
 
@@ -21,26 +21,26 @@ public class InHandHidingCardsWidget extends Composite{
     private KeyValueWidget chipsLabel;
     private BigText bigText;
     private KeyValueWidget pendingBet;
-    
+
     public InHandHidingCardsWidget(){
         mainPanel = new VerticalPanel();
-   
+
         nameLabel = new Label();
         chipsLabel = new KeyValueWidget("Chips");
         bigText = new BigText("IN");
         pendingBet = new KeyValueWidget("Current Bet");
-        
+
         buildWidget();
     }
 
     private void buildWidget(){
         initWidget(mainPanel);
         styleWidget();
-        
+
         mainPanel.add(nameLabel);
-        mainPanel.add(chipsLabel);               
+        mainPanel.add(chipsLabel);
         mainPanel.add(bigText);
-        mainPanel.add(pendingBet);    
+        mainPanel.add(pendingBet);
     }
 
     private void styleWidget(){
@@ -53,5 +53,5 @@ public class InHandHidingCardsWidget extends Composite{
         chipsLabel.setValue(user.getChips());
         pendingBet.setValue(user.getPendingBet());
     }
-    
+
 }

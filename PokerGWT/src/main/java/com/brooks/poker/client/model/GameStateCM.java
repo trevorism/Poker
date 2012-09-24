@@ -7,6 +7,8 @@ import java.io.Serializable;
  * 
  */
 public class GameStateCM implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     private PotState potState;
     private Card[] communityCards;
     private User userToBet;

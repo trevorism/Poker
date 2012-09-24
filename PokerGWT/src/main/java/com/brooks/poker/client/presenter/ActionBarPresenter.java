@@ -5,6 +5,7 @@ import com.brooks.common.client.event.EventBus;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.event.CallEvent;
 import com.brooks.poker.client.event.FoldEvent;
+import com.brooks.poker.client.event.StartGameEvent;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.Action.PlayerAction;
 import com.brooks.poker.client.model.GameStateCM;
@@ -26,10 +27,20 @@ public class ActionBarPresenter{
     }
 
     private void addClickHandlers(){       
+        createStartGameListener();
         createFoldListener();
         createCallListener();
         createRaiseListener();
         createHowMuchListener();
+    }
+
+    private void createStartGameListener(){
+        view.getStartGame().addClickHandler(new ClickHandler(){      
+            @Override
+            public void onClick(ClickEvent event){
+                EventBus.getInstance().fireEvent(new StartGameEvent());
+            }
+        });       
     }
 
     private void createHowMuchListener(){

@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Trevor
  * 
  */
-public class OutOfHandWidget extends Composite{
+public class OutOfHandWidget extends Composite implements PlayerShowingWidget{
 
     private VerticalPanel mainPanel;
 

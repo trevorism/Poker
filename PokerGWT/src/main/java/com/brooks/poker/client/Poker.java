@@ -1,7 +1,7 @@
 package com.brooks.poker.client;
 
 import com.brooks.common.client.BaseEntryPoint;
-import com.brooks.poker.client.view.MainView;
+import com.brooks.poker.client.view.DependencyInjector;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
@@ -13,7 +13,7 @@ public class Poker extends BaseEntryPoint{
     @Override
     public IsWidget createMainView(){
                
-        MainView mainView = new MainView();
+        DependencyInjector mainView = new DependencyInjector();
 
         return mainView.getMainView();
     }

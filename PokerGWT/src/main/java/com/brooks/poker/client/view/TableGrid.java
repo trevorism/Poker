@@ -3,7 +3,7 @@ package com.brooks.poker.client.view;
 import com.brooks.common.client.util.SizeUtils;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * @author Trevor
@@ -36,7 +36,7 @@ public class TableGrid extends Composite{
         }
     }
 
-    public void addWidget(int row, int column, Widget widget){
+    public void addWidget(int row, int column, IsWidget widget){
         grid.setWidget(row, column, widget);
     }
 }
