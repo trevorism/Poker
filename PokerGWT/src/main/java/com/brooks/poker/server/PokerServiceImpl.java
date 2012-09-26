@@ -4,7 +4,6 @@ import com.brooks.poker.client.PokerService;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
-import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.server.convert.GameStateCMConverter;
 import com.brooks.poker.server.convert.UserPlayerConverter;
@@ -42,9 +41,9 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         GameStateCMConverter converter = new GameStateCMConverter();
         GameStateData gameStateData = GameServer.getInstance().getGameStateDataById(action.getGameId());
         
-        gameStateData.update(user, action);
+        //gameStateData.update(user, action);
         GameStateCM clientModel = converter.convert(gameStateData);        
         return clientModel;
     }
-
+    
 }

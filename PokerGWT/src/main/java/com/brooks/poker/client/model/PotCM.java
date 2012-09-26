@@ -1,10 +1,12 @@
 package com.brooks.poker.client.model;
 
+import java.io.Serializable;
+
 /**
  * @author Trevor
  *
  */
-public class PotCM{
+public class PotCM implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private int pot;
