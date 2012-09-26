@@ -57,7 +57,7 @@ public class BetStateShouldEndHandTest{
         fixedBet.modifyGameState(gameState, p2);
         turnBetState.bettingRound(p3);
         
-        assertFalse(turnBetState.shouldEndHand());
+        assertFalse(turnBetState.onePlayerInThePot());
     }
     
     @Test
@@ -71,7 +71,7 @@ public class BetStateShouldEndHandTest{
         fixedBet.modifyGameState(gameState, p2);
         turnBetState.bettingRound(p3);
         
-        assertTrue(turnBetState.shouldEndHand());
+        assertTrue(turnBetState.onePlayerInThePot());
     }
     
 }

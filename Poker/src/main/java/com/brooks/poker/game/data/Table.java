@@ -18,8 +18,8 @@ import com.brooks.poker.player.Player;
 
 public class Table{
 
-    private List<Player> collapsedPositions = new ArrayList<Player>();
-    private Set<Player> notActivePlayers = new HashSet<Player>();
+    private final List<Player> collapsedPositions = new ArrayList<Player>();
+    private final Set<Player> notActivePlayers = new HashSet<Player>();
     private int dealerIndex = -1;
 
     public Player getNextActivePlayer(Player startPlayer){

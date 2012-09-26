@@ -80,6 +80,10 @@ public class Player{
         return action;
     }
 
+    public String getName(){
+        return name;
+    }
+
     private void updateChipCount(int actualAmountBet){
         chipCount = chipCount - actualAmountBet;
     }
