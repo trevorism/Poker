@@ -4,30 +4,42 @@ import java.io.Serializable;
 
 /**
  * @author Trevor
- *
+ * 
  */
 public class Action implements Serializable{
 
     private static final long serialVersionUID = 1L;
+
     public enum PlayerAction{
         FOLD, CALL, RAISE
     }
-    
+
+    private long gameId;
     private PlayerAction action;
     private int betAmount;
-    
+
+    public long getGameId(){
+        return gameId;
+    }
+
+    public void setGameId(long gameId){
+        this.gameId = gameId;
+    }
+
     public PlayerAction getAction(){
         return action;
     }
+
     public void setAction(PlayerAction action){
         this.action = action;
     }
+
     public int getBetAmount(){
         return betAmount;
     }
+
     public void setBetAmount(int betAmount){
         this.betAmount = betAmount;
     }
-    
-    
+
 }

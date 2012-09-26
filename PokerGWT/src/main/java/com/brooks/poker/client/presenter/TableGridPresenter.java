@@ -8,6 +8,7 @@ import com.brooks.common.client.event.EventBus;
 import com.brooks.common.client.event.EventHandler;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.event.StartGameEvent;
+import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.PotState;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.view.TableGrid;
@@ -48,22 +49,10 @@ public class TableGridPresenter{
 
             @Override
             public void handle(StartGameEvent event){
-                PokerApplication.getService().startHand(users, new Callback<List<User>>(){
+                PokerApplication.getService().startHand(new Callback<GameStateCM>(){
                     @Override
-                    public void onSuccess(List<User> result){
-                        widget00 = new ShowingCardsWidget();
-                        widget00.applyUser(result.get(0));
-                        view.addWidget(0, 0, widget00);
-                        
-                        widget01 = new ShowingCardsWidget();
-                        widget01.applyUser(result.get(1));
-                        view.addWidget(0, 1, widget01);
-                        
-                        widget10 = new ShowingCardsWidget();
-                        widget10.applyUser(result.get(2));
-                        view.addWidget(1, 0, widget10);
-                        
-                        users = result;
+                    public void onSuccess(GameStateCM result){
+
                     }
                 });
             }

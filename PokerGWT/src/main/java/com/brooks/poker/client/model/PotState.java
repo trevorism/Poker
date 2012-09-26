@@ -1,6 +1,8 @@
 package com.brooks.poker.client.model;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Trevor
@@ -9,20 +11,25 @@ import java.io.Serializable;
 public class PotState implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    private int pot;
-    private int amountOwed;
+    private List<PotCM> pots;
     
-    public int getPot(){
-        return pot;
+    public PotState(){
+        pots = new LinkedList<PotCM>();
     }
-    public void setPot(int pot){
-        this.pot = pot;
+
+    public void addPot(PotCM pot){
+        pots.add(pot);
     }
-    public int getAmountOwed(){
-        return amountOwed;
+    
+    public PotCM getPot(int index){
+        return pots.get(index);
     }
-    public void setAmountOwed(int amountOwed){
-        this.amountOwed = amountOwed;
+    
+    public void clear(){
+        pots.clear();
     }
        
+    public boolean hasOnePot(){
+        return pots.size() == 1;
+    }
 }
