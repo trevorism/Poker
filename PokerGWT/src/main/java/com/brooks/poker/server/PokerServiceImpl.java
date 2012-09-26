@@ -22,7 +22,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     @Override
     public void addUser(User user){
         UserPlayerConverter userPlayerConverter = new UserPlayerConverter();
-        Player player = userPlayerConverter.convertUserToPlayer(user);
+        Player player = userPlayerConverter.createNewPlayerFromUser(user);
         GameServer.getInstance().addPlayer(player);
     }
 
@@ -31,6 +31,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         GameStateCMConverter converter = new GameStateCMConverter();
         GameStateData data = GameServer.getInstance().createGameState();
 
+        data.startGame();
         GameStateCM clientModel = converter.convert(data);
 
         return clientModel;
@@ -41,7 +42,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         GameStateCMConverter converter = new GameStateCMConverter();
         GameStateData gameStateData = GameServer.getInstance().getGameStateDataById(action.getGameId());
         
-        //gameStateData.update(user, action);
+        gameStateData.update(user, action);
         GameStateCM clientModel = converter.convert(gameStateData);        
         return clientModel;
     }

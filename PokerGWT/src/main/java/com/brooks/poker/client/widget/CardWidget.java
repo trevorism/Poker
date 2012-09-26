@@ -1,6 +1,6 @@
 package com.brooks.poker.client.widget;
 
-import com.brooks.poker.client.model.Card;
+import com.brooks.poker.client.model.CardCM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -21,15 +21,15 @@ public class CardWidget extends Composite{
         image = new Image();
         simplePanel.add(image);
         initWidget(simplePanel);
-        setCard(Card.NULL_CARD);
+        setCard(CardCM.NULL_CARD);
     }
 
-    public void setCard(Card card){
+    public void setCard(CardCM card){
         image.setUrl(CARD_IMAGE_FOLDER + "/" + card.toString() + ".png");
         setWidgetVisibility(card);
     }
 
-    private void setWidgetVisibility(Card card){
+    private void setWidgetVisibility(CardCM card){
         if (card.isNull())
             simplePanel.setVisible(false);
         else

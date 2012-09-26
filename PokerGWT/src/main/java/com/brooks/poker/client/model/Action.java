@@ -10,12 +10,12 @@ public class Action implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
-    public enum PlayerAction{
+    public enum UserAction{
         FOLD, CALL, RAISE
     }
 
     private long gameId;
-    private PlayerAction action;
+    private UserAction action;
     private int betAmount;
 
     public long getGameId(){
@@ -26,11 +26,11 @@ public class Action implements Serializable{
         this.gameId = gameId;
     }
 
-    public PlayerAction getAction(){
+    public UserAction getAction(){
         return action;
     }
 
-    public void setAction(PlayerAction action){
+    public void setAction(UserAction action){
         this.action = action;
     }
 

@@ -12,8 +12,8 @@ public class User implements Serializable{
     
     private String name;
     private int chips;
-    private Card card1;
-    private Card card2;
+    private CardCM card1;
+    private CardCM card2;
     private int pendingBet;
     private boolean sitting;
     private boolean inHand;
@@ -23,23 +23,23 @@ public class User implements Serializable{
     }
 
     public void clearCards(){
-        card1 = Card.NULL_CARD;
-        card2 = Card.NULL_CARD;
+        card1 = CardCM.NULL_CARD;
+        card2 = CardCM.NULL_CARD;
     }    
     
-    public Card getCard1(){
+    public CardCM getCard1(){
         return card1;
     }
 
-    public void setCard1(Card card1){
+    public void setCard1(CardCM card1){
         this.card1 = card1;
     }
 
-    public Card getCard2(){
+    public CardCM getCard2(){
         return card2;
     }
 
-    public void setCard2(Card card2){
+    public void setCard2(CardCM card2){
         this.card2 = card2;
     }
 

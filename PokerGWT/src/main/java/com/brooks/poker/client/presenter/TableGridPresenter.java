@@ -15,7 +15,6 @@ import com.brooks.poker.client.view.TableGrid;
 import com.brooks.poker.client.widget.player.InHandHidingCardsWidget;
 import com.brooks.poker.client.widget.player.PlayerShowingWidget;
 import com.brooks.poker.client.widget.player.PotWidget;
-import com.brooks.poker.client.widget.player.ShowingCardsWidget;
 
 /**
  * @author Trevor

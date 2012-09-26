@@ -7,7 +7,7 @@ import com.brooks.poker.client.event.CallEvent;
 import com.brooks.poker.client.event.FoldEvent;
 import com.brooks.poker.client.event.StartGameEvent;
 import com.brooks.poker.client.model.Action;
-import com.brooks.poker.client.model.Action.PlayerAction;
+import com.brooks.poker.client.model.Action.UserAction;
 import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.view.ActionBar;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -45,7 +45,7 @@ public class ActionBarPresenter{
 
     private void createHowMuchListener(){
         final Action action = new Action();
-        action.setAction(PlayerAction.RAISE);        
+        action.setAction(UserAction.RAISE);        
         action.setBetAmount(view.getHowMuch().getAmount());
         
         view.getCall().addClickHandler(new ClickHandler(){            
@@ -73,7 +73,7 @@ public class ActionBarPresenter{
     
     private void createCallListener(){
         final Action action = new Action();
-        action.setAction(PlayerAction.CALL);
+        action.setAction(UserAction.CALL);
         
         view.getCall().addClickHandler(new ClickHandler(){
             
@@ -91,7 +91,7 @@ public class ActionBarPresenter{
 
     private void createFoldListener(){
         final Action action = new Action();
-        action.setAction(PlayerAction.FOLD);
+        action.setAction(UserAction.FOLD);
 
         view.getFold().addClickHandler(new ClickHandler(){            
             @Override

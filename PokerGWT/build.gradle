@@ -24,6 +24,7 @@ dependencies {
     runtime "com.google.gwt:gwt-servlet:2.4.0@jar"
     compile "com.brooks:GwtCommon:1.0@jar"
     compile "com.brooks:Poker:1.0@jar"
+    testCompile 'junit:junit:4.10'
     groovy group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.0.0'
 }
 

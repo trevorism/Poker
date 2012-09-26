@@ -1,7 +1,7 @@
 package com.brooks.poker.client.widget.player;
 
 import com.brooks.common.client.util.SizeUtils;
-import com.brooks.poker.client.model.Card;
+import com.brooks.poker.client.model.CardCM;
 import com.brooks.poker.client.model.PotState;
 import com.brooks.poker.client.view.TableGrid;
 import com.brooks.poker.client.widget.CardWidget;
@@ -55,7 +55,7 @@ public class PotWidget extends Composite{
         mainPanel.setSize(SizeUtils.toPx(TableGrid.GRID_WIDTH), SizeUtils.toPx(TableGrid.GRID_HEIGHT));
     }
 
-    public void setCard(int index, Card card){
+    public void setCard(int index, CardCM card){
         cards[index].setCard(card);
     }
     

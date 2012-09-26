@@ -13,7 +13,7 @@ public class GameStateCM implements Serializable{
     private long id;
     private List<User> allUsers;
     private PotState potState;
-    private List<Card> communityCards;
+    private List<CardCM> communityCards;
 
     private User userToBet;
     private int minRaiseAmount;
@@ -34,11 +34,11 @@ public class GameStateCM implements Serializable{
         this.potState = potState;
     }
 
-    public List<Card> getCommunityCards(){
+    public List<CardCM> getCommunityCards(){
         return communityCards;
     }
 
-    public void setCommunityCards(List<Card> communityCards){
+    public void setCommunityCards(List<CardCM> communityCards){
         this.communityCards = communityCards;
     }
 
