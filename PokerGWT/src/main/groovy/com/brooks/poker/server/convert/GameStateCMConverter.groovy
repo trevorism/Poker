@@ -18,18 +18,18 @@ class GameStateCMConverter{
         GameStateCM clientModel = new GameStateCM()
         UserPlayerConverter userPlayerConverter = new UserPlayerConverter()
         PotCMConverter potCMConverter = new PotCMConverter()
+        CardCMConverter cardCMConverter = new CardCMConverter()
         
         clientModel.id = data.id;
         clientModel.allUsers = userPlayerConverter.convert(data.getGameState().table.sortedActivePlayers)
         clientModel.potState = potCMConverter.convert(data.getGameState().pots)
-        clientModel.communityCards = convertCards(data.gameState.communityCards)
-        
+        clientModel.communityCards = cardCMConverter.convert(data.gameState.communityCards.getCards())
+        clientModel.usersTurnIndex = userAction(data.getGameState());
     }
     
-    private List<CardCM> convertCards(CommunityCards cards){
-        cards.getCards().collect{
-            CardCM cm = new CardCM(it.getValue().toString(), it.getSuit().toString())
-        }
-    }
 
+
+    private int userAction(){
+        return -1;
+    }
 }

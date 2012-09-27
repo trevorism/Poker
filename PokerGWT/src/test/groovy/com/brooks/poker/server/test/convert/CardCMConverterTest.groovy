@@ -6,17 +6,18 @@ import com.brooks.poker.cards.Card
 import com.brooks.poker.cards.Card.Suit
 import com.brooks.poker.cards.Card.Value
 import com.brooks.poker.game.data.CommunityCards
+import com.brooks.poker.server.convert.CardCMConverter;
 import com.brooks.poker.server.convert.GameStateCMConverter
 
-public class GameStatCMConverterTest{
+public class CardCMConverterTest{
 
     @Test
     public void testConvertCommunityCards(){
         CommunityCards cc = new CommunityCards();
         cc.cards = [new Card(Suit.CLUBS,Value.ACE), new Card(Suit.SPADES, Value.FIVE)];
         
-        GameStateCMConverter conv = new GameStateCMConverter();
-        List<Card> cards = conv.convertCards(cc);
+        CardCMConverter conv = new CardCMConverter();
+        List<Card> cards = conv.convert(cc.getCards());
         
         assert cards
         assert cards.size() == 2

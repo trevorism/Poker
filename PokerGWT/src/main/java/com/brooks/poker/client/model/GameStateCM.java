@@ -15,7 +15,7 @@ public class GameStateCM implements Serializable{
     private PotState potState;
     private List<CardCM> communityCards;
 
-    private User userToBet;
+    private int usersTurnIndex;
     private int minRaiseAmount;
 
     public List<User> getAllUsers(){
@@ -42,12 +42,12 @@ public class GameStateCM implements Serializable{
         this.communityCards = communityCards;
     }
 
-    public User getUserToBet(){
-        return userToBet;
+    public int getUsersTurnIndex(){
+        return usersTurnIndex;
     }
 
-    public void setUserToBet(User userToBet){
-        this.userToBet = userToBet;
+    public void setUsersTurnIndex(int usersTurnIndex){
+        this.usersTurnIndex = usersTurnIndex;
     }
 
     public int getMinRaiseAmount(){
