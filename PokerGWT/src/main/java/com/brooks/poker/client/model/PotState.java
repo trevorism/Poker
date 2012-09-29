@@ -22,6 +22,9 @@ public class PotState implements Serializable{
     }
     
     public PotCM getPot(int index){
+        while(pots.size() <= index)
+            pots.add(new PotCM());
+        
         return pots.get(index);
     }
     

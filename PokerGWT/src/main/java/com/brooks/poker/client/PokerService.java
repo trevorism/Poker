@@ -15,7 +15,7 @@ public interface PokerService extends RemoteService{
 
     public void addUser(User user);
 
-    public GameStateCM startHand();
+    public GameStateCM startHand() throws PokerException;
 
     public GameStateCM placeBet(User user, Action action);
 }
