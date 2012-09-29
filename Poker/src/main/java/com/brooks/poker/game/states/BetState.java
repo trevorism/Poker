@@ -18,42 +18,43 @@ import com.brooks.poker.player.action.PlayerAction;
  */
 public abstract class BetState extends GameStateHandler{
 
+    private Player actionOnPlayer;
+    
     public BetState(GameState gameState){
         super(gameState);
-
     }
 
     public void bettingRound(Player startPlayer){
-        startPlayer = firstPlayerBets(startPlayer);
+        actionOnPlayer = startPlayer;
+        firstPlayerBets();
 
         if (shouldEndRound())
             return;
 
         Table table = gameState.getTable();
-        Player endPlayer = getEndPlayer(startPlayer);
-        startPlayer = table.getNextActivePlayer(startPlayer);
+        Player endPlayer = getEndPlayer();
+        actionOnPlayer = table.getNextActivePlayer(actionOnPlayer);
 
-        eachPlayerAfterTheFirstBets(startPlayer, endPlayer);
+        eachPlayerAfterTheFirstBets(endPlayer);
     }
 
-    private Player firstPlayerBets(Player startPlayer){
-        startPlayer = ensurePlayerIsActive(startPlayer);
-        modifyGameState(startPlayer);
-        return startPlayer;
+    private void firstPlayerBets(){
+        actionOnPlayer = ensurePlayerIsActive(actionOnPlayer);
+        modifyGameState(actionOnPlayer);
     }
 
-    private void eachPlayerAfterTheFirstBets(Player startPlayer, Player endPlayer){
+    private void eachPlayerAfterTheFirstBets(Player endPlayer){
         Table table = gameState.getTable();
-        while (!startPlayer.equals(endPlayer)){
-            modifyGameState(startPlayer);
+        while (!actionOnPlayer.equals(endPlayer)){
+            modifyGameState(actionOnPlayer);
             if (shouldEndRound())
                 return;
 
-            if (hasMaxBet(endPlayer, startPlayer)){
-                endPlayer = startPlayer;
+            if (hasMaxBet(endPlayer, actionOnPlayer)){
+                endPlayer = actionOnPlayer;
             }
 
-            startPlayer = table.getNextActivePlayer(startPlayer);
+            actionOnPlayer = table.getNextActivePlayer(actionOnPlayer);
         }
         gameState.endBettingRound();
     }
@@ -95,7 +96,7 @@ public abstract class BetState extends GameStateHandler{
         return false;
     }
 
-    private Player getEndPlayer(Player defaultPlayer){
+    private Player getEndPlayer(){
         int maxBet = 0;
         Player endPlayer = Player.NOBODY;
         Table table = gameState.getTable();
@@ -108,7 +109,7 @@ public abstract class BetState extends GameStateHandler{
         }
 
         if (endPlayer.isNullPlayer()){
-            return defaultPlayer;
+            return actionOnPlayer;
         }
         return endPlayer;
 
@@ -126,6 +127,10 @@ public abstract class BetState extends GameStateHandler{
         if (player.getPendingBet() > prevPlayer.getPendingBet())
             return true;
         return false;
+    }
+
+    public Player getActionOnPlayer(){
+        return actionOnPlayer;
     }
 
 }

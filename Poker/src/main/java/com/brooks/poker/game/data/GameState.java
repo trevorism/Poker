@@ -1,6 +1,7 @@
 package com.brooks.poker.game.data;
 
 import java.util.List;
+import java.util.Set;
 
 import com.brooks.poker.cards.Card;
 import com.brooks.poker.cards.Deck;
@@ -26,9 +27,6 @@ public class GameState{
     }
 
     public static GameState configureGameState(BlindsAnte blindsAnte, List<Player> players){
-        if(playersIsInvalid(players))
-            throw new IllegalArgumentException("Must have between 2 and 20 players.");
-
         GameState gameState = new GameState();
         gameState.blindsAnte.bigBlind = blindsAnte.bigBlind;
         gameState.blindsAnte.smallBlind = blindsAnte.smallBlind;
@@ -42,7 +40,8 @@ public class GameState{
         return gameState;
     }
     
-    private static boolean playersIsInvalid(List<Player> players){
+    private boolean invalidNumberOfPlayers(){
+        Set<Player> players = table.getAllPlayers();
         if(players == null)
             return true;
         if(players.size() < 2)
@@ -53,8 +52,8 @@ public class GameState{
     }
 
     public void beginHand(){
-        if(table.getAllPlayers().size() == 0)
-            throw new RuntimeException("This round has no active players.");
+        if(invalidNumberOfPlayers())
+            return;
 
         table.reset();
         deck.reset();
