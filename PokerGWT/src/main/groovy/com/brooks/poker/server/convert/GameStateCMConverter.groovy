@@ -1,11 +1,10 @@
 package com.brooks.poker.server.convert
 
-import com.brooks.poker.cards.Card
-import com.brooks.poker.cards.Card.Suit
-import com.brooks.poker.cards.Card.Value
-import com.brooks.poker.client.model.CardCM
 import com.brooks.poker.client.model.GameStateCM
-import com.brooks.poker.game.data.CommunityCards
+import com.brooks.poker.client.model.User
+import com.brooks.poker.game.data.GameState
+import com.brooks.poker.game.data.Table
+import com.brooks.poker.player.Player
 import com.brooks.poker.server.game.GameStateData
 
 /**
@@ -20,16 +19,23 @@ class GameStateCMConverter{
         PotCMConverter potCMConverter = new PotCMConverter()
         CardCMConverter cardCMConverter = new CardCMConverter()
         
+        GameState gameState = data.gameState
+        
         clientModel.id = data.id;
-        clientModel.allUsers = userPlayerConverter.convert(data.getGameState().table.sortedActivePlayers)
-        clientModel.potState = potCMConverter.convert(data.getGameState().pots)
-        clientModel.communityCards = cardCMConverter.convert(data.gameState.communityCards.getCards())
-        clientModel.usersTurnIndex = userAction(data.getGameState());
+        clientModel.allUsers = userPlayerConverter.convert(gameState.table.sortedActivePlayers)
+        clientModel.potState = potCMConverter.convert(gameState.pots)
+        clientModel.communityCards = cardCMConverter.convert(gameState.communityCards.getCards())
+        
+        clientModel.minRaiseAmount = gameState.minBet     
+        clientModel.usersTurnIndex = -1 //TODO: What does it really equal?
+        
     }
-    
 
 
-    private int userAction(){
-        return -1;
+
+    private int findUserIndex(List<User> allUsers, String name){
+        allUsers.findIndexOf {
+            it.name == name
+        }
     }
 }

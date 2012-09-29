@@ -55,5 +55,5 @@ public class GameStateData{
         handler.handleState();
         gamePhase = handler.getNextPhase();
     }
-
 }
+

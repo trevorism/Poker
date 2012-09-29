@@ -32,8 +32,8 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         GameStateData data = GameServer.getInstance().createGameState();
 
         data.startGame();
-        GameStateCM clientModel = converter.convert(data);
-
+        GameStateCM clientModel = converter.convert(data);     
+        
         return clientModel;
     }
 

@@ -15,7 +15,7 @@ public class GameStateCM implements Serializable{
     private PotState potState;
     private List<CardCM> communityCards;
 
-    private int usersTurnIndex;
+    private int usersTurnIndex = -1;
     private int minRaiseAmount;
 
     public List<User> getAllUsers(){
