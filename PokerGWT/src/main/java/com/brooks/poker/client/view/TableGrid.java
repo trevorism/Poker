@@ -14,7 +14,7 @@ public class TableGrid extends Composite{
     public static final int GRID_WIDTH = 500;
     public static final int GRID_HEIGHT = 200;
     
-    private static final int GRID_SIZE = 2;
+    private static final int GRID_SIZE = 3;
     private Grid grid;
     
     

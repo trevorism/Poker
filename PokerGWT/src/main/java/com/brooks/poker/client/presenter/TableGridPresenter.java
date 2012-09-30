@@ -1,20 +1,18 @@
 package com.brooks.poker.client.presenter;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.brooks.common.client.callback.Callback;
-import com.brooks.common.client.event.EventBus;
-import com.brooks.common.client.event.EventHandler;
 import com.brooks.poker.client.PokerApplication;
-import com.brooks.poker.client.event.StartGameEvent;
 import com.brooks.poker.client.model.GameStateCM;
-import com.brooks.poker.client.model.PotState;
 import com.brooks.poker.client.model.User;
+import com.brooks.poker.client.push.ChannelCreator;
+import com.brooks.poker.client.util.GridLocation;
+import com.brooks.poker.client.util.GridLocationUtil;
+import com.brooks.poker.client.view.SitDownWidget;
 import com.brooks.poker.client.view.TableGrid;
-import com.brooks.poker.client.widget.player.InHandHidingCardsWidget;
-import com.brooks.poker.client.widget.player.PlayerShowingWidget;
 import com.brooks.poker.client.widget.player.PotWidget;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Trevor
@@ -22,68 +20,50 @@ import com.brooks.poker.client.widget.player.PotWidget;
  */
 public class TableGridPresenter{
 
+    private static final int MAX_PLAYERS = 8;
+    
     private TableGrid view;
-    private List<User> users;
-    private PotState potState;
-    private PlayerShowingWidget widget00;
-    private PlayerShowingWidget widget01;
-    private PlayerShowingWidget widget10;
+    private GameStateCM gameStateCM;
+    private User [] usersInPosition;
+    private Map<GridLocation, Widget> gridWidgets;
+    private ChannelCreator creator;
     
     public TableGridPresenter(TableGrid view){
         this.view = view;
-        this.users = new LinkedList<User>();
-        this.potState = new PotState();
-
+        this.gameStateCM = new GameStateCM();
+        this.usersInPosition = new User [MAX_PLAYERS];
+        this.gridWidgets = new HashMap<GridLocation,Widget>();
+        this.creator = new ChannelCreator();
+        
         initTableGrid();
         addEventListeners();
     }
 
     private void addEventListeners(){
-        EventBus.getInstance().registerHandler(new EventHandler<StartGameEvent>(){
-
-            @Override
-            public Class<StartGameEvent> getEventClass(){
-                return StartGameEvent.class;
-            }
-
-            @Override
-            public void handle(StartGameEvent event){
-                PokerApplication.getService().startHand(new Callback<GameStateCM>(){
-                    @Override
-                    public void onSuccess(GameStateCM result){
-
-                    }
-                });
-            }
-        });
     }
 
     private void initTableGrid(){
-        widget00 = new InHandHidingCardsWidget();
-        widget00.applyUser(createUser("Trevor"));
-        widget01 = new InHandHidingCardsWidget();
-        widget01.applyUser(createUser("Vaughn"));
-        widget10 = new InHandHidingCardsWidget();
-        widget10.applyUser(createUser("Brooks"));
-
+        for(int i = 0; i < MAX_PLAYERS; i++){
+            GridLocation location = GridLocationUtil.indexToGridLocation(i);
+            SitDownWidget widget = PokerApplication.getViewFactory().createWidget(this, i);          
+            addWidgetToView(location, widget);
+        }
         PotWidget potWidget = new PotWidget();
-        potWidget.applyPotState(potState);
-
-        view.addWidget(0, 0, widget00);
-        view.addWidget(0, 1, widget01);
-        view.addWidget(1, 0, widget10);
-        view.addWidget(1, 1, potWidget);
+        GridLocation location = new GridLocation(1,1);
+        addWidgetToView(location, potWidget);
     }
 
-    private User createUser(String name){
-        User user = new User();
-        user.setName(name);
-        user.setChips(0);
-        user.setPendingBet(0);
-        users.add(user);
-        return user;
+    private void addWidgetToView(GridLocation location, Widget widget){
+        gridWidgets.put(location, widget);
+        view.addWidget(location.getY(), location.getX(), widget);
     }
 
+    public void addUser(int index, User user){
+        usersInPosition[index] = user;
+    }
 
+    public void setGameToken(String gameToken){
+        creator.setChannelToken(gameToken);
+    }
 
 }

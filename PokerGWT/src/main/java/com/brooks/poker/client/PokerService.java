@@ -13,9 +13,10 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("service")
 public interface PokerService extends RemoteService{
 
-    public void addUser(User user);
+    public String addUser(User user) throws PokerException;
 
     public GameStateCM startHand() throws PokerException;
 
     public GameStateCM placeBet(User user, Action action);
+
 }

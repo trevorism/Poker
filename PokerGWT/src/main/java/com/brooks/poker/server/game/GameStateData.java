@@ -22,8 +22,7 @@ public class GameStateData{
     public GameStateData(long id, GameState gameState){
         this.id = id;
         this.gameState = gameState;
-        this.factory = new GameStateFactory(gameState);
-        
+        this.factory = new GameStateFactory(gameState);      
     }
 
     public GamePhase getGamePhase(){

@@ -1,7 +1,6 @@
-package com.brooks.poker.client.widget.player;
+package com.brooks.poker.client.view;
 
 import com.brooks.common.client.util.SizeUtils;
-import com.brooks.poker.client.view.TableGrid;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -21,7 +20,6 @@ public class SitDownWidget extends Composite{
 
     private HorizontalPanel buttonBar;
     private Button submitButton;
-    private Button cancelButton;
 
     public SitDownWidget(){
         mainPanel = new VerticalPanel();
@@ -29,7 +27,6 @@ public class SitDownWidget extends Composite{
         nameBox = new TextBox();
         buttonBar = new HorizontalPanel();
         submitButton = new Button("Submit");
-        cancelButton = new Button("Cancel");
 
         buildWidget();
     }
@@ -51,7 +48,14 @@ public class SitDownWidget extends Composite{
 
     private void addButonsToButtonBar(){
         buttonBar.add(submitButton);
-        buttonBar.add(cancelButton);
+    }
+
+    public Button getSubmitButton(){
+        return submitButton;
+    }
+
+    public String getName(){
+        return nameBox.getText();
     }
 
 }

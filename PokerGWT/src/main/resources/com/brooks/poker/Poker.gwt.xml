@@ -3,6 +3,7 @@
 	<inherits name='com.brooks.common.Commons' />
 
 	<inherits name='com.google.gwt.user.theme.standard.Standard' />
+	<inherits name='no.eirikb.gwtchannelapi.GwtChannelApi' />
 	<entry-point class='com.brooks.poker.client.Poker' />
 	<stylesheet src='Poker.css' />
 	

@@ -10,13 +10,21 @@ import java.util.List;
 public class GameStateCM implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    private long id;
+    private String serverPushChannel;
     private List<User> allUsers;
     private PotState potState;
     private List<CardCM> communityCards;
 
     private int usersTurnIndex = -1;
     private int minRaiseAmount;
+    
+    public String getServerPushChannel(){
+        return serverPushChannel;
+    }
+
+    public void setServerPushChannel(String serverPushChannel){
+        this.serverPushChannel = serverPushChannel;
+    }
 
     public List<User> getAllUsers(){
         return allUsers;
@@ -56,14 +64,6 @@ public class GameStateCM implements Serializable{
 
     public void setMinRaiseAmount(int minRaiseAmount){
         this.minRaiseAmount = minRaiseAmount;
-    }
-
-    public long getId(){
-        return id;
-    }
-
-    public void setId(long id){
-        this.id = id;
     }
 
 }

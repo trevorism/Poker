@@ -8,6 +8,7 @@ import java.util.Map;
 import com.brooks.poker.game.data.BlindsAnte;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.player.Player;
+import com.google.appengine.api.channel.ChannelServiceFactory;
 
 /**
  * @author Trevor
@@ -17,6 +18,7 @@ public class GameServer{
     private final Map<Long, GameStateData> gameStateCache;
     private List<Player> pendingPlayers;
     private static long currentId = 0;
+    private String gameToken;
     
     private static final GameServer instance = new GameServer();
     
@@ -26,9 +28,15 @@ public class GameServer{
     
     private GameServer(){
         gameStateCache = new HashMap<Long, GameStateData>();
-        pendingPlayers = new LinkedList<Player>();
+        newGameToken();
     }
     
+    private void newGameToken(){
+        pendingPlayers = new LinkedList<Player>();
+        currentId++;
+        gameToken = ChannelServiceFactory.getChannelService().createChannel("POKER_GAME_" + currentId);
+    }
+
     public void addPlayer(Player player){
         pendingPlayers.add(player);
     }
@@ -41,8 +49,12 @@ public class GameServer{
         BlindsAnte blindsAnte = createBlindsAnte();        
         GameStateData gsId = new GameStateData(currentId++, GameState.configureGameState(blindsAnte, pendingPlayers));
         gameStateCache.put(gsId.getId(), gsId);
-        pendingPlayers = new LinkedList<Player>();
+        newGameToken();
         return gsId;
+    }
+
+    public String getGameToken(){
+        return gameToken;
     }
 
     private BlindsAnte createBlindsAnte(){

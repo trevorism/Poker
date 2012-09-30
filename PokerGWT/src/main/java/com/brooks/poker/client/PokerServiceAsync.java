@@ -11,7 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface PokerServiceAsync{
 
-    public void addUser(User user, AsyncCallback<Void> callback);
+    public void addUser(User user, AsyncCallback<String> callback);
 
     public void startHand(AsyncCallback<GameStateCM> callback);
 
