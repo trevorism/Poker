@@ -3,7 +3,7 @@ package com.brooks.poker.server.convert;
 import com.brooks.poker.client.model.CardCM
 import com.brooks.poker.client.model.User
 import com.brooks.poker.player.Player
-import com.brooks.poker.server.playerAction.EventDrivenPlayerAction
+import com.brooks.poker.player.action.NullPlayerAction
 
 /**
  * @author Trevor
@@ -12,7 +12,7 @@ import com.brooks.poker.server.playerAction.EventDrivenPlayerAction
 public class UserPlayerConverter{
 
     public Player createNewPlayerFromUser(User user){
-        new Player(user.name, 1000, new EventDrivenPlayerAction())
+        new Player(user.name, 1000, new NullPlayerAction())
     }
 
     public List<User> convert(List<Player> players){

@@ -1,6 +1,15 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-gae-plugin:0.7.6'
+    }
+}
+
 apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: 'eclipse'
+apply plugin: 'gae'
 apply plugin: 'groovy'
 
 version = '1.0'
@@ -24,8 +33,11 @@ dependencies {
     runtime "com.google.gwt:gwt-servlet:2.4.0@jar"
     compile "com.brooks:GwtCommon:1.0@jar"
     compile "com.brooks:Poker:1.0@jar"
+    compile "no.eirikb:gwt-channel-api:0.1@jar"
+    compile 'com.google.appengine:appengine-api-1.0-sdk:1.7.2.1@jar'
     testCompile 'junit:junit:4.10'
-    groovy group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.0.0'
+    groovy 'org.codehaus.groovy:groovy-all:2.0.4'
+    gaeSdk 'com.google.appengine:appengine-java-sdk:1.7.2.1'
 }
 
 sourceSets.main.java.srcDirs = []
@@ -60,10 +72,16 @@ war{
     from "${buildDir}\\gwtCompile"
 }
 
-task ('deployApp', type: Copy){
-    dependsOn 'war'
-    from(file('build/libs'))
-    into(file(tomcatLocation))
-    rename('PokerGWT-1.0.war', "${appSimpleName}.war")
-}
-
+gae {
+    appcfg {
+      email = 'trevorism@gmail.com'
+      logs {
+          append = true
+          severity = 1
+          ouputFile = file('build/logs.txt')
+      }
+      app {
+          id = 'poker-ui'
+      }
+    }
+  }

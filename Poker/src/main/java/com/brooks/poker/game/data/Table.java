@@ -79,6 +79,8 @@ public class Table{
         for (Player player : getAllPlayers()){
             player.reset();
         }
+        if(dealerIndex == -1)
+            randomizeDealer();
     }
 
     public Set<Player> getAllPlayers(){

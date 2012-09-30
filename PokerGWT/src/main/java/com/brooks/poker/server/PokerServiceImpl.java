@@ -1,10 +1,13 @@
 package com.brooks.poker.server;
 
+import no.eirikb.gwtchannelapi.server.ChannelServer;
+
 import com.brooks.poker.client.PokerException;
 import com.brooks.poker.client.PokerService;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
+import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.server.convert.GameStateCMConverter;
 import com.brooks.poker.server.convert.UserPlayerConverter;
@@ -21,11 +24,12 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     private static final long serialVersionUID = 1L;
 
     @Override
-    public String addUser(User user) throws PokerException{
+    public void addUser(User user, int index) throws PokerException{
         UserPlayerConverter userPlayerConverter = new UserPlayerConverter();
         Player player = userPlayerConverter.createNewPlayerFromUser(user);
         GameServer.getInstance().addPlayer(player);
-        return GameServer.getInstance().getGameToken();
+        
+        ChannelServer.send(GameServer.getInstance().getChannelKey(), new UserMessage(user, index));
     }
 
     @Override
@@ -50,6 +54,11 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         gameStateData.update(user, action);
         GameStateCM clientModel = converter.convert(gameStateData);
         return clientModel;
+    }
+
+    @Override
+    public String connectToChannel(){
+        return GameServer.getInstance().getGameToken();
     }
 
 }

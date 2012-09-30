@@ -35,12 +35,11 @@ public class GameState{
         for(Player player: players){
             gameState.getTable().joinTable(player);
         }
-        gameState.getTable().randomizeDealer();
         
         return gameState;
     }
     
-    private boolean invalidNumberOfPlayers(){
+    public boolean invalid(){
         Set<Player> players = table.getAllPlayers();
         if(players == null)
             return true;
@@ -52,7 +51,7 @@ public class GameState{
     }
 
     public void beginHand(){
-        if(invalidNumberOfPlayers())
+        if(invalid())
             return;
 
         table.reset();

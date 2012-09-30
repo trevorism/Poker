@@ -4,26 +4,36 @@ import no.eirikb.gwtchannelapi.client.Channel;
 import no.eirikb.gwtchannelapi.client.ChannelListener;
 import no.eirikb.gwtchannelapi.client.Message;
 
+import com.brooks.common.client.callback.Callback;
+import com.brooks.common.client.event.EventBus;
+import com.brooks.poker.client.PokerApplication;
+
 /**
  * @author Trevor
- *
+ * 
  */
 public class ChannelCreator{
 
-    private boolean initialized = false;
-    
-    public void setChannelToken(String token){
-        if(initialized)
-            return;
-        
-        Channel channel = new Channel(token);
-        channel.addChannelListener(new ChannelListener(){
-            
+    public ChannelCreator(){
+        PokerApplication.getService().connectToChannel(new Callback<String>(){
             @Override
-            public void onReceive(Message message){
-           
+            public void onSuccess(String result){
+                setChannelToken(result);
             }
         });
-        initialized = true;
+    }
+
+    public void setChannelToken(String token){
+        Channel channel = new Channel(token);
+        channel.join();
+        channel.addChannelListener(new ChannelListener(){
+
+            @Override
+            public void onReceive(Message message){
+                if(message instanceof UserMessage){
+                    EventBus.getInstance().fireEvent((UserMessage) message);
+                }
+            }
+        });
     }
 }

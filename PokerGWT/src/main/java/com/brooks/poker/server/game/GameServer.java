@@ -34,7 +34,7 @@ public class GameServer{
     private void newGameToken(){
         pendingPlayers = new LinkedList<Player>();
         currentId++;
-        gameToken = ChannelServiceFactory.getChannelService().createChannel("POKER_GAME_" + currentId);
+        gameToken = ChannelServiceFactory.getChannelService().createChannel(getChannelKey());
     }
 
     public void addPlayer(Player player){
@@ -57,6 +57,10 @@ public class GameServer{
         return gameToken;
     }
 
+    public String getChannelKey(){
+        return "POKER_GAME_" + currentId;
+    }
+    
     private BlindsAnte createBlindsAnte(){
         BlindsAnte blindsAnte = new BlindsAnte();
         blindsAnte.bigBlind = 25;

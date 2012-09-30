@@ -1,9 +1,8 @@
 package com.brooks.poker.client.presenter;
 
-import com.brooks.common.client.callback.Callback;
+import com.brooks.common.client.callback.NoActionCallback;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.model.User;
-import com.brooks.poker.client.util.GridLocation;
 import com.brooks.poker.client.view.SitDownWidget;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -30,14 +29,8 @@ public class SitDownPresenter{
             @Override
             public void onClick(ClickEvent event){
                 String name = sitDownWidget.getName();
-                final User user = createUser(name);
-                PokerApplication.getService().addUser(user, new Callback<String>(){
-                    @Override
-                    public void onSuccess(String gameToken){
-                        tablePresenter.addUser(index, user);
-                        tablePresenter.setGameToken(gameToken);
-                    }
-                });
+                User user = createUser(name);
+                PokerApplication.getService().addUser(user, index, new NoActionCallback());
             }
         });
     }
