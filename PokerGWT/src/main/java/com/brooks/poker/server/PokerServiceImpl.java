@@ -7,6 +7,7 @@ import com.brooks.poker.client.PokerService;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
+import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.server.convert.GameStateCMConverter;
@@ -24,6 +25,11 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     private static final long serialVersionUID = 1L;
 
     @Override
+    public String connectToChannel(){
+        return GameServer.getInstance().getGameToken();
+    }
+
+    @Override
     public void addUser(User user, int index) throws PokerException{
         UserPlayerConverter userPlayerConverter = new UserPlayerConverter();
         Player player = userPlayerConverter.createNewPlayerFromUser(user);
@@ -33,7 +39,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     }
 
     @Override
-    public GameStateCM startHand() throws PokerException{
+    public void startHand() throws PokerException{
         GameStateCMConverter converter = new GameStateCMConverter();
         GameStateData data = GameServer.getInstance().createGameState();
 
@@ -43,7 +49,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         data.startGame();
         GameStateCM clientModel = converter.convert(data);
 
-        return clientModel;
+        ChannelServer.send(GameServer.getInstance().getChannelKey(), new GameStateMessage(clientModel));
     }
 
     @Override
@@ -56,9 +62,5 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         return clientModel;
     }
 
-    @Override
-    public String connectToChannel(){
-        return GameServer.getInstance().getGameToken();
-    }
 
 }

@@ -33,6 +33,8 @@ public class ChannelCreator{
                 if(message instanceof UserMessage){
                     EventBus.getInstance().fireEvent((UserMessage) message);
                 }
+                if(message instanceof GameStateMessage)
+                    EventBus.getInstance().fireEvent((GameStateMessage) message);
             }
         });
     }

@@ -15,7 +15,7 @@ public interface PokerServiceAsync{
 
     public void addUser(User user, int index, AsyncCallback<Void> callback);
 
-    public void startHand(AsyncCallback<GameStateCM> callback);
+    public void startHand(AsyncCallback<Void> callback);
 
     public void placeBet(User user, Action action, AsyncCallback<GameStateCM> callback);
 
