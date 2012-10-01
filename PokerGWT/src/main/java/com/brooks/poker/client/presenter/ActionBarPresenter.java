@@ -1,6 +1,7 @@
 package com.brooks.poker.client.presenter;
 
 import com.brooks.common.client.callback.Callback;
+import com.brooks.common.client.callback.NoActionCallback;
 import com.brooks.common.client.event.EventBus;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.event.CallEvent;
@@ -38,7 +39,7 @@ public class ActionBarPresenter{
         view.getStartGame().addClickHandler(new ClickHandler(){      
             @Override
             public void onClick(ClickEvent event){
-                EventBus.getInstance().fireEvent(new StartGameEvent());
+                PokerApplication.getService().startGame(new NoActionCallback());
             }
         });       
     }

@@ -1,5 +1,6 @@
 package com.brooks.poker.client.presenter;
 
+import com.brooks.common.client.callback.Callback;
 import com.brooks.common.client.callback.NoActionCallback;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.model.User;
@@ -30,7 +31,14 @@ public class SitDownPresenter{
             public void onClick(ClickEvent event){
                 String name = sitDownWidget.getName();
                 User user = createUser(name);
-                PokerApplication.getService().addUser(user, index, new NoActionCallback());
+                PokerApplication.getService().addUser(user, index, new Callback<Void>(){
+
+                    @Override
+                    public void onSuccess(Void result){
+                        tablePresenter.setIndexAsLocal(index);
+                    }
+                
+                });
             }
         });
     }

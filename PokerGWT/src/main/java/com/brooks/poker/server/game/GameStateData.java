@@ -1,12 +1,17 @@
 package com.brooks.poker.server.game;
 
+import no.eirikb.gwtchannelapi.server.ChannelServer;
+
 import com.brooks.common.client.event.EventBus;
 import com.brooks.poker.client.model.Action;
+import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
+import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.game.data.GamePhase;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.game.states.GameStateFactory;
 import com.brooks.poker.game.states.GameStateHandler;
+import com.brooks.poker.server.convert.GameStateCMConverter;
 import com.brooks.poker.server.playerAction.PlayerActionEvent;
 
 /**
@@ -14,15 +19,17 @@ import com.brooks.poker.server.playerAction.PlayerActionEvent;
  * 
  */
 public class GameStateData{
-    private final long id;
+    private final String channelKey;
     private final GameState gameState;
     private final GameStateFactory factory;
     private GamePhase gamePhase;
-
-    public GameStateData(long id, GameState gameState){
-        this.id = id;
+    private GameStateCMConverter converter;
+    
+    public GameStateData(String channelKey, GameState gameState){
+        this.channelKey = channelKey;
         this.gameState = gameState;
-        this.factory = new GameStateFactory(gameState);      
+        this.factory = new GameStateFactory(gameState);
+        this.converter = new GameStateCMConverter();
     }
 
     public GamePhase getGamePhase(){
@@ -32,9 +39,9 @@ public class GameStateData{
     public void setGamePhase(GamePhase gamePhase){
         this.gamePhase = gamePhase;
     }
-
-    public long getId(){
-        return id;
+ 
+    public String getChannelKey(){
+        return channelKey;
     }
 
     public GameState getGameState(){
@@ -43,7 +50,14 @@ public class GameStateData{
 
     public void startGame(){
         gamePhase = GamePhase.BEGIN_HAND;
-        nextGameStatePhase();
+        while (!gamePhase.equals(GamePhase.END_GAME)){
+            GameStateHandler handler = factory.getStateHandler(gamePhase);
+            handler.handleState();
+            gamePhase = handler.getNextPhase();
+            
+            GameStateCM clientModel = converter.convert(this);
+            ChannelServer.send(channelKey, new GameStateMessage(clientModel));
+        }
     }
 
     public void update(User user, Action action){

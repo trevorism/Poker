@@ -10,7 +10,6 @@ import java.util.List;
 public class GameStateCM implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    private String serverPushChannel;
     private List<User> allUsers;
     private PotState potState;
     private List<CardCM> communityCards;
@@ -18,14 +17,6 @@ public class GameStateCM implements Serializable{
     private int usersTurnIndex = -1;
     private int minRaiseAmount;
     
-    public String getServerPushChannel(){
-        return serverPushChannel;
-    }
-
-    public void setServerPushChannel(String serverPushChannel){
-        this.serverPushChannel = serverPushChannel;
-    }
-
     public List<User> getAllUsers(){
         return allUsers;
     }

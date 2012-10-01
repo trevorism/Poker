@@ -1,5 +1,8 @@
 package com.brooks.poker.server.playerAction;
 
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+
 import com.brooks.common.client.event.EventBus;
 import com.brooks.common.client.event.EventHandler;
 import com.brooks.poker.client.model.Action;
@@ -16,17 +19,26 @@ import com.brooks.poker.player.action.PlayerAction;
  */
 public class EventDrivenPlayerAction implements PlayerAction{
 
-    private BettingOutcome outcome;
-    private long gameId;
+    private static final int TIMEOUT_SECONDS = 120;
 
-    public EventDrivenPlayerAction(long gameId){
+    private Semaphore semaphore;
+    private BettingOutcome outcome;
+
+    public EventDrivenPlayerAction(){
+        semaphore = new Semaphore(0);
         outcome = BettingOutcomeFactory.createFoldOutcome();
-        this.gameId = gameId;
         EventBus.getInstance().registerHandler(new PlayerActionHandler());
     }
 
     @Override
     public BettingOutcome getBettingOutcome(GameState gameState, Player player){
+        try{
+            outcome = BettingOutcomeFactory.createFoldOutcome();
+            semaphore.tryAcquire(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return outcome;
     }
 
@@ -50,10 +62,12 @@ public class EventDrivenPlayerAction implements PlayerAction{
                 outcome = BettingOutcomeFactory.createCallOutcome();
             if (action.getAction() == UserAction.RAISE)
                 outcome = BettingOutcomeFactory.createRaiseOutcome(action.getBetAmount());
+
+            semaphore.release();
         }
 
         private boolean invalidEvent(PlayerActionEvent event){
-            return event.getAction().getGameId() != gameId;
+            return false;
         }
 
     };

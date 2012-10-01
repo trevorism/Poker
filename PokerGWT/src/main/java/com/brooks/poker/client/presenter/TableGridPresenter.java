@@ -9,6 +9,7 @@ import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.ChannelCreator;
+import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.client.util.GridLocation;
 import com.brooks.poker.client.util.GridLocationUtil;
@@ -16,6 +17,7 @@ import com.brooks.poker.client.view.SitDownWidget;
 import com.brooks.poker.client.view.TableGrid;
 import com.brooks.poker.client.widget.player.InHandHidingCardsWidget;
 import com.brooks.poker.client.widget.player.PotWidget;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -29,6 +31,7 @@ public class TableGridPresenter{
     private TableGrid view;
     private GameStateCM gameStateCM;
     private User[] usersInPosition;
+    private boolean[] localIndex;
     private Map<GridLocation, Widget> gridWidgets;
     private ChannelCreator creator;
 
@@ -36,6 +39,7 @@ public class TableGridPresenter{
         this.view = view;
         this.gameStateCM = new GameStateCM();
         this.usersInPosition = new User[MAX_PLAYERS];
+        this.localIndex = new boolean[MAX_PLAYERS];
         this.gridWidgets = new HashMap<GridLocation, Widget>();
         this.creator = new ChannelCreator();
 
@@ -61,6 +65,22 @@ public class TableGridPresenter{
                 inHandWidget.applyUser(user);
             }
         });
+        
+        EventBus.getInstance().registerHandler(new EventHandler<GameStateMessage>(){
+
+            @Override
+            public Class<GameStateMessage> getEventClass(){
+                
+                return GameStateMessage.class;
+            }
+
+            @Override
+            public void handle(GameStateMessage event){
+                gameStateCM = event.getGameState();
+                Window.alert(gameStateCM.getCommunityCards().toString());
+            }
+            
+        });
     }
 
     private void initTableGrid(){
@@ -81,6 +101,10 @@ public class TableGridPresenter{
 
     public void setGameToken(String gameToken){
         creator.setChannelToken(gameToken);
+    }
+
+    public void setIndexAsLocal(int index){
+        localIndex[index] = true;
     }
 
 }

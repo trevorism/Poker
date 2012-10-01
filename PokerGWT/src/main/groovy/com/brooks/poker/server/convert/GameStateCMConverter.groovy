@@ -18,24 +18,19 @@ class GameStateCMConverter{
         UserPlayerConverter userPlayerConverter = new UserPlayerConverter()
         PotCMConverter potCMConverter = new PotCMConverter()
         CardCMConverter cardCMConverter = new CardCMConverter()
-        
+
         GameState gameState = data.gameState
-        
-        clientModel.id = data.id;
+
         clientModel.allUsers = userPlayerConverter.convert(gameState.table.sortedActivePlayers)
         clientModel.potState = potCMConverter.convert(gameState.pots)
         clientModel.communityCards = cardCMConverter.convert(gameState.communityCards.getCards())
+        clientModel.minRaiseAmount = gameState.getMinBet()       
         
-        clientModel.minRaiseAmount = gameState.minBet     
-        clientModel.usersTurnIndex = -1 //TODO: What does it really equal?
-        
+        return clientModel;
+
     }
 
-
-
     private int findUserIndex(List<User> allUsers, String name){
-        allUsers.findIndexOf {
-            it.name == name
-        }
+        allUsers.findIndexOf { it.name == name }
     }
 }

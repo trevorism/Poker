@@ -34,7 +34,7 @@ public class GameServer{
     private void newGameToken(){
         pendingPlayers = new LinkedList<Player>();
         currentId++;
-        gameToken = ChannelServiceFactory.getChannelService().createChannel(getChannelKey());
+        gameToken = ChannelServiceFactory.getChannelService().createChannel(getLatestChannelKey());
     }
 
     public void addPlayer(Player player){
@@ -45,22 +45,22 @@ public class GameServer{
         return gameStateCache.get(currentId);
     }
     
-    public GameStateData createGameState(){
-        BlindsAnte blindsAnte = createBlindsAnte();        
-        GameStateData gsId = new GameStateData(currentId++, GameState.configureGameState(blindsAnte, pendingPlayers));
-        gameStateCache.put(gsId.getId(), gsId);
-        newGameToken();
-        return gsId;
-    }
-
     public String getGameToken(){
         return gameToken;
     }
 
-    public String getChannelKey(){
+    public String getLatestChannelKey(){
         return "POKER_GAME_" + currentId;
     }
     
+    public GameStateData createGameState(){
+        BlindsAnte blindsAnte = createBlindsAnte();        
+        GameStateData gsId = new GameStateData(getLatestChannelKey(), GameState.configureGameState(blindsAnte, pendingPlayers));
+        gameStateCache.put(currentId, gsId);        
+        newGameToken();
+        return gsId;
+    }
+
     private BlindsAnte createBlindsAnte(){
         BlindsAnte blindsAnte = new BlindsAnte();
         blindsAnte.bigBlind = 25;
