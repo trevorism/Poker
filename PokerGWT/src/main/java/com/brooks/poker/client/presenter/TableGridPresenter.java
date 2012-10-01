@@ -1,6 +1,7 @@
 package com.brooks.poker.client.presenter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.brooks.common.client.event.EventBus;
@@ -15,10 +16,12 @@ import com.brooks.poker.client.util.GridLocation;
 import com.brooks.poker.client.util.GridLocationUtil;
 import com.brooks.poker.client.view.SitDownWidget;
 import com.brooks.poker.client.view.TableGrid;
+import com.brooks.poker.client.widget.player.BlankWidget;
 import com.brooks.poker.client.widget.player.InHandHidingCardsWidget;
+import com.brooks.poker.client.widget.player.PlayerShowingWidget;
+import com.brooks.poker.client.widget.player.PlayerShowingWidgetFactory;
 import com.brooks.poker.client.widget.player.PotWidget;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * @author Trevor
@@ -29,18 +32,19 @@ public class TableGridPresenter{
     private static final int MAX_PLAYERS = 8;
 
     private TableGrid view;
-    private GameStateCM gameStateCM;
     private User[] usersInPosition;
     private boolean[] localIndex;
-    private Map<GridLocation, Widget> gridWidgets;
+    private Map<GridLocation, IsWidget> gridWidgets;
     private ChannelCreator creator;
+
+    private int userTurnIndex;
+    private int maxBet;
 
     public TableGridPresenter(TableGrid view){
         this.view = view;
-        this.gameStateCM = new GameStateCM();
         this.usersInPosition = new User[MAX_PLAYERS];
         this.localIndex = new boolean[MAX_PLAYERS];
-        this.gridWidgets = new HashMap<GridLocation, Widget>();
+        this.gridWidgets = new HashMap<GridLocation, IsWidget>();
         this.creator = new ChannelCreator();
 
         initTableGrid();
@@ -65,21 +69,18 @@ public class TableGridPresenter{
                 inHandWidget.applyUser(user);
             }
         });
-        
-        EventBus.getInstance().registerHandler(new EventHandler<GameStateMessage>(){
 
+        EventBus.getInstance().registerHandler(new EventHandler<GameStateMessage>(){
             @Override
             public Class<GameStateMessage> getEventClass(){
-                
                 return GameStateMessage.class;
             }
 
             @Override
             public void handle(GameStateMessage event){
-                gameStateCM = event.getGameState();
-                Window.alert(gameStateCM.getCommunityCards().toString());
+                update(event.getGameState());
             }
-            
+
         });
     }
 
@@ -94,7 +95,7 @@ public class TableGridPresenter{
         addWidgetToView(location, potWidget);
     }
 
-    private void addWidgetToView(GridLocation location, Widget widget){
+    private void addWidgetToView(GridLocation location, IsWidget widget){
         gridWidgets.put(location, widget);
         view.addWidget(location.getY(), location.getX(), widget);
     }
@@ -105,6 +106,63 @@ public class TableGridPresenter{
 
     public void setIndexAsLocal(int index){
         localIndex[index] = true;
+    }
+
+    private void update(GameStateCM gameState){
+        updatePlayers(gameState.getAllUsers());
+        updatePot(gameState);
+        updateProperties(gameState);
+
+    }
+
+    private void updatePlayers(List<User> allUsers){
+        Map<String, Integer> userMap = blankNonExtantPlayers();
+        for (User user : allUsers){
+            int index = userMap.get(user.getName());
+            boolean local = localIndex[index];
+            PlayerShowingWidget widget = PlayerShowingWidgetFactory.create(user, local);
+            GridLocation location = GridLocationUtil.indexToGridLocation(index);
+            addWidgetToView(location, widget);
+            widget.applyUser(user);
+        }
+    }
+
+    private Map<String, Integer> blankNonExtantPlayers(){
+        Map<String, Integer> userMap = new HashMap<String, Integer>();
+        for (int i = 0; i < MAX_PLAYERS; i++){
+            if (usersInPosition[i] == null){
+                GridLocation location = GridLocationUtil.indexToGridLocation(i);
+                BlankWidget widget = new BlankWidget();
+                addWidgetToView(location, widget);
+            }
+            else{
+                userMap.put(usersInPosition[i].getName(), i);
+            }
+        }
+        return userMap;
+    }
+
+    private void updatePot(GameStateCM gameState){
+        PotWidget potWidget = new PotWidget();
+        GridLocation location = new GridLocation(1, 1);
+        potWidget.applyPotState(gameState.getPotState());
+        for (int i = 0; i < gameState.getCommunityCards().size(); i++){
+            potWidget.setCard(i, gameState.getCommunityCards().get(i));
+        }
+        addWidgetToView(location, potWidget);
+    }
+
+    private void updateProperties(GameStateCM gameState){
+        userTurnIndex = gameState.getUsersTurnIndex();
+        maxBet = gameState.getMinRaiseAmount();
+    }
+
+    public int getUserTurnIndex(){
+        return userTurnIndex;
+    }
+
+    public int getMaxBet(){
+        return maxBet;
     }
 
 }

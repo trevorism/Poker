@@ -1,7 +1,6 @@
 package com.brooks.poker.client.presenter;
 
 import com.brooks.common.client.callback.Callback;
-import com.brooks.common.client.callback.NoActionCallback;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.view.SitDownWidget;

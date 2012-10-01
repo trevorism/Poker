@@ -6,7 +6,6 @@ import com.brooks.common.client.event.EventBus;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.event.CallEvent;
 import com.brooks.poker.client.event.FoldEvent;
-import com.brooks.poker.client.event.StartGameEvent;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.Action.UserAction;
 import com.brooks.poker.client.model.GameStateCM;
