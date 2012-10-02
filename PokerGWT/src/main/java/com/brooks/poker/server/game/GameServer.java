@@ -1,13 +1,13 @@
 package com.brooks.poker.server.game;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import com.brooks.poker.game.data.BlindsAnte;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.player.Player;
+import com.brooks.poker.server.convert.UserPlayerConverter;
 import com.google.appengine.api.channel.ChannelServiceFactory;
 
 /**
@@ -15,8 +15,8 @@ import com.google.appengine.api.channel.ChannelServiceFactory;
  *
  */
 public class GameServer{
-    private final Map<Long, GameStateData> gameStateCache;
-    private List<Player> pendingPlayers;
+    private final Map<Long, GameStateData> gameStateCache;    
+    private Map<Integer, Player> pendingPlayers;
     private static long currentId = 0;
     private String gameToken;
     
@@ -32,13 +32,13 @@ public class GameServer{
     }
     
     private void newGameToken(){
-        pendingPlayers = new LinkedList<Player>();
+        pendingPlayers = new HashMap<Integer, Player>();
         currentId++;
         gameToken = ChannelServiceFactory.getChannelService().createChannel(getLatestChannelKey());
     }
 
-    public void addPlayer(Player player){
-        pendingPlayers.add(player);
+    public void addPlayer(int index, Player player){
+        pendingPlayers.put(index, player);
     }
     
     public GameStateData getGameStateDataById(long currentId){
@@ -55,10 +55,17 @@ public class GameServer{
     
     public GameStateData createGameState(){
         BlindsAnte blindsAnte = createBlindsAnte();        
-        GameStateData gsId = new GameStateData(getLatestChannelKey(), GameState.configureGameState(blindsAnte, pendingPlayers));
+        List<Player> players = createPlayerList();
+        GameStateData gsId = new GameStateData(getLatestChannelKey(), GameState.configureGameState(blindsAnte, players));
         gameStateCache.put(currentId, gsId);        
         newGameToken();
         return gsId;
+    }
+
+    private List<Player> createPlayerList(){
+        UserPlayerConverter converter = new UserPlayerConverter();
+        List<Player> players = converter.convertMapToList(pendingPlayers);
+        return players;
     }
 
     private BlindsAnte createBlindsAnte(){
@@ -66,5 +73,9 @@ public class GameServer{
         blindsAnte.bigBlind = 25;
         blindsAnte.smallBlind = 10;
         return blindsAnte;
+    }
+
+    public Map<Integer, Player> getPendingPlayers(){       
+        return pendingPlayers;
     }
 }

@@ -19,21 +19,21 @@ import com.brooks.poker.player.action.PlayerAction;
  */
 public class EventDrivenPlayerAction implements PlayerAction{
 
-    private static final int TIMEOUT_SECONDS = 120;
+    private static final int TIMEOUT_SECONDS = 10;
 
     private Semaphore semaphore;
     private BettingOutcome outcome;
 
     public EventDrivenPlayerAction(){
         semaphore = new Semaphore(0);
-        outcome = BettingOutcomeFactory.createFoldOutcome();
+        outcome = BettingOutcomeFactory.createCallOutcome();
         EventBus.getInstance().registerHandler(new PlayerActionHandler());
     }
 
     @Override
     public BettingOutcome getBettingOutcome(GameState gameState, Player player){
         try{
-            outcome = BettingOutcomeFactory.createFoldOutcome();
+            outcome = BettingOutcomeFactory.createCallOutcome();
             semaphore.tryAcquire(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         }
         catch (Exception e){
