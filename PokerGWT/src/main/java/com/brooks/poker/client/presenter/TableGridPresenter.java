@@ -7,6 +7,7 @@ import java.util.Map;
 import com.brooks.common.client.event.EventBus;
 import com.brooks.common.client.event.EventHandler;
 import com.brooks.poker.client.PokerApplication;
+import com.brooks.poker.client.event.UpdateActionsEvent;
 import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.ChannelCreator;
@@ -36,9 +37,6 @@ public class TableGridPresenter{
     private boolean[] localIndex;
     private Map<GridLocation, IsWidget> gridWidgets;
     private ChannelCreator creator;
-
-    private int userTurnIndex;
-    private int maxBet;
 
     public TableGridPresenter(TableGrid view){
         this.view = view;
@@ -111,7 +109,7 @@ public class TableGridPresenter{
     private void update(GameStateCM gameState){
         updatePlayers(gameState.getAllUsers());
         updatePot(gameState);
-        updateProperties(gameState);
+        updateActions(gameState);
 
     }
 
@@ -152,17 +150,15 @@ public class TableGridPresenter{
         addWidgetToView(location, potWidget);
     }
 
-    private void updateProperties(GameStateCM gameState){
-        userTurnIndex = gameState.getUsersTurnIndex();
-        maxBet = gameState.getMinRaiseAmount();
-    }
+    private void updateActions(GameStateCM gameState){
+        int minBet = gameState.getMinRaiseAmount();
+        int userIndex = gameState.getUsersTurnIndex();
+        boolean started = gameState.isStarted();
+        User user = User.NULL_USER;
+        if(userIndex != -1 && localIndex[userIndex])
+            user = usersInPosition[userIndex];
 
-    public int getUserTurnIndex(){
-        return userTurnIndex;
-    }
-
-    public int getMaxBet(){
-        return maxBet;
+        EventBus.getInstance().fireEvent(new UpdateActionsEvent(user, minBet, started));
     }
 
 }

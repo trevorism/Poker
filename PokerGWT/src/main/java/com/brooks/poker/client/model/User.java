@@ -8,6 +8,8 @@ import java.io.Serializable;
  * 
  */
 public class User implements Serializable{
+    public static final User NULL_USER = new User();
+    
     private static final long serialVersionUID = 1L;
     
     private String name;
@@ -83,4 +85,9 @@ public class User implements Serializable{
         this.inHand = inHand;
     }
 
+    public boolean isNull(){
+        if(name == null)
+            return true;
+        return false;
+    }
 }

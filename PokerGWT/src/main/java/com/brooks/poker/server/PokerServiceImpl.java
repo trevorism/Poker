@@ -1,20 +1,18 @@
 package com.brooks.poker.server;
 
-import java.util.List;
-
 import no.eirikb.gwtchannelapi.server.ChannelServer;
 
+import com.brooks.common.client.event.EventBus;
 import com.brooks.poker.client.PokerException;
 import com.brooks.poker.client.PokerService;
 import com.brooks.poker.client.model.Action;
-import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.player.Player;
-import com.brooks.poker.server.convert.GameStateCMConverter;
 import com.brooks.poker.server.convert.UserPlayerConverter;
 import com.brooks.poker.server.game.GameServer;
 import com.brooks.poker.server.game.GameStateData;
+import com.brooks.poker.server.playerAction.PlayerActionEvent;
 import com.google.appengine.api.ThreadManager;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -23,8 +21,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * 
  */
 public class PokerServiceImpl extends RemoteServiceServlet implements PokerService{
-
-
 
     private static final long serialVersionUID = 1L;
 
@@ -51,7 +47,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
             throw new PokerException("Not enough players in the game to start.");
 
         Thread thread = ThreadManager.createBackgroundThread(new Runnable(){
-            
+
             @Override
             public void run(){
                 data.startGame();
@@ -61,13 +57,9 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     }
 
     @Override
-    public GameStateCM placeBet(User user, Action action){
-        GameStateCMConverter converter = new GameStateCMConverter();
-        GameStateData gameStateData = GameServer.getInstance().getGameStateDataById(action.getGameId());
-
-        gameStateData.update(user, action);
-        GameStateCM clientModel = converter.convert(gameStateData);
-        return clientModel;
+    public void placeBet(User user, Action action){
+        PlayerActionEvent actionEvent = new PlayerActionEvent(user, action);
+        EventBus.getInstance().fireEvent(actionEvent);
     }
 
 }

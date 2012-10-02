@@ -16,6 +16,7 @@ public class GameStateCM implements Serializable{
 
     private int usersTurnIndex = -1;
     private int minRaiseAmount;
+    private boolean started;
     
     public List<User> getAllUsers(){
         return allUsers;
@@ -57,4 +58,14 @@ public class GameStateCM implements Serializable{
         this.minRaiseAmount = minRaiseAmount;
     }
 
+    public boolean isStarted(){
+        return started;
+    }
+
+    public void setStarted(boolean started){
+        this.started = started;
+    }
+
+    
 }
+

@@ -85,6 +85,10 @@ public class ActionBar extends Composite{
         return raise;
     }
     
+    public void clear(){
+        actionBar.clear();
+    }
+    
     public HowMuchDialog getHowMuch(){
         return howMuch;        
     }

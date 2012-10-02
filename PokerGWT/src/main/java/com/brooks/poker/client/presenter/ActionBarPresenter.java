@@ -3,9 +3,11 @@ package com.brooks.poker.client.presenter;
 import com.brooks.common.client.callback.Callback;
 import com.brooks.common.client.callback.NoActionCallback;
 import com.brooks.common.client.event.EventBus;
+import com.brooks.common.client.event.EventHandler;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.event.CallEvent;
 import com.brooks.poker.client.event.FoldEvent;
+import com.brooks.poker.client.event.UpdateActionsEvent;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.Action.UserAction;
 import com.brooks.poker.client.model.GameStateCM;
@@ -24,6 +26,26 @@ public class ActionBarPresenter{
     public ActionBarPresenter(ActionBar view){
         this.view = view;
         addClickHandlers();
+        addEventListeners();
+    }
+
+    private void addEventListeners(){
+        EventBus.getInstance().registerHandler(new EventHandler<UpdateActionsEvent>(){
+            @Override
+            public Class<UpdateActionsEvent> getEventClass(){
+                return UpdateActionsEvent.class;
+            }
+
+            @Override
+            public void handle(UpdateActionsEvent event){
+                if(event.isGameStarted())
+                    view.clear();
+                if(event.getUser().isNull()){
+                    return;
+                }
+                view.action(event.getUser());
+            }        
+        });
     }
 
     private void addClickHandlers(){       
@@ -51,12 +73,8 @@ public class ActionBarPresenter{
         view.getCall().addClickHandler(new ClickHandler(){            
             @Override
             public void onClick(ClickEvent event){
-                PokerApplication.getService().placeBet(view.getUser(), action,  new Callback<GameStateCM>(){
-                    @Override
-                    public void onSuccess(GameStateCM result){
-                        EventBus.getInstance().fireEvent(new CallEvent(view.getUser(), result));
-                    }                   
-                });
+                view.clear();
+                PokerApplication.getService().placeBet(view.getUser(), action,  new NoActionCallback());
             }
         });
     }
@@ -79,12 +97,8 @@ public class ActionBarPresenter{
             
             @Override
             public void onClick(ClickEvent event){
-                PokerApplication.getService().placeBet(view.getUser(), action,  new Callback<GameStateCM>(){
-                    @Override
-                    public void onSuccess(GameStateCM result){
-                        EventBus.getInstance().fireEvent(new CallEvent(view.getUser(), result));
-                    }                   
-                });
+                view.clear();
+                PokerApplication.getService().placeBet(view.getUser(), action,  new NoActionCallback());
             }
         });
     }
@@ -96,15 +110,10 @@ public class ActionBarPresenter{
         view.getFold().addClickHandler(new ClickHandler(){            
             @Override
             public void onClick(ClickEvent event){
-                PokerApplication.getService().placeBet(view.getUser(), action,  new Callback<GameStateCM>(){
-                    @Override
-                    public void onSuccess(GameStateCM result){
-                        EventBus.getInstance().fireEvent(new FoldEvent(view.getUser(), result));
-                    }                   
-                });
+                view.clear();
+                PokerApplication.getService().placeBet(view.getUser(), action,  new NoActionCallback());
             }
         });
     }
-    
     
 }
