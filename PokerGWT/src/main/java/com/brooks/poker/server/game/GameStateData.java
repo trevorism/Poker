@@ -55,7 +55,7 @@ public class GameStateData{
             handler.handleState();
             gamePhase = handler.getNextPhase();
             
-            GameStateCM clientModel = converter.convert(this);
+            GameStateCM clientModel = converter.convert(gameState);
             ChannelServer.send(channelKey, new GameStateMessage(clientModel));
         }
     }

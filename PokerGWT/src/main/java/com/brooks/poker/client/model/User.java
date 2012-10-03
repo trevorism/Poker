@@ -17,7 +17,6 @@ public class User implements Serializable{
     private CardCM card1;
     private CardCM card2;
     private int pendingBet;
-    private boolean sitting;
     private boolean inHand;
 
     public User(){
@@ -67,14 +66,6 @@ public class User implements Serializable{
 
     public void setPendingBet(int currentBet){
         this.pendingBet = currentBet;
-    }
-
-    public boolean isSitting(){
-        return sitting;
-    }
-
-    public void setSitting(boolean sitting){
-        this.sitting = sitting;
     }
 
     public boolean isInHand(){

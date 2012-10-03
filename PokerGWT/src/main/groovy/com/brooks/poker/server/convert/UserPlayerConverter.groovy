@@ -13,7 +13,7 @@ import com.brooks.poker.server.playerAction.EventDrivenPlayerAction
 public class UserPlayerConverter{
 
     public Player createNewPlayerFromUser(User user){
-        new Player(user.name, 1000, new EventDrivenPlayerAction())
+        new Player(user.name, 1000, new EventDrivenPlayerAction(user.name))
     }
 
     public List<User> convert(List<Player> players){
@@ -25,7 +25,7 @@ public class UserPlayerConverter{
 
 	private convertUser(CardCMConverter converter, Player p) {
 		List<CardCM> cards = converter.convert(p.getHand().getCards())
-		User user = new User(name: p.name, chips: p.chipCount, pendingBet: p.pendingBet, sitting:true, inHand:true)
+		User user = new User(name: p.name, chips: p.chipCount, pendingBet: p.pendingBet, inHand:true)
 		if(cards.size() >= 2){
 			user.card1 = cards.get(0)
 			user.card2 = cards.get(1)

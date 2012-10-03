@@ -3,15 +3,20 @@ package com.brooks.poker.server.playerAction;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+import no.eirikb.gwtchannelapi.server.ChannelServer;
+
 import com.brooks.common.client.event.EventBus;
 import com.brooks.common.client.event.EventHandler;
 import com.brooks.poker.client.model.Action;
+import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.Action.UserAction;
+import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.outcome.BettingOutcome;
 import com.brooks.poker.outcome.BettingOutcomeFactory;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.player.action.PlayerAction;
+import com.brooks.poker.server.convert.GameStateCMConverter;
 
 /**
  * @author Trevor
@@ -19,21 +24,28 @@ import com.brooks.poker.player.action.PlayerAction;
  */
 public class EventDrivenPlayerAction implements PlayerAction{
 
-    private static final int TIMEOUT_SECONDS = 10;
+    private static final int TIMEOUT_SECONDS = 30;
 
     private Semaphore semaphore;
     private BettingOutcome outcome;
-
-    public EventDrivenPlayerAction(){
-        semaphore = new Semaphore(0);
-        outcome = BettingOutcomeFactory.createCallOutcome();
+    private GameStateCMConverter converter;
+    private String playerName;
+    
+    public EventDrivenPlayerAction(String playerName){
+        this.converter = new GameStateCMConverter();
+        this.semaphore = new Semaphore(0);
+        this.outcome = BettingOutcomeFactory.createFoldOutcome();
+        this.playerName = playerName;
         EventBus.getInstance().registerHandler(new PlayerActionHandler());
     }
 
     @Override
     public BettingOutcome getBettingOutcome(GameState gameState, Player player){
         try{
-            outcome = BettingOutcomeFactory.createCallOutcome();
+            GameStateCM clientModel = converter.convert(gameState);
+            ChannelServer.send(clientModel.getChannelKey(), new GameStateMessage(clientModel));
+            
+            outcome = BettingOutcomeFactory.createFoldOutcome();
             semaphore.tryAcquire(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         }
         catch (Exception e){
@@ -67,7 +79,7 @@ public class EventDrivenPlayerAction implements PlayerAction{
         }
 
         private boolean invalidEvent(PlayerActionEvent event){
-            return false;
+            return event.getUser().getName() != playerName;
         }
 
     };

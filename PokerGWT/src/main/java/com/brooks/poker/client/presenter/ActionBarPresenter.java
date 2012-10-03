@@ -1,16 +1,12 @@
 package com.brooks.poker.client.presenter;
 
-import com.brooks.common.client.callback.Callback;
 import com.brooks.common.client.callback.NoActionCallback;
 import com.brooks.common.client.event.EventBus;
 import com.brooks.common.client.event.EventHandler;
 import com.brooks.poker.client.PokerApplication;
-import com.brooks.poker.client.event.CallEvent;
-import com.brooks.poker.client.event.FoldEvent;
 import com.brooks.poker.client.event.UpdateActionsEvent;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.Action.UserAction;
-import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.view.ActionBar;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

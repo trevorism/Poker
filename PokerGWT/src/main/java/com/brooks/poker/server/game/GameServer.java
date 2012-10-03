@@ -15,7 +15,7 @@ import com.google.appengine.api.channel.ChannelServiceFactory;
  *
  */
 public class GameServer{
-    private final Map<Long, GameStateData> gameStateCache;    
+    private final Map<GameState, String> channelMap;    
     private Map<Integer, Player> pendingPlayers;
     private static long currentId = 0;
     private String gameToken;
@@ -27,7 +27,7 @@ public class GameServer{
     }
     
     private GameServer(){
-        gameStateCache = new HashMap<Long, GameStateData>();
+        channelMap = new HashMap<GameState, String>();
         newGameToken();
     }
     
@@ -41,8 +41,8 @@ public class GameServer{
         pendingPlayers.put(index, player);
     }
     
-    public GameStateData getGameStateDataById(long currentId){
-        return gameStateCache.get(currentId);
+    public String getChannelFromGameState(GameState gameState){
+        return channelMap.get(currentId);
     }
     
     public String getGameToken(){
@@ -57,7 +57,7 @@ public class GameServer{
         BlindsAnte blindsAnte = createBlindsAnte();        
         List<Player> players = createPlayerList();
         GameStateData gsId = new GameStateData(getLatestChannelKey(), GameState.configureGameState(blindsAnte, players));
-        gameStateCache.put(currentId, gsId);        
+        channelMap.put(gsId.getGameState(), getLatestChannelKey());        
         newGameToken();
         return gsId;
     }

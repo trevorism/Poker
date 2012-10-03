@@ -1,7 +1,9 @@
-package com.brooks.poker.client.view;
+package com.brooks.poker.client;
 
 import com.brooks.poker.client.presenter.ActionBarPresenter;
 import com.brooks.poker.client.presenter.TableGridPresenter;
+import com.brooks.poker.client.view.ActionBar;
+import com.brooks.poker.client.view.TableGrid;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
