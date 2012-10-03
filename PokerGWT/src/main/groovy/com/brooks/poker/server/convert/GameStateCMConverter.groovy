@@ -22,13 +22,10 @@ class GameStateCMConverter{
         clientModel.communityCards = cardCMConverter.convert(gameState.communityCards.getCards())
         clientModel.minRaiseAmount = gameState.getMinBet()
         clientModel.started = true
-        clientModel.channelKey = GameServer.getInstance().getChannelFromGameState(gameState)
-        clientModel.usersTurnIndex = findUserIndex(clientModel.allUsers, userNamesTurn)
+        clientModel.channelKey = GameServer.getInstance().getChannelId(gameState.getId())
+        clientModel.actionOnUserName = userNamesTurn
 
         return clientModel;
     }
 
-    private int findUserIndex(List<User> allUsers, String name){
-        allUsers.findIndexOf { it.name == name }
-    }
 }

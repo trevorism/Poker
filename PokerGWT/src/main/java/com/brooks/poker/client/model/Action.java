@@ -14,17 +14,8 @@ public class Action implements Serializable{
         FOLD, CALL, RAISE
     }
 
-    private long gameId;
     private UserAction action;
     private int betAmount;
-
-    public long getGameId(){
-        return gameId;
-    }
-
-    public void setGameId(long gameId){
-        this.gameId = gameId;
-    }
 
     public UserAction getAction(){
         return action;

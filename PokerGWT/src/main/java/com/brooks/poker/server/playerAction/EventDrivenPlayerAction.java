@@ -42,7 +42,7 @@ public class EventDrivenPlayerAction implements PlayerAction{
     @Override
     public BettingOutcome getBettingOutcome(GameState gameState, Player player){
         try{
-            GameStateCM clientModel = converter.convert(gameState);
+            GameStateCM clientModel = converter.convert(gameState, player.getName());
             ChannelServer.send(clientModel.getChannelKey(), new GameStateMessage(clientModel));
             
             outcome = BettingOutcomeFactory.createFoldOutcome();
@@ -79,7 +79,9 @@ public class EventDrivenPlayerAction implements PlayerAction{
         }
 
         private boolean invalidEvent(PlayerActionEvent event){
-            return event.getUser().getName() != playerName;
+            if(event.getUser().getName() != playerName)
+                return true;
+            return false;
         }
 
     };

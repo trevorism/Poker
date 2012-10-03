@@ -19,14 +19,12 @@ import com.brooks.poker.server.playerAction.PlayerActionEvent;
  * 
  */
 public class GameStateData{
-    private final String channelKey;
     private final GameState gameState;
     private final GameStateFactory factory;
     private GamePhase gamePhase;
     private GameStateCMConverter converter;
     
-    public GameStateData(String channelKey, GameState gameState){
-        this.channelKey = channelKey;
+    public GameStateData(GameState gameState){
         this.gameState = gameState;
         this.factory = new GameStateFactory(gameState);
         this.converter = new GameStateCMConverter();
@@ -38,10 +36,6 @@ public class GameStateData{
 
     public void setGamePhase(GamePhase gamePhase){
         this.gamePhase = gamePhase;
-    }
- 
-    public String getChannelKey(){
-        return channelKey;
     }
 
     public GameState getGameState(){
@@ -56,7 +50,7 @@ public class GameStateData{
             gamePhase = handler.getNextPhase();
             
             GameStateCM clientModel = converter.convert(gameState);
-            ChannelServer.send(channelKey, new GameStateMessage(clientModel));
+            ChannelServer.send(GameServer.getInstance().getChannelId(gameState.getId()), new GameStateMessage(clientModel));
         }
     }
 

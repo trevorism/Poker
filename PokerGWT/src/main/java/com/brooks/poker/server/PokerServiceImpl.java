@@ -35,8 +35,9 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     public void addUser(UserMessage userAndIndex) throws PokerException{
         UserPlayerConverter userPlayerConverter = new UserPlayerConverter();
         Player player = userPlayerConverter.createNewPlayerFromUser(userAndIndex.getUser());
-        GameServer.getInstance().addPlayer(userAndIndex.getIndex(), player);
-        ChannelServer.send(GameServer.getInstance().getLatestChannelKey(), userAndIndex);
+        GameServer server = GameServer.getInstance();
+        server.addPlayer(userAndIndex.getIndex(), player);
+        ChannelServer.send(server.getChannelId(GameServer.getCurrentId()), userAndIndex);
     }
 
     @Override

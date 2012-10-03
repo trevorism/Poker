@@ -13,14 +13,14 @@ import com.brooks.poker.server.game.GameServer;
  * 
  */
 public final class SyncUsersWithClient implements Runnable{
-   
+
     @Override
     public void run(){
         waitForAsyncReceipt();
         UserPlayerConverter converter = new UserPlayerConverter();
         List<UserMessage> umList = converter.convertMapToUserList(GameServer.getInstance().getPendingPlayers());
         for (UserMessage userAndIndex : umList){
-            ChannelServer.send(GameServer.getInstance().getLatestChannelKey(), userAndIndex);
+            ChannelServer.send(GameServer.getInstance().getChannelId(GameServer.getCurrentId()), userAndIndex);
         }
     }
 
@@ -29,7 +29,6 @@ public final class SyncUsersWithClient implements Runnable{
             Thread.sleep(5000);
         }
         catch (InterruptedException e){
-
             e.printStackTrace();
         }
     }

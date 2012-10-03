@@ -15,7 +15,6 @@ import com.google.appengine.api.channel.ChannelServiceFactory;
  *
  */
 public class GameServer{
-    private final Map<GameState, String> channelMap;    
     private Map<Integer, Player> pendingPlayers;
     private static long currentId = 0;
     private String gameToken;
@@ -27,37 +26,33 @@ public class GameServer{
     }
     
     private GameServer(){
-        channelMap = new HashMap<GameState, String>();
         newGameToken();
     }
     
     private void newGameToken(){
         pendingPlayers = new HashMap<Integer, Player>();
         currentId++;
-        gameToken = ChannelServiceFactory.getChannelService().createChannel(getLatestChannelKey());
+        gameToken = ChannelServiceFactory.getChannelService().createChannel(getChannelId(currentId));
     }
 
     public void addPlayer(int index, Player player){
         pendingPlayers.put(index, player);
     }
-    
-    public String getChannelFromGameState(GameState gameState){
-        return channelMap.get(currentId);
-    }
-    
+
     public String getGameToken(){
         return gameToken;
     }
 
-    public String getLatestChannelKey(){
-        return "POKER_GAME_" + currentId;
+    public String getChannelId(long id){
+        return "POKER_GAME_" + id;
     }
     
     public GameStateData createGameState(){
         BlindsAnte blindsAnte = createBlindsAnte();        
         List<Player> players = createPlayerList();
-        GameStateData gsId = new GameStateData(getLatestChannelKey(), GameState.configureGameState(blindsAnte, players));
-        channelMap.put(gsId.getGameState(), getLatestChannelKey());        
+        GameState gameState = GameState.configureGameState(blindsAnte, players);
+        gameState.setId(currentId);
+        GameStateData gsId = new GameStateData(gameState);
         newGameToken();
         return gsId;
     }
@@ -78,4 +73,9 @@ public class GameServer{
     public Map<Integer, Player> getPendingPlayers(){       
         return pendingPlayers;
     }
+
+    public static long getCurrentId(){
+        return currentId;
+    }
+        
 }

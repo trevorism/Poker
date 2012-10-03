@@ -152,13 +152,23 @@ public class TableGridPresenter{
 
     private void updateActions(GameStateCM gameState){
         int minBet = gameState.getMinRaiseAmount();
-        int userIndex = gameState.getUsersTurnIndex();
         boolean started = gameState.isStarted();
+        int userIndex = getUserIndex(gameState.getActionOnUserName());
+        
         User user = User.NULL_USER;
         if(userIndex != -1 && localIndex[userIndex])
             user = usersInPosition[userIndex];
 
         EventBus.getInstance().fireEvent(new UpdateActionsEvent(user, minBet, started));
+    }
+
+    private int getUserIndex(String actionOnUserName){
+        for(int i = 0; i < MAX_PLAYERS; i++){
+            User user = usersInPosition[i];
+            if(user != null && user.getName().equals(actionOnUserName))
+                return i;
+        }
+        return -1;
     }
 
 }

@@ -15,7 +15,7 @@ public class GameStateCM implements Serializable{
     private List<CardCM> communityCards;
 
     private String channelKey;
-    private int usersTurnIndex = -1;
+    private String actionOnUserName;
     private int minRaiseAmount;
     private boolean started;
 
@@ -42,13 +42,13 @@ public class GameStateCM implements Serializable{
     public void setCommunityCards(List<CardCM> communityCards){
         this.communityCards = communityCards;
     }
-
-    public int getUsersTurnIndex(){
-        return usersTurnIndex;
+    
+    public String getActionOnUserName(){
+        return actionOnUserName;
     }
 
-    public void setUsersTurnIndex(int usersTurnIndex){
-        this.usersTurnIndex = usersTurnIndex;
+    public void setActionOnUserName(String actionOnUserName){
+        this.actionOnUserName = actionOnUserName;
     }
 
     public int getMinRaiseAmount(){
