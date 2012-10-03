@@ -12,6 +12,8 @@ import com.brooks.poker.player.Player;
  * @author Trevor
  */
 public class GameState{
+    
+    private long id;
     private final BlindsAnte blindsAnte;
     private final Table table;
     private final Deck deck;
@@ -109,5 +111,13 @@ public class GameState{
     public CommunityCards getCommunityCards(){
         return communityCards;
     }
-    
+
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
+    }
+        
 }
