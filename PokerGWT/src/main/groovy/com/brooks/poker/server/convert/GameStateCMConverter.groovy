@@ -22,7 +22,6 @@ class GameStateCMConverter{
         clientModel.communityCards = cardCMConverter.convert(gameState.communityCards.getCards())
         clientModel.minRaiseAmount = gameState.getMinBet()
         clientModel.started = true
-        clientModel.channelKey = DataStoreUtils.getChannelId(gameState.getId());
         clientModel.actionOnUserName = userNamesTurn
 
         return clientModel;

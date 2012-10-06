@@ -14,7 +14,6 @@ public class GameStateCM implements Serializable{
     private PotState potState;
     private List<CardCM> communityCards;
 
-    private String channelKey;
     private String actionOnUserName;
     private int minRaiseAmount;
     private boolean started;
@@ -65,14 +64,6 @@ public class GameStateCM implements Serializable{
 
     public void setStarted(boolean started){
         this.started = started;
-    }
-
-    public String getChannelKey(){
-        return channelKey;
-    }
-
-    public void setChannelKey(String channelKey){
-        this.channelKey = channelKey;
     }
 
 }

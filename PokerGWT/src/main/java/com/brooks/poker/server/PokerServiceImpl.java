@@ -3,24 +3,29 @@ package com.brooks.poker.server;
 import java.util.LinkedList;
 import java.util.List;
 
+import no.eirikb.gwtchannelapi.server.ChannelServer;
+
 import com.brooks.common.client.event.EventBus;
 import com.brooks.poker.client.PokerException;
 import com.brooks.poker.client.PokerService;
 import com.brooks.poker.client.model.Action;
+import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
+import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.game.PokerGame;
 import com.brooks.poker.game.data.BlindsAnte;
+import com.brooks.poker.game.data.GamePhase;
 import com.brooks.poker.game.data.GameState;
+import com.brooks.poker.game.states.GameStateFactory;
+import com.brooks.poker.game.states.GameStateHandler;
 import com.brooks.poker.player.Player;
+import com.brooks.poker.server.convert.GameStateCMConverter;
 import com.brooks.poker.server.model.PendingUser;
 import com.brooks.poker.server.playerAction.EventDrivenPlayerAction;
 import com.brooks.poker.server.playerAction.PlayerActionEvent;
 import com.google.appengine.api.ThreadManager;
 import com.google.appengine.api.channel.ChannelServiceFactory;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -51,6 +56,8 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         if (found)
             throw new PokerException("A player already has joined the game with that name.");
         DataStoreUtils.addUser(userAndIndex);
+        long id = DataStoreUtils.getPendingGameSequenceNumber();
+        ChannelServer.send(DataStoreUtils.getChannelId(id), userAndIndex);
     }
 
     private boolean findName(List<PendingUser> pendingUsers, String name){
@@ -72,12 +79,25 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
 
             @Override
             public void run(){
-                PokerGame.playGame(gameState);
+                playGame(gameState);
             }
         });
         thread.start();
         DataStoreUtils.incrementSequenceNumber();
         DataStoreUtils.deletePendingUsers();
+    }
+    
+    private static void playGame(GameState gameState){
+        GameStateFactory factory = new GameStateFactory(gameState);
+        GamePhase currentPhase = GamePhase.BEGIN_HAND;
+        GameStateCMConverter converter = new GameStateCMConverter();
+        while (!currentPhase.equals(GamePhase.END_GAME)){
+            GameStateHandler handler = factory.getStateHandler(currentPhase);
+            handler.handleState();
+            currentPhase = handler.getNextPhase();
+            GameStateCM clientModel = converter.convert(gameState);
+            ChannelServer.send(DataStoreUtils.getChannelId(gameState.getId()), new GameStateMessage(clientModel));
+        }
     }
 
     private GameState createGameState(List<PendingUser> pendingUsers){
