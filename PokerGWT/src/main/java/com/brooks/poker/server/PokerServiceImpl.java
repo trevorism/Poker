@@ -13,7 +13,6 @@ import com.brooks.poker.game.PokerGame;
 import com.brooks.poker.game.data.BlindsAnte;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.player.Player;
-import com.brooks.poker.server.game.PendingGame;
 import com.brooks.poker.server.model.PendingUser;
 import com.brooks.poker.server.playerAction.EventDrivenPlayerAction;
 import com.brooks.poker.server.playerAction.PlayerActionEvent;
@@ -34,8 +33,8 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
 
     @Override
     public String connectToChannel(){
-        long id = PendingGame.getPendingGameSequenceNumber();
-        String channelId = PendingGame.getChannelId(id);
+        long id = DataStoreUtils.getPendingGameSequenceNumber();
+        String channelId = DataStoreUtils.getChannelId(id);
         String gameToken = ChannelServiceFactory.getChannelService().createChannel(channelId);
 
         Thread thread = ThreadManager.createBackgroundThread(new SyncUsersWithClient(channelId));
@@ -45,18 +44,13 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
 
     @Override
     public void addUser(UserMessage userAndIndex) throws PokerException{
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         String username = userAndIndex.getUser().getName();
 
-        List<PendingUser> pendingUsers = PendingGame.queryForPendingPlayers();
+        List<PendingUser> pendingUsers = DataStoreUtils.queryForPendingPlayers();
         boolean found = findName(pendingUsers, username);
         if (found)
             throw new PokerException("A player already has joined the game with that name.");
-
-        Entity entity = new Entity(PendingGame.PENDING_PLAYER_ENTITY);
-        entity.setProperty(PendingGame.PLAYER_NAME, username);
-        entity.setProperty(PendingGame.PLAYER_INDEX, userAndIndex.getIndex());
-        datastore.put(entity);
+        DataStoreUtils.addUser(userAndIndex);
     }
 
     private boolean findName(List<PendingUser> pendingUsers, String name){
@@ -69,8 +63,8 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
 
     @Override
     public void startGame() throws PokerException{
-        List<PendingUser> pendingUsers = PendingGame.queryForPendingPlayers();
-        long id = PendingGame.getPendingGameSequenceNumber();
+        List<PendingUser> pendingUsers = DataStoreUtils.queryForPendingPlayers();
+        long id = DataStoreUtils.getPendingGameSequenceNumber();
         final GameState gameState = createGameState(pendingUsers);
         gameState.setId(id);
 
@@ -82,7 +76,8 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
             }
         });
         thread.start();
-        PendingGame.incrementSequenceNumber();
+        DataStoreUtils.incrementSequenceNumber();
+        DataStoreUtils.deletePendingUsers();
     }
 
     private GameState createGameState(List<PendingUser> pendingUsers){

@@ -6,7 +6,6 @@ import no.eirikb.gwtchannelapi.server.ChannelServer;
 
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.UserMessage;
-import com.brooks.poker.server.game.PendingGame;
 import com.brooks.poker.server.model.PendingUser;
 
 /**
@@ -23,7 +22,7 @@ public final class SyncUsersWithClient implements Runnable{
     @Override
     public void run(){
         waitForAsyncReceipt();
-        List<PendingUser> pendingUsers = PendingGame.queryForPendingPlayers();
+        List<PendingUser> pendingUsers = DataStoreUtils.queryForPendingPlayers();
         
         for (PendingUser pendingUser : pendingUsers){
             UserMessage message = createUserMessage(pendingUser);

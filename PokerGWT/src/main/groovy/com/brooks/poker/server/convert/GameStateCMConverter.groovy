@@ -3,7 +3,7 @@ package com.brooks.poker.server.convert
 import com.brooks.poker.client.model.GameStateCM
 import com.brooks.poker.game.PokerGame;
 import com.brooks.poker.game.data.GameState
-import com.brooks.poker.server.game.PendingGame;
+import com.brooks.poker.server.DataStoreUtils;
 
 /**
  * @author Trevor
@@ -22,7 +22,7 @@ class GameStateCMConverter{
         clientModel.communityCards = cardCMConverter.convert(gameState.communityCards.getCards())
         clientModel.minRaiseAmount = gameState.getMinBet()
         clientModel.started = true
-        clientModel.channelKey = PendingGame.getChannelId(gameState.getId());
+        clientModel.channelKey = DataStoreUtils.getChannelId(gameState.getId());
         clientModel.actionOnUserName = userNamesTurn
 
         return clientModel;
