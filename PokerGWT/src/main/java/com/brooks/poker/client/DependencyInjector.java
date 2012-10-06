@@ -17,10 +17,10 @@ public class DependencyInjector{
     public DependencyInjector(){
 
         TableGrid grid = new TableGrid();
-        new TableGridPresenter(grid);
+        TableGridPresenter presenter = new TableGridPresenter(grid);
 
         ActionBar actionBar = new ActionBar();
-        new ActionBarPresenter(actionBar);
+        new ActionBarPresenter(actionBar, presenter);
 
         mainView = new VerticalPanel();
         mainView.add(actionBar);

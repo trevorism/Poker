@@ -18,9 +18,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 public class ActionBarPresenter{
     
     private ActionBar view;
+    private TableGridPresenter presenter;
     
-    public ActionBarPresenter(ActionBar view){
+    public ActionBarPresenter(ActionBar view, TableGridPresenter presenter){
         this.view = view;
+        this.presenter = presenter;
         addClickHandlers();
         addEventListeners();
     }
@@ -57,6 +59,7 @@ public class ActionBarPresenter{
             @Override
             public void onClick(ClickEvent event){
                 PokerApplication.getService().startGame(new NoActionCallback());
+                presenter.blankNonExtantPlayers();
             }
         });       
     }
@@ -66,7 +69,7 @@ public class ActionBarPresenter{
         action.setAction(UserAction.RAISE);        
         action.setBetAmount(view.getHowMuch().getAmount());
         
-        view.getCall().addClickHandler(new ClickHandler(){            
+        view.getHowMuch().addClickHandler(new ClickHandler(){            
             @Override
             public void onClick(ClickEvent event){
                 view.clear();

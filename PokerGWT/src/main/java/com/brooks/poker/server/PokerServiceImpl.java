@@ -1,6 +1,7 @@
 package com.brooks.poker.server;
 
-import no.eirikb.gwtchannelapi.server.ChannelServer;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.brooks.common.client.event.EventBus;
 import com.brooks.poker.client.PokerException;
@@ -8,12 +9,19 @@ import com.brooks.poker.client.PokerService;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.UserMessage;
+import com.brooks.poker.game.PokerGame;
+import com.brooks.poker.game.data.BlindsAnte;
+import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.player.Player;
-import com.brooks.poker.server.convert.UserPlayerConverter;
-import com.brooks.poker.server.game.GameServer;
-import com.brooks.poker.server.game.GameStateData;
+import com.brooks.poker.server.game.PendingGame;
+import com.brooks.poker.server.model.PendingUser;
+import com.brooks.poker.server.playerAction.EventDrivenPlayerAction;
 import com.brooks.poker.server.playerAction.PlayerActionEvent;
 import com.google.appengine.api.ThreadManager;
+import com.google.appengine.api.channel.ChannelServiceFactory;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -26,35 +34,69 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
 
     @Override
     public String connectToChannel(){
-        Thread thread = ThreadManager.createBackgroundThread(new SyncUsersWithClient());
+        long id = PendingGame.getPendingGameSequenceNumber();
+        String channelId = PendingGame.getChannelId(id);
+        String gameToken = ChannelServiceFactory.getChannelService().createChannel(channelId);
+
+        Thread thread = ThreadManager.createBackgroundThread(new SyncUsersWithClient(channelId));
         thread.start();
-        return GameServer.getInstance().getGameToken();
+        return gameToken;
     }
 
     @Override
     public void addUser(UserMessage userAndIndex) throws PokerException{
-        UserPlayerConverter userPlayerConverter = new UserPlayerConverter();
-        Player player = userPlayerConverter.createNewPlayerFromUser(userAndIndex.getUser());
-        GameServer server = GameServer.getInstance();
-        server.addPlayer(userAndIndex.getIndex(), player);
-        ChannelServer.send(server.getChannelId(GameServer.getCurrentId()), userAndIndex);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        String username = userAndIndex.getUser().getName();
+
+        List<PendingUser> pendingUsers = PendingGame.queryForPendingPlayers();
+        boolean found = findName(pendingUsers, username);
+        if (found)
+            throw new PokerException("A player already has joined the game with that name.");
+
+        Entity entity = new Entity(PendingGame.PENDING_PLAYER_ENTITY);
+        entity.setProperty(PendingGame.PLAYER_NAME, username);
+        entity.setProperty(PendingGame.PLAYER_INDEX, userAndIndex.getIndex());
+        datastore.put(entity);
+    }
+
+    private boolean findName(List<PendingUser> pendingUsers, String name){
+        for (PendingUser pu : pendingUsers){
+            if (pu.getName().equals(name))
+                return true;
+        }
+        return false;
     }
 
     @Override
     public void startGame() throws PokerException{
-        final GameStateData data = GameServer.getInstance().createGameState();
-
-        if (data.getGameState().invalid())
-            throw new PokerException("Not enough players in the game to start.");
+        List<PendingUser> pendingUsers = PendingGame.queryForPendingPlayers();
+        long id = PendingGame.getPendingGameSequenceNumber();
+        final GameState gameState = createGameState(pendingUsers);
+        gameState.setId(id);
 
         Thread thread = ThreadManager.createBackgroundThread(new Runnable(){
 
             @Override
             public void run(){
-                data.startGame();
+                PokerGame.playGame(gameState);
             }
         });
         thread.start();
+        PendingGame.incrementSequenceNumber();
+    }
+
+    private GameState createGameState(List<PendingUser> pendingUsers){
+        List<Player> players = new LinkedList<>();
+        for (PendingUser user : pendingUsers){
+            Player player = new Player(user.getName(), 1000, new EventDrivenPlayerAction(user.getName()));
+            players.add(player);
+        }
+
+        BlindsAnte blindsAnte = new BlindsAnte();
+        blindsAnte.bigBlind = 25;
+        blindsAnte.smallBlind = 10;
+
+        return GameState.configureGameState(blindsAnte, players);
     }
 
     @Override

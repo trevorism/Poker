@@ -114,9 +114,8 @@ public class TableGridPresenter{
     }
 
     private void updatePlayers(List<User> allUsers){
-        Map<String, Integer> userMap = blankNonExtantPlayers();
         for (User user : allUsers){
-            int index = userMap.get(user.getName());
+            int index = getUserIndex(user.getName());
             boolean local = localIndex[index];
             PlayerShowingWidget widget = PlayerShowingWidgetFactory.create(user, local);
             GridLocation location = GridLocationUtil.indexToGridLocation(index);
@@ -125,19 +124,14 @@ public class TableGridPresenter{
         }
     }
 
-    private Map<String, Integer> blankNonExtantPlayers(){
-        Map<String, Integer> userMap = new HashMap<String, Integer>();
+    public void blankNonExtantPlayers(){
         for (int i = 0; i < MAX_PLAYERS; i++){
             if (usersInPosition[i] == null){
                 GridLocation location = GridLocationUtil.indexToGridLocation(i);
                 BlankWidget widget = new BlankWidget();
                 addWidgetToView(location, widget);
             }
-            else{
-                userMap.put(usersInPosition[i].getName(), i);
-            }
         }
-        return userMap;
     }
 
     private void updatePot(GameStateCM gameState){

@@ -4,9 +4,10 @@ import java.util.List;
 
 import no.eirikb.gwtchannelapi.server.ChannelServer;
 
+import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.UserMessage;
-import com.brooks.poker.server.convert.UserPlayerConverter;
-import com.brooks.poker.server.game.GameServer;
+import com.brooks.poker.server.game.PendingGame;
+import com.brooks.poker.server.model.PendingUser;
 
 /**
  * @author Trevor
@@ -14,14 +15,27 @@ import com.brooks.poker.server.game.GameServer;
  */
 public final class SyncUsersWithClient implements Runnable{
 
+    private final String channelId;
+    public SyncUsersWithClient(String channelId){
+        this.channelId = channelId;
+    }
+
     @Override
     public void run(){
         waitForAsyncReceipt();
-        UserPlayerConverter converter = new UserPlayerConverter();
-        List<UserMessage> umList = converter.convertMapToUserList(GameServer.getInstance().getPendingPlayers());
-        for (UserMessage userAndIndex : umList){
-            ChannelServer.send(GameServer.getInstance().getChannelId(GameServer.getCurrentId()), userAndIndex);
+        List<PendingUser> pendingUsers = PendingGame.queryForPendingPlayers();
+        
+        for (PendingUser pendingUser : pendingUsers){
+            UserMessage message = createUserMessage(pendingUser);
+            ChannelServer.send(channelId, message);
         }
+    }
+
+    private UserMessage createUserMessage(PendingUser pendingUser){
+        User user = new User();
+        user.setName(pendingUser.getName());
+        UserMessage message = new UserMessage(user,pendingUser.getIndex());
+        return message;
     }
 
     private void waitForAsyncReceipt(){
