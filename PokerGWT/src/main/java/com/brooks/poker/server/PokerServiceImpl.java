@@ -13,7 +13,6 @@ import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.client.push.UserMessage;
-import com.brooks.poker.game.PokerGame;
 import com.brooks.poker.game.data.BlindsAnte;
 import com.brooks.poker.game.data.GamePhase;
 import com.brooks.poker.game.data.GameState;
@@ -72,8 +71,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     public void startGame() throws PokerException{
         List<PendingUser> pendingUsers = DataStoreUtils.queryForPendingPlayers();
         long id = DataStoreUtils.getPendingGameSequenceNumber();
-        final GameState gameState = createGameState(pendingUsers);
-        gameState.setId(id);
+        final GameState gameState = createGameState(pendingUsers, id);
 
         Thread thread = ThreadManager.createBackgroundThread(new Runnable(){
 
@@ -92,18 +90,21 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         GamePhase currentPhase = GamePhase.BEGIN_HAND;
         GameStateCMConverter converter = new GameStateCMConverter();
         while (!currentPhase.equals(GamePhase.END_GAME)){
+            if(currentPhase == GamePhase.BEGIN_HAND){
+                GameStateCM clientModel = converter.convert(gameState);
+                ChannelServer.send(DataStoreUtils.getChannelId(gameState.getId()), new GameStateMessage(clientModel));
+            }
+            
             GameStateHandler handler = factory.getStateHandler(currentPhase);
             handler.handleState();
             currentPhase = handler.getNextPhase();
-            GameStateCM clientModel = converter.convert(gameState);
-            ChannelServer.send(DataStoreUtils.getChannelId(gameState.getId()), new GameStateMessage(clientModel));
         }
     }
 
-    private GameState createGameState(List<PendingUser> pendingUsers){
+    private GameState createGameState(List<PendingUser> pendingUsers, long id){
         List<Player> players = new LinkedList<>();
         for (PendingUser user : pendingUsers){
-            Player player = new Player(user.getName(), 1000, new EventDrivenPlayerAction(user.getName()));
+            Player player = new Player(user.getName(), 1000, new EventDrivenPlayerAction(user.getName(), id));
             players.add(player);
         }
 
@@ -111,7 +112,9 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         blindsAnte.bigBlind = 25;
         blindsAnte.smallBlind = 10;
 
-        return GameState.configureGameState(blindsAnte, players);
+        GameState gameState = GameState.configureGameState(blindsAnte, players);
+        gameState.setId(id);
+        return gameState;
     }
 
     @Override

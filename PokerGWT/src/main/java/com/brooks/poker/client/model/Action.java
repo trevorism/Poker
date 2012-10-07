@@ -16,7 +16,8 @@ public class Action implements Serializable{
 
     private UserAction action;
     private int betAmount;
-
+    private long gameId;
+    
     public UserAction getAction(){
         return action;
     }
@@ -33,4 +34,14 @@ public class Action implements Serializable{
         this.betAmount = betAmount;
     }
 
+    public long getGameId(){
+        return gameId;
+    }
+
+    public void setGameId(long gameId){
+        this.gameId = gameId;
+    }
+
 }
+
+

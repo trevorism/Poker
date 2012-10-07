@@ -67,20 +67,20 @@ public class ActionBarPresenter{
     private void createHowMuchListener(){
         final Action action = new Action();
         action.setAction(UserAction.RAISE);        
-        action.setBetAmount(view.getHowMuch().getAmount());
         
         view.getHowMuch().addClickHandler(new ClickHandler(){            
             @Override
             public void onClick(ClickEvent event){
                 view.clear();
+                action.setGameId(presenter.getId());
+                action.setBetAmount(view.getHowMuch().getAmount());
                 PokerApplication.getService().placeBet(view.getUser(), action,  new NoActionCallback());
             }
         });
     }
 
     private void createRaiseListener(){
-        view.getRaise().addClickHandler(new ClickHandler(){
-            
+        view.getRaise().addClickHandler(new ClickHandler(){            
             @Override
             public void onClick(ClickEvent event){
                 view.howMuch(view.getUser());
@@ -97,6 +97,7 @@ public class ActionBarPresenter{
             @Override
             public void onClick(ClickEvent event){
                 view.clear();
+                action.setGameId(presenter.getId());
                 PokerApplication.getService().placeBet(view.getUser(), action,  new NoActionCallback());
             }
         });
@@ -110,6 +111,7 @@ public class ActionBarPresenter{
             @Override
             public void onClick(ClickEvent event){
                 view.clear();
+                action.setGameId(presenter.getId());
                 PokerApplication.getService().placeBet(view.getUser(), action,  new NoActionCallback());
             }
         });

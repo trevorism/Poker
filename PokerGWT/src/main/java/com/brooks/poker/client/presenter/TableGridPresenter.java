@@ -22,6 +22,7 @@ import com.brooks.poker.client.widget.player.InHandHidingCardsWidget;
 import com.brooks.poker.client.widget.player.PlayerShowingWidget;
 import com.brooks.poker.client.widget.player.PlayerShowingWidgetFactory;
 import com.brooks.poker.client.widget.player.PotWidget;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
@@ -32,6 +33,7 @@ public class TableGridPresenter{
 
     private static final int MAX_PLAYERS = 8;
 
+    private long id;
     private TableGrid view;
     private User[] usersInPosition;
     private boolean[] localIndex;
@@ -107,6 +109,7 @@ public class TableGridPresenter{
     }
 
     private void update(GameStateCM gameState){
+        this.id = gameState.getId();
         updatePlayers(gameState.getAllUsers());
         updatePot(gameState);
         updateActions(gameState);
@@ -116,6 +119,11 @@ public class TableGridPresenter{
     private void updatePlayers(List<User> allUsers){
         for (User user : allUsers){
             int index = getUserIndex(user.getName());
+            if(index == -1)
+            {
+                Window.alert("Error finding user " + user.getName());
+                continue;
+            }
             boolean local = localIndex[index];
             PlayerShowingWidget widget = PlayerShowingWidgetFactory.create(user, local);
             GridLocation location = GridLocationUtil.indexToGridLocation(index);
@@ -163,6 +171,14 @@ public class TableGridPresenter{
                 return i;
         }
         return -1;
+    }
+
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
     }
 
 }

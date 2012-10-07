@@ -25,7 +25,8 @@ public class CardWidget extends Composite{
     }
 
     public void setCard(CardCM card){
-        image.setUrl(CARD_IMAGE_FOLDER + "/" + card.toString() + ".png");
+        if(!card.isNull())
+            image.setUrl(CARD_IMAGE_FOLDER + "/" + card.toString() + ".png");
         setWidgetVisibility(card);
     }
 

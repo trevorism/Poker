@@ -40,7 +40,7 @@ public class DataStoreUtils{
         if (entity == null){
             return 0;
         }
-        return (Long) entity.getProperty(SEQUENCE_NUMBER);
+        return ((Number) entity.getProperty(SEQUENCE_NUMBER)).longValue();
     }
     
     public static void incrementSequenceNumber(){

@@ -17,13 +17,14 @@ class GameStateCMConverter{
         PotCMConverter potCMConverter = new PotCMConverter()
         CardCMConverter cardCMConverter = new CardCMConverter()
 
-        clientModel.allUsers = userPlayerConverter.convert(gameState.table.sortedActivePlayers, gameState)
+        clientModel.allUsers = userPlayerConverter.convert(gameState.table.allPlayers, gameState)
         clientModel.potState = potCMConverter.convert(gameState.pots)
         clientModel.communityCards = cardCMConverter.convert(gameState.communityCards.getCards())
         clientModel.minRaiseAmount = gameState.getMinBet()
         clientModel.started = true
         clientModel.actionOnUserName = userNamesTurn
-
+        clientModel.id = gameState.getId();
+        
         return clientModel;
     }
 

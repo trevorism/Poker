@@ -31,12 +31,14 @@ public class EventDrivenPlayerAction implements PlayerAction{
     private BettingOutcome outcome;
     private GameStateCMConverter converter;
     private String playerName;
+    private long gameId;
     
-    public EventDrivenPlayerAction(String playerName){
+    public EventDrivenPlayerAction(String playerName, long gameId){
         this.converter = new GameStateCMConverter();
         this.semaphore = new Semaphore(0);
         this.outcome = BettingOutcomeFactory.createFoldOutcome();
         this.playerName = playerName;
+        this.gameId = gameId;
         EventBus.getInstance().registerHandler(new PlayerActionHandler());
     }
 
@@ -85,6 +87,8 @@ public class EventDrivenPlayerAction implements PlayerAction{
 
         private boolean invalidEvent(PlayerActionEvent event){
             if(!event.getUser().getName().equals(playerName))
+                return true;
+            if(event.getAction().getGameId() != gameId)
                 return true;
             return false;
         }

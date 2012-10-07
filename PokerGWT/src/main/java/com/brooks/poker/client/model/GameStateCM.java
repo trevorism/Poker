@@ -14,10 +14,11 @@ public class GameStateCM implements Serializable{
     private PotState potState;
     private List<CardCM> communityCards;
 
+    private long id;
     private String actionOnUserName;
     private int minRaiseAmount;
     private boolean started;
-
+    
     public List<User> getAllUsers(){
         return allUsers;
     }
@@ -64,6 +65,14 @@ public class GameStateCM implements Serializable{
 
     public void setStarted(boolean started){
         this.started = started;
+    }
+
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
     }
 
 }

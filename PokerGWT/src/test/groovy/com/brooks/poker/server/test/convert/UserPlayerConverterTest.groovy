@@ -23,7 +23,7 @@ class UserPlayerConverterTest{
     public void testConvertNewPlayerToUser(){
         Player player = new Player("Trevor", 1000, new NullPlayerAction())
         UserPlayerConverter converter = new UserPlayerConverter();
-        List<User> users = converter.convert([player])
+        List<User> users = converter.convert([player] as Set)
         
         assert users
         assert users.size() == 1
@@ -43,7 +43,7 @@ class UserPlayerConverterTest{
         player.hand.addCard(new Card(Suit.DIAMONDS, Value.SEVEN));
         
         UserPlayerConverter converter = new UserPlayerConverter();
-        List<User> users = converter.convert([player])
+        List<User> users = converter.convert([player]  as Set)
         
         assert users
         assert users.size() == 1
