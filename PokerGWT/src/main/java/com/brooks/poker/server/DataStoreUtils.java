@@ -92,7 +92,7 @@ public class DataStoreUtils{
         Query query = new Query(PENDING_PLAYER_ENTITY);
         PreparedQuery prepared = datastore.prepare(query);
 
-        List<Key> keys = new LinkedList<>();
+        List<Key> keys = new LinkedList<Key>();
         Iterator<Entity> iterable = prepared.asIterator();
         while(iterable.hasNext()){
             Entity userEntity = iterable.next();

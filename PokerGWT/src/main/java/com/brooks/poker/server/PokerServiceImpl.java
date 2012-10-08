@@ -102,7 +102,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     }
 
     private GameState createGameState(List<PendingUser> pendingUsers, long id){
-        List<Player> players = new LinkedList<>();
+        List<Player> players = new LinkedList<Player>();
         for (PendingUser user : pendingUsers){
             Player player = new Player(user.getName(), 1000, new EventDrivenPlayerAction(user.getName(), id));
             players.add(player);

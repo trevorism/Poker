@@ -15,6 +15,9 @@ apply plugin: 'groovy'
 version = '1.0'
 group = 'com.brooks'
 
+sourceCompatibility = '1.6'
+targetCompatibility = '1.6'
+
 def tomcatLocation = 'C:/apache/apache-tomcat-7.0.16/webapps'
 def appSimpleName = "poker"
 
