@@ -1,9 +1,12 @@
 package com.brooks.poker.server;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import com.brooks.poker.client.push.PushEvent;
 import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.server.model.PendingUser;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -25,6 +28,8 @@ public class DataStoreUtils{
     public static final String PENDING_PLAYER_ENTITY = "player-entity";
     public static final String PLAYER_NAME = "player-name";
     public static final String PLAYER_INDEX = "player-index";
+    
+    private static final Map<String, List<PushEvent>> nextEventMap = new HashMap<String, List<PushEvent>>();
     
     public static long getPendingGameSequenceNumber(){
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -98,7 +103,23 @@ public class DataStoreUtils{
             Entity userEntity = iterable.next();
             keys.add(userEntity.getKey());
         }
-        datastore.delete(keys);
-        
+        datastore.delete(keys);        
     }
+    
+    public static void setNextEvent(String key, PushEvent pushEvent){
+        List<PushEvent> eventList = nextEventMap.get(key);
+        if(eventList == null)
+            eventList = new LinkedList<PushEvent>();
+        eventList.add(pushEvent);
+        nextEventMap.put(key,eventList);
+    }
+    
+    public static PushEvent getNextEvent(String key){
+        List<PushEvent> eventList = nextEventMap.get(key);
+        if(eventList == null || eventList.isEmpty())
+            return null;
+        PushEvent event = eventList.remove(0);
+        return event;
+    }
+    
 }

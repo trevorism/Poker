@@ -2,6 +2,7 @@ package com.brooks.poker.client;
 
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.User;
+import com.brooks.poker.client.push.PushEvent;
 import com.brooks.poker.client.push.UserMessage;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -21,4 +22,5 @@ public interface PokerService extends RemoteService{
 
     public void placeBet(User user, Action action);
 
+    public PushEvent receiveServerPush(String key);
 }

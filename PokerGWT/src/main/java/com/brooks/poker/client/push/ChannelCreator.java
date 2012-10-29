@@ -1,12 +1,9 @@
 package com.brooks.poker.client.push;
 
-import no.eirikb.gwtchannelapi.client.Channel;
-import no.eirikb.gwtchannelapi.client.ChannelListener;
-import no.eirikb.gwtchannelapi.client.Message;
-
 import com.brooks.common.client.callback.Callback;
 import com.brooks.common.client.event.EventBus;
 import com.brooks.poker.client.PokerApplication;
+import com.google.gwt.user.client.Timer;
 
 /**
  * @author Trevor
@@ -18,24 +15,29 @@ public class ChannelCreator{
         PokerApplication.getService().connectToChannel(new Callback<String>(){
             @Override
             public void onSuccess(String result){
-                setChannelToken(result);
+                schedulePoller(result);
             }
         });
     }
 
-    public void setChannelToken(String token){
-        Channel channel = new Channel(token);
-        channel.join();
-        channel.addChannelListener(new ChannelListener(){
-
+    public void schedulePoller(final String token){
+        Timer timer = new Timer(){
             @Override
-            public void onReceive(Message message){
-                if(message instanceof UserMessage){
-                    EventBus.getInstance().fireEvent((UserMessage) message);
-                }
-                if(message instanceof GameStateMessage)
-                    EventBus.getInstance().fireEvent((GameStateMessage) message);
+            public void run(){
+                PokerApplication.getService().receiveServerPush(token, new Callback<PushEvent>(){
+                    @Override
+                    public void onSuccess(PushEvent message){
+                        if(message == null)
+                            return;
+                        if(message instanceof UserMessage){
+                            EventBus.getInstance().fireEvent((UserMessage) message);
+                        }
+                        if(message instanceof GameStateMessage)
+                            EventBus.getInstance().fireEvent((GameStateMessage) message);
+                    }
+                });
             }
-        });
+        };
+        timer.scheduleRepeating(5000);
     }
 }

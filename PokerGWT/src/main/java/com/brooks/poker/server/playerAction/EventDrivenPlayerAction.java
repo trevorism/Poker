@@ -3,13 +3,11 @@ package com.brooks.poker.server.playerAction;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import no.eirikb.gwtchannelapi.server.ChannelServer;
-
 import com.brooks.common.client.event.EventBus;
 import com.brooks.common.client.event.EventHandler;
 import com.brooks.poker.client.model.Action;
-import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.Action.UserAction;
+import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.outcome.BettingOutcome;
@@ -47,8 +45,8 @@ public class EventDrivenPlayerAction implements PlayerAction{
         try{
             GameStateCM clientModel = converter.convert(gameState, player.getName());
             System.out.println("Sending game state for player " + player.getName() + " " + gameState.getId());
-            ChannelServer.send(DataStoreUtils.getChannelId(gameState.getId()), new GameStateMessage(clientModel));
-            
+            DataStoreUtils.setNextEvent(DataStoreUtils.getChannelId(gameState.getId()), new GameStateMessage(clientModel));
+
             outcome = BettingOutcomeFactory.createFoldOutcome();
             semaphore.tryAcquire(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         }

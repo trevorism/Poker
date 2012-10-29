@@ -2,8 +2,6 @@ package com.brooks.poker.server;
 
 import java.util.List;
 
-import no.eirikb.gwtchannelapi.server.ChannelServer;
-
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.server.model.PendingUser;
@@ -26,7 +24,8 @@ public final class SyncUsersWithClient implements Runnable{
         
         for (PendingUser pendingUser : pendingUsers){
             UserMessage message = createUserMessage(pendingUser);
-            ChannelServer.send(channelId, message);
+            DataStoreUtils.setNextEvent(channelId, message);
+
         }
     }
 

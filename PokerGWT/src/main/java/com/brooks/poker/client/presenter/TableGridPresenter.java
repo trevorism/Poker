@@ -100,10 +100,6 @@ public class TableGridPresenter{
         view.addWidget(location.getY(), location.getX(), widget);
     }
 
-    public void setGameToken(String gameToken){
-        creator.setChannelToken(gameToken);
-    }
-
     public void setIndexAsLocal(int index){
         localIndex[index] = true;
     }
