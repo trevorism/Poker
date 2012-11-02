@@ -25,7 +25,6 @@ public final class SyncUsersWithClient implements Runnable{
         for (PendingUser pendingUser : pendingUsers){
             UserMessage message = createUserMessage(pendingUser);
             DataStoreUtils.setNextEvent(channelId, message);
-
         }
     }
 

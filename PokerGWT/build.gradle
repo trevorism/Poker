@@ -36,7 +36,6 @@ dependencies {
     runtime "com.google.gwt:gwt-servlet:2.4.0@jar"
     compile "com.brooks:GwtCommon:1.0@jar"
     compile "com.brooks:Poker:1.0@jar"
-    compile "no.eirikb:gwt-channel-api:0.1@jar"
     compile 'com.google.appengine:appengine-api-1.0-sdk:1.7.2.1@jar'
     testCompile 'junit:junit:4.10'
     groovy 'org.codehaus.groovy:groovy-all:2.0.4'
