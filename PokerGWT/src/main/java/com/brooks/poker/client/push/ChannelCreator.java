@@ -11,7 +11,7 @@ import com.google.gwt.user.client.Timer;
  */
 public class ChannelCreator{
 
-    public ChannelCreator(){
+    public static void connect(){
         PokerApplication.getService().connectToChannel(new Callback<String>(){
             @Override
             public void onSuccess(String result){
@@ -20,7 +20,7 @@ public class ChannelCreator{
         });
     }
 
-    public void schedulePoller(final String token){
+    private static void schedulePoller(final String token){
         Timer timer = new Timer(){
             @Override
             public void run(){
@@ -29,9 +29,6 @@ public class ChannelCreator{
                     public void onSuccess(PushEvent message){
                         if(message == null)
                             return;
-                        if(message instanceof UserMessage){
-                            EventBus.getInstance().fireEvent((UserMessage) message);
-                        }
                         if(message instanceof GameStateMessage)
                             EventBus.getInstance().fireEvent((GameStateMessage) message);
                     }

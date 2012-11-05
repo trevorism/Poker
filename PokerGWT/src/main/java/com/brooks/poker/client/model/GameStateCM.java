@@ -14,7 +14,7 @@ public class GameStateCM implements Serializable{
     private PotState potState;
     private List<CardCM> communityCards;
 
-    private long id;
+    private long id = -1;
     private String actionOnUserName;
     private int minRaiseAmount;
     private boolean started;

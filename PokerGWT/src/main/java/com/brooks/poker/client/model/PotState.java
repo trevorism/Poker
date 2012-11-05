@@ -11,7 +11,7 @@ import java.util.List;
 public class PotState implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    private List<PotCM> pots;
+    private final List<PotCM> pots;
     
     public PotState(){
         pots = new LinkedList<PotCM>();
@@ -27,7 +27,11 @@ public class PotState implements Serializable{
         
         return pots.get(index);
     }
-    
+
+    public List<PotCM> getPots(){
+        return pots;
+    }
+
     public void clear(){
         pots.clear();
     }

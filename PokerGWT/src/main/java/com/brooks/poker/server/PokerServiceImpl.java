@@ -11,7 +11,6 @@ import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.client.push.PushEvent;
-import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.game.data.BlindsAnte;
 import com.brooks.poker.game.data.GamePhase;
 import com.brooks.poker.game.data.GameState;
@@ -19,9 +18,12 @@ import com.brooks.poker.game.states.GameStateFactory;
 import com.brooks.poker.game.states.GameStateHandler;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.server.convert.GameStateCMConverter;
-import com.brooks.poker.server.model.PendingUser;
 import com.brooks.poker.server.playerAction.EventDrivenPlayerAction;
 import com.brooks.poker.server.playerAction.PlayerActionEvent;
+import com.brooks.poker.server.store.GameStateDao;
+import com.brooks.poker.server.store.IndexedString;
+import com.brooks.poker.server.store.PendingPlayerDao;
+import com.brooks.poker.server.store.SequenceNumberDao;
 import com.google.appengine.api.ThreadManager;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -33,31 +35,40 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
 
     private static final long serialVersionUID = 1L;
 
+    private final SequenceNumberDao sequenceNumberDao = new SequenceNumberDao();
+    private final PendingPlayerDao pendingPlayerDao = new PendingPlayerDao();
+    private final GameStateDao gameStateDao = new GameStateDao();
+    
     @Override
     public String connectToChannel(){
-        long id = DataStoreUtils.getPendingGameSequenceNumber();
-        String channelId = DataStoreUtils.getChannelId(id);
+        long id = sequenceNumberDao.getPendingGameSequenceNumber();
+        String channelId = channelName(id);
 
         Thread thread = ThreadManager.createBackgroundThread(new SyncUsersWithClient(channelId));
         thread.start();
         return channelId;
     }
 
+    private String channelName(long id){
+        return "POKER_GAME_"+id;
+    }
+    
     @Override
-    public void addUser(UserMessage userAndIndex) throws PokerException{
-        String username = userAndIndex.getUser().getName();
+    public void addUser(User user) throws PokerException{
+        String username = user.getName();
 
-        List<PendingUser> pendingUsers = DataStoreUtils.queryForPendingPlayers();
+        List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers();
         boolean found = findName(pendingUsers, username);
         if (found)
             throw new PokerException("A player already has joined the game with that name.");
-        DataStoreUtils.addUser(userAndIndex);
-        long id = DataStoreUtils.getPendingGameSequenceNumber();
-        DataStoreUtils.setNextEvent(DataStoreUtils.getChannelId(id), userAndIndex);
+        pendingPlayerDao.addUser(user);
+        
+        //TODO save off a game state to be pushed
+        
     }
 
-    private boolean findName(List<PendingUser> pendingUsers, String name){
-        for (PendingUser pu : pendingUsers){
+    private boolean findName(List<IndexedString> pendingUsers, String name){
+        for (IndexedString pu : pendingUsers){
             if (pu.getName().equals(name))
                 return true;
         }
@@ -66,8 +77,8 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
 
     @Override
     public void startGame() throws PokerException{
-        List<PendingUser> pendingUsers = DataStoreUtils.queryForPendingPlayers();
-        long id = DataStoreUtils.getPendingGameSequenceNumber();
+        List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers();
+        long id = sequenceNumberDao.getPendingGameSequenceNumber();
         final GameState gameState = createGameState(pendingUsers, id);
 
         Thread thread = ThreadManager.createBackgroundThread(new Runnable(){
@@ -78,18 +89,18 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
             }
         });
         thread.start();
-        DataStoreUtils.incrementSequenceNumber();
-        DataStoreUtils.deletePendingUsers();
+        sequenceNumberDao.incrementSequenceNumber();
+        pendingPlayerDao.deleteIndexedStrings();
     }
     
-    private static void playGame(GameState gameState){
+    private void playGame(GameState gameState){
         GameStateFactory factory = new GameStateFactory(gameState);
         GamePhase currentPhase = GamePhase.BEGIN_HAND;
         GameStateCMConverter converter = new GameStateCMConverter();
         while (!currentPhase.equals(GamePhase.END_GAME)){
             if(currentPhase == GamePhase.BEGIN_HAND){
-                GameStateCM clientModel = converter.convert(gameState);
-                DataStoreUtils.setNextEvent(DataStoreUtils.getChannelId(gameState.getId()), new GameStateMessage(clientModel));
+               GameStateCM clientModel = converter.convert(gameState, true);
+               gameStateDao.saveGameState(clientModel);
             }
             
             GameStateHandler handler = factory.getStateHandler(currentPhase);
@@ -98,9 +109,9 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         }
     }
 
-    private GameState createGameState(List<PendingUser> pendingUsers, long id){
+    private GameState createGameState(List<IndexedString> pendingUsers, long id){
         List<Player> players = new LinkedList<Player>();
-        for (PendingUser user : pendingUsers){
+        for (IndexedString user : pendingUsers){
             Player player = new Player(user.getName(), 1000, new EventDrivenPlayerAction(user.getName(), id));
             players.add(player);
         }
@@ -123,7 +134,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     @Override
     public PushEvent receiveServerPush(String key){
         System.out.println("IN server push");
-        return DataStoreUtils.getNextEvent(key);
+        return new GameStateMessage(gameStateDao.retrieveGameState());
     }
 
 }

@@ -12,7 +12,6 @@ import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.ChannelCreator;
 import com.brooks.poker.client.push.GameStateMessage;
-import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.client.util.GridLocation;
 import com.brooks.poker.client.util.GridLocationUtil;
 import com.brooks.poker.client.view.SitDownWidget;
@@ -38,38 +37,19 @@ public class TableGridPresenter{
     private User[] usersInPosition;
     private boolean[] localIndex;
     private Map<GridLocation, IsWidget> gridWidgets;
-    private ChannelCreator creator;
 
     public TableGridPresenter(TableGrid view){
         this.view = view;
         this.usersInPosition = new User[MAX_PLAYERS];
         this.localIndex = new boolean[MAX_PLAYERS];
         this.gridWidgets = new HashMap<GridLocation, IsWidget>();
-        this.creator = new ChannelCreator();
+        ChannelCreator.connect();
 
         initTableGrid();
-        addEventListeners();
+        addEventListener();
     }
 
-    private void addEventListeners(){
-        EventBus.getInstance().registerHandler(new EventHandler<UserMessage>(){
-            @Override
-            public Class<UserMessage> getEventClass(){
-                return UserMessage.class;
-            }
-
-            @Override
-            public void handle(UserMessage event){
-                User user = event.getUser();
-                int index = event.getIndex();
-                usersInPosition[index] = user;
-                GridLocation location = GridLocationUtil.indexToGridLocation(index);
-                InHandHidingCardsWidget inHandWidget = new InHandHidingCardsWidget();
-                addWidgetToView(location, inHandWidget);
-                inHandWidget.applyUser(user);
-            }
-        });
-
+    private void addEventListener(){
         EventBus.getInstance().registerHandler(new EventHandler<GameStateMessage>(){
             @Override
             public Class<GameStateMessage> getEventClass(){

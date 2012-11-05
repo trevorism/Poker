@@ -3,7 +3,6 @@ package com.brooks.poker.client;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.PushEvent;
-import com.brooks.poker.client.push.UserMessage;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -16,7 +15,7 @@ public interface PokerService extends RemoteService{
 
     public String connectToChannel();
     
-    public void addUser(UserMessage userAtTable) throws PokerException;
+    public void addUser(User userAtTable) throws PokerException;
 
     public void startGame() throws PokerException;
 

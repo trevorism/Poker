@@ -3,7 +3,6 @@ package com.brooks.poker.client.presenter;
 import com.brooks.common.client.callback.Callback;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.model.User;
-import com.brooks.poker.client.push.UserMessage;
 import com.brooks.poker.client.view.SitDownWidget;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -31,7 +30,7 @@ public class SitDownPresenter{
             public void onClick(ClickEvent event){
                 String name = sitDownWidget.getName();
                 User user = createUser(name);
-                PokerApplication.getService().addUser(new UserMessage(user, index), new Callback<Void>(){
+                PokerApplication.getService().addUser(user, new Callback<Void>(){
 
                     @Override
                     public void onSuccess(Void result){
@@ -48,6 +47,7 @@ public class SitDownPresenter{
         user.setName(name);
         user.setChips(0);
         user.setPendingBet(0);
+        user.setIndex(index);
         return user;
     }
 }

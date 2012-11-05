@@ -18,6 +18,7 @@ public class User implements Serializable{
     private CardCM card2;
     private int pendingBet;
     private boolean inHand;
+    private int index;
 
     public User(){
         clearCards();
@@ -74,6 +75,14 @@ public class User implements Serializable{
 
     public void setInHand(boolean inHand){
         this.inHand = inHand;
+    }
+    
+    public int getIndex(){
+        return index;
+    }
+
+    public void setIndex(int index){
+        this.index = index;
     }
 
     public boolean isNull(){
