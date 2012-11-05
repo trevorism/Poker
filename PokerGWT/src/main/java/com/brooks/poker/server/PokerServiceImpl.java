@@ -63,7 +63,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
             throw new PokerException("A player already has joined the game with that name.");
         pendingPlayerDao.addUser(user);
         
-        //TODO save off a game state to be pushed
+        gameStateDao.savePendingGame(pendingPlayerDao.queryForPendingPlayers(), sequenceNumberDao.getPendingGameSequenceNumber());
         
     }
 

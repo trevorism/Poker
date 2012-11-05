@@ -43,7 +43,7 @@ public class TableGridPresenter{
         this.usersInPosition = new User[MAX_PLAYERS];
         this.localIndex = new boolean[MAX_PLAYERS];
         this.gridWidgets = new HashMap<GridLocation, IsWidget>();
-        ChannelCreator.connect();
+        new ChannelCreator().connect();
 
         initTableGrid();
         addEventListener();

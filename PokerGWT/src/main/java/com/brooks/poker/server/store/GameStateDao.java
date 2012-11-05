@@ -1,6 +1,12 @@
 package com.brooks.poker.server.store;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import com.brooks.poker.client.model.CardCM;
 import com.brooks.poker.client.model.GameStateCM;
+import com.brooks.poker.client.model.PotState;
+import com.brooks.poker.client.model.User;
 import com.brooks.poker.server.convert.GameStateCMConverter;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -29,10 +35,31 @@ public class GameStateDao{
         PreparedQuery prepared = datastore.prepare(query);
 
         Entity entity = prepared.asSingleEntity();
-        if(entity == null)
-            return new GameStateCM();
-        
+        if(entity == null){
+            GameStateCM gameState = new GameStateCM();
+            gameState.setAllUsers(new LinkedList<User>());
+            gameState.setCommunityCards(new LinkedList<CardCM>());
+            gameState.setPotState(new PotState());
+            return gameState;
+        }
         return converter.convert(entity);
+    }
+
+    public void savePendingGame(List<IndexedString> queryForPendingPlayers, long id){
+        GameStateCM gameState = new GameStateCM();
+        
+        List<User> users = new LinkedList<User>();
+        for(IndexedString is : queryForPendingPlayers){
+            User user = new User();
+            user.setName(is.getName());
+            user.setIndex(is.getIndex());
+            user.setChips(1000);
+            users.add(user);
+        }
+        gameState.setAllUsers(users);
+        gameState.setId(id);
+        gameState.setStarted(false);
+        saveGameState(gameState);
     }
 
 }

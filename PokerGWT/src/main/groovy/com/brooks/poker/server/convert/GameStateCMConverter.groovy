@@ -64,6 +64,8 @@ class GameStateCMConverter{
     }
 
     private List<EmbeddedEntity> createEmbeddedPot(PotState potState){
+        if(potState == null)
+        potState = new PotState()
         potState.getPots().collect {
             EmbeddedEntity ee = new EmbeddedEntity()
             ee.setProperty("pot", it.pot)
