@@ -7,11 +7,11 @@ import java.util.Map;
 import com.brooks.common.client.event.EventBus;
 import com.brooks.common.client.event.EventHandler;
 import com.brooks.poker.client.PokerApplication;
-import com.brooks.poker.client.event.UpdateActionsEvent;
 import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
 import com.brooks.poker.client.push.ChannelCreator;
 import com.brooks.poker.client.push.GameStateMessage;
+import com.brooks.poker.client.push.UpdateActionsEvent;
 import com.brooks.poker.client.util.GridLocation;
 import com.brooks.poker.client.util.GridLocationUtil;
 import com.brooks.poker.client.view.SitDownWidget;
@@ -80,8 +80,14 @@ public class TableGridPresenter{
         view.addWidget(location.getY(), location.getX(), widget);
     }
 
-    public void setIndexAsLocal(int index){
+    public void addUser(User user){
+        int index = user.getIndex();
+        usersInPosition[index] = user;
         localIndex[index] = true;
+        PlayerShowingWidget widget = PlayerShowingWidgetFactory.create(user, true);
+        GridLocation location = GridLocationUtil.indexToGridLocation(index);
+        addWidgetToView(location, widget);
+        widget.applyUser(user);
     }
 
     private void update(GameStateCM gameState){
@@ -97,7 +103,6 @@ public class TableGridPresenter{
             int index = getUserIndex(user.getName());
             if(index == -1)
             {
-                Window.alert("Error finding user " + user.getName());
                 continue;
             }
             boolean local = localIndex[index];
@@ -130,14 +135,13 @@ public class TableGridPresenter{
 
     private void updateActions(GameStateCM gameState){
         int minBet = gameState.getMinRaiseAmount();
-        boolean started = gameState.isStarted();
         int userIndex = getUserIndex(gameState.getActionOnUserName());
         
         User user = User.NULL_USER;
         if(userIndex != -1 && localIndex[userIndex])
             user = usersInPosition[userIndex];
 
-        EventBus.getInstance().fireEvent(new UpdateActionsEvent(user, minBet, started));
+        EventBus.getInstance().fireEvent(new UpdateActionsEvent(user, minBet, id != -1));
     }
 
     private int getUserIndex(String actionOnUserName){

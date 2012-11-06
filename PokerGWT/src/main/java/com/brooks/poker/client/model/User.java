@@ -22,6 +22,7 @@ public class User implements Serializable{
 
     public User(){
         clearCards();
+        this.index = -1;
     }
 
     public void clearCards(){

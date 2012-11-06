@@ -38,21 +38,19 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     private final SequenceNumberDao sequenceNumberDao = new SequenceNumberDao();
     private final PendingPlayerDao pendingPlayerDao = new PendingPlayerDao();
     private final GameStateDao gameStateDao = new GameStateDao();
-    
+
     @Override
     public String connectToChannel(){
         long id = sequenceNumberDao.getPendingGameSequenceNumber();
-        String channelId = channelName(id);
-
-        Thread thread = ThreadManager.createBackgroundThread(new SyncUsersWithClient(channelId));
-        thread.start();
-        return channelId;
+        List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers();        
+        gameStateDao.savePendingGame(pendingUsers, id);
+        return channelName(id);
     }
 
     private String channelName(long id){
-        return "POKER_GAME_"+id;
+        return "POKER_GAME_" + id;
     }
-    
+
     @Override
     public void addUser(User user) throws PokerException{
         String username = user.getName();
@@ -62,9 +60,9 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         if (found)
             throw new PokerException("A player already has joined the game with that name.");
         pendingPlayerDao.addUser(user);
-        
-        gameStateDao.savePendingGame(pendingPlayerDao.queryForPendingPlayers(), sequenceNumberDao.getPendingGameSequenceNumber());
-        
+
+        gameStateDao.savePendingGame(pendingPlayerDao.queryForPendingPlayers(), -1);
+
     }
 
     private boolean findName(List<IndexedString> pendingUsers, String name){
@@ -92,17 +90,17 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         sequenceNumberDao.incrementSequenceNumber();
         pendingPlayerDao.deleteIndexedStrings();
     }
-    
+
     private void playGame(GameState gameState){
         GameStateFactory factory = new GameStateFactory(gameState);
         GamePhase currentPhase = GamePhase.BEGIN_HAND;
         GameStateCMConverter converter = new GameStateCMConverter();
         while (!currentPhase.equals(GamePhase.END_GAME)){
-            if(currentPhase == GamePhase.BEGIN_HAND){
-               GameStateCM clientModel = converter.convert(gameState, true);
-               gameStateDao.saveGameState(clientModel);
+            if (currentPhase == GamePhase.BEGIN_HAND){
+                GameStateCM clientModel = converter.convert(gameState);
+                gameStateDao.saveGameState(clientModel);
             }
-            
+
             GameStateHandler handler = factory.getStateHandler(currentPhase);
             handler.handleState();
             currentPhase = handler.getNextPhase();

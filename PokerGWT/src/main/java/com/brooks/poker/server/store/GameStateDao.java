@@ -58,7 +58,6 @@ public class GameStateDao{
         }
         gameState.setAllUsers(users);
         gameState.setId(id);
-        gameState.setStarted(false);
         saveGameState(gameState);
     }
 

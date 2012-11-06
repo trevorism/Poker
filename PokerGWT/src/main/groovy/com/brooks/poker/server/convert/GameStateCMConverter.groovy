@@ -17,7 +17,7 @@ class GameStateCMConverter{
 
     public static final String GAME_STATE_ENTITY = "gameState-entity";
 
-    public GameStateCM convert(GameState gameState, boolean started, String userNamesTurn = ""){
+    public GameStateCM convert(GameState gameState, String userNamesTurn = ""){
         GameStateCM clientModel = new GameStateCM()
         UserPlayerConverter userPlayerConverter = new UserPlayerConverter()
         PotCMConverter potCMConverter = new PotCMConverter()
@@ -27,7 +27,6 @@ class GameStateCMConverter{
         clientModel.potState = potCMConverter.convert(gameState.pots)
         clientModel.communityCards = cardCMConverter.convert(gameState.communityCards.getCards())
         clientModel.minRaiseAmount = gameState.getMinBet()
-        clientModel.started = started
         clientModel.actionOnUserName = userNamesTurn
         clientModel.id = gameState.getId();
 
@@ -41,7 +40,6 @@ class GameStateCMConverter{
         entity.setProperty("id", clientModel.id)
         entity.setProperty("actionOnUserName", clientModel.actionOnUserName)
         entity.setProperty("minRaiseAmount", clientModel.minRaiseAmount)
-        entity.setProperty("started", clientModel.started)
         entity.setProperty("allUsers", createEmbeddedUsers(clientModel.allUsers))
         entity.setProperty("potState", createEmbeddedPot(clientModel.potState))
         entity.setProperty("communityCards", createEmbeddedCards(clientModel.communityCards))
@@ -65,7 +63,7 @@ class GameStateCMConverter{
 
     private List<EmbeddedEntity> createEmbeddedPot(PotState potState){
         if(potState == null)
-        potState = new PotState()
+            potState = new PotState()
         potState.getPots().collect {
             EmbeddedEntity ee = new EmbeddedEntity()
             ee.setProperty("pot", it.pot)
@@ -91,7 +89,6 @@ class GameStateCMConverter{
         gameState.id = entity.getProperty("id")
         gameState.actionOnUserName = entity.getProperty("actionOnUserName")
         gameState.minRaiseAmount = entity.getProperty("minRaiseAmount")
-        gameState.started = entity.getProperty("started")
         gameState.potState = createPot(entity.getProperty("potState"))
         gameState.communityCards = createCards(entity.getProperty("communityCards"))
         gameState.allUsers = createUsers(entity.getProperty("allUsers"))
@@ -109,7 +106,7 @@ class GameStateCMConverter{
             user.card1 = createSingleCard(it.getProperty("user-card1"))
             user.card2 = createSingleCard(it.getProperty("user-card2"))
 
-            return user
+            return user 
         }
     }
 
@@ -122,12 +119,13 @@ class GameStateCMConverter{
             PotCM pot = new PotCM()
             pot.pot = ee.getProperty("pot")
             pot.amountOwed = ee.getProperty("amountOwed")
-            return pot
+            potState.addPot(pot)
         }
+        return potState
     }
 
     private List<CardCM> createCards(List<EmbeddedEntity> cards){
-        cards.collect { createEmbeddedEntityFromCard(it) }
+        cards.collect { createSingleCard(it) }
     }
 
     private CardCM createSingleCard(EmbeddedEntity it) {

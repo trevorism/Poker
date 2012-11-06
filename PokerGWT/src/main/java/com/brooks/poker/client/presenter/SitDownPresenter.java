@@ -29,12 +29,11 @@ public class SitDownPresenter{
             @Override
             public void onClick(ClickEvent event){
                 String name = sitDownWidget.getName();
-                User user = createUser(name);
+                final User user = createUser(name);
                 PokerApplication.getService().addUser(user, new Callback<Void>(){
-
                     @Override
                     public void onSuccess(Void result){
-                        tablePresenter.setIndexAsLocal(index);
+                        tablePresenter.addUser(user);
                     }
                 
                 });

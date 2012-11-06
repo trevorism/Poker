@@ -14,6 +14,7 @@ import com.brooks.poker.outcome.BettingOutcomeFactory;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.player.action.PlayerAction;
 import com.brooks.poker.server.convert.GameStateCMConverter;
+import com.brooks.poker.server.store.GameStateDao;
 
 /**
  * @author Trevor
@@ -41,9 +42,9 @@ public class EventDrivenPlayerAction implements PlayerAction{
     @Override
     public BettingOutcome getBettingOutcome(GameState gameState, Player player){
         try{
-            GameStateCM clientModel = converter.convert(gameState, true, player.getName());
+            GameStateCM clientModel = converter.convert(gameState, player.getName());
             System.out.println("Sending game state for player " + player.getName() + " " + gameState.getId());
-            //DataStoreUtils.setNextEvent(DataStoreUtils.getChannelId(gameState.getId()), new GameStateMessage(clientModel));
+            new GameStateDao().saveGameState(clientModel);
 
             outcome = BettingOutcomeFactory.createFoldOutcome();
             semaphore.tryAcquire(TIMEOUT_SECONDS, TimeUnit.SECONDS);

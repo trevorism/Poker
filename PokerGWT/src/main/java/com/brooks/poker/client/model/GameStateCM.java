@@ -17,7 +17,6 @@ public class GameStateCM implements Serializable{
     private long id = -1;
     private String actionOnUserName;
     private int minRaiseAmount;
-    private boolean started;
     
     public List<User> getAllUsers(){
         return allUsers;
@@ -57,14 +56,6 @@ public class GameStateCM implements Serializable{
 
     public void setMinRaiseAmount(int minRaiseAmount){
         this.minRaiseAmount = minRaiseAmount;
-    }
-
-    public boolean isStarted(){
-        return started;
-    }
-
-    public void setStarted(boolean started){
-        this.started = started;
     }
 
     public long getId(){

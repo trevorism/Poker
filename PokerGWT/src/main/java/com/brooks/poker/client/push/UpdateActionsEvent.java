@@ -1,4 +1,4 @@
-package com.brooks.poker.client.event;
+package com.brooks.poker.client.push;
 
 import com.brooks.common.client.event.Event;
 import com.brooks.poker.client.model.User;
