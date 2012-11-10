@@ -9,6 +9,7 @@ import com.brooks.poker.client.PokerService;
 import com.brooks.poker.client.model.Action;
 import com.brooks.poker.client.model.GameStateCM;
 import com.brooks.poker.client.model.User;
+import com.brooks.poker.client.push.ChannelKey;
 import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.client.push.PushEvent;
 import com.brooks.poker.game.data.BlindsAnte;
@@ -40,15 +41,15 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     private final GameStateDao gameStateDao = new GameStateDao();
 
     @Override
-    public String connectToChannel(){
+    public ChannelKey connectToChannel(String clientKey){
         long id = sequenceNumberDao.getPendingGameSequenceNumber();
         List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers();        
         gameStateDao.savePendingGame(pendingUsers, id);
-        return channelName(id);
+        return createChannelKey(clientKey, id);
     }
 
-    private String channelName(long id){
-        return "POKER_GAME_" + id;
+    private ChannelKey createChannelKey(String clientKey, long id){
+        return new ChannelKey(clientKey, id);
     }
 
     @Override
@@ -130,7 +131,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     }
 
     @Override
-    public PushEvent receiveServerPush(String key){
+    public PushEvent receiveServerPush(ChannelKey key){
         System.out.println("IN server push");
         return new GameStateMessage(gameStateDao.retrieveGameState());
     }

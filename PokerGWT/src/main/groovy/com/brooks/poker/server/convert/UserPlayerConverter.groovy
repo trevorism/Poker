@@ -23,7 +23,7 @@ public class UserPlayerConverter{
 		List<CardCM> cards = converter.convert(p.getHand().getCards())
         
         boolean inHand = true;
-        if(gameState)
+        if(gameState && gameState.id != -1)
             inHand = !(gameState.getTable().isInactive(p))
         
 		User user = new User(name: p.name, chips: p.chipCount, pendingBet: p.pendingBet, inHand:inHand)

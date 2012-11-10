@@ -3,7 +3,7 @@ package com.brooks.poker.client.widget.player;
 import com.brooks.common.client.util.SizeUtils;
 import com.brooks.poker.client.model.CardCM;
 import com.brooks.poker.client.model.PotState;
-import com.brooks.poker.client.view.TableGrid;
+import com.brooks.poker.client.view.PokerGameView;
 import com.brooks.poker.client.widget.CardWidget;
 import com.brooks.poker.client.widget.KeyValueWidget;
 import com.google.gwt.user.client.ui.Composite;
@@ -52,7 +52,7 @@ public class PotWidget extends Composite{
 
     private void styleWidget(){
         mainPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-        mainPanel.setSize(SizeUtils.toPx(TableGrid.GRID_WIDTH), SizeUtils.toPx(TableGrid.GRID_HEIGHT));
+        mainPanel.setSize(SizeUtils.toPx(PokerGameView.GRID_WIDTH), SizeUtils.toPx(PokerGameView.GRID_HEIGHT));
     }
 
     public void setCard(int index, CardCM card){

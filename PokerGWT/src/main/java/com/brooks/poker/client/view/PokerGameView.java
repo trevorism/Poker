@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.IsWidget;
  * @author Trevor
  * 
  */
-public class TableGrid extends Composite{
+public class PokerGameView extends Composite{
 
     public static final int GRID_WIDTH = 500;
     public static final int GRID_HEIGHT = 200;
@@ -18,7 +18,7 @@ public class TableGrid extends Composite{
     private Grid grid;
     
     
-    public TableGrid(){
+    public PokerGameView(){
         grid = new Grid(GRID_SIZE, GRID_SIZE);
         initWidget(grid);
         styleGrid();

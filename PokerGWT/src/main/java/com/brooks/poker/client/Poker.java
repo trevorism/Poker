@@ -2,9 +2,9 @@ package com.brooks.poker.client;
 
 import com.brooks.common.client.BaseEntryPoint;
 import com.brooks.poker.client.presenter.ActionBarPresenter;
-import com.brooks.poker.client.presenter.TableGridPresenter;
+import com.brooks.poker.client.presenter.PokerGamePresenter;
 import com.brooks.poker.client.view.ActionBar;
-import com.brooks.poker.client.view.TableGrid;
+import com.brooks.poker.client.view.PokerGameView;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -16,8 +16,8 @@ public class Poker extends BaseEntryPoint{
 
     @Override
     public IsWidget createMainView(){
-        TableGrid grid = new TableGrid();
-        TableGridPresenter presenter = new TableGridPresenter(grid);
+        PokerGameView grid = new PokerGameView();
+        PokerGamePresenter presenter = new PokerGamePresenter(grid);
 
         ActionBar actionBar = new ActionBar();
         new ActionBarPresenter(actionBar, presenter);

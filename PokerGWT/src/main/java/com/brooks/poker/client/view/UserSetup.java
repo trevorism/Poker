@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Trevor
  * 
  */
-public class SitDownWidget extends Composite{
+public class UserSetup extends Composite{
 
     private VerticalPanel mainPanel;
     private Label enterNameLabel;
@@ -21,7 +21,7 @@ public class SitDownWidget extends Composite{
     private HorizontalPanel buttonBar;
     private Button submitButton;
 
-    public SitDownWidget(){
+    public UserSetup(){
         mainPanel = new VerticalPanel();
         enterNameLabel = new Label("Enter Name");
         nameBox = new TextBox();
@@ -43,7 +43,7 @@ public class SitDownWidget extends Composite{
 
     private void styleWidget(){
         mainPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-        mainPanel.setSize(SizeUtils.toPx(TableGrid.GRID_WIDTH), SizeUtils.toPx(TableGrid.GRID_HEIGHT));
+        mainPanel.setSize(SizeUtils.toPx(PokerGameView.GRID_WIDTH), SizeUtils.toPx(PokerGameView.GRID_HEIGHT));
     }
 
     private void addButonsToButtonBar(){

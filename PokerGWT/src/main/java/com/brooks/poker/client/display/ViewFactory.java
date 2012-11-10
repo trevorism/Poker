@@ -1,8 +1,8 @@
 package com.brooks.poker.client.display;
 
-import com.brooks.poker.client.presenter.SitDownPresenter;
-import com.brooks.poker.client.presenter.TableGridPresenter;
-import com.brooks.poker.client.view.SitDownWidget;
+import com.brooks.poker.client.presenter.UserSetupPresenter;
+import com.brooks.poker.client.presenter.PokerGamePresenter;
+import com.brooks.poker.client.view.UserSetup;
 
 /**
  * @author Trevor
@@ -10,9 +10,9 @@ import com.brooks.poker.client.view.SitDownWidget;
  */
 public class ViewFactory{
 
-    public SitDownWidget createWidget(TableGridPresenter presenter, int index){
-        SitDownWidget sitDownWidget = new SitDownWidget();
-        new SitDownPresenter(sitDownWidget, presenter, index);
+    public UserSetup createWidget(PokerGamePresenter presenter, int index){
+        UserSetup sitDownWidget = new UserSetup();
+        new UserSetupPresenter(sitDownWidget, presenter, index);
         return sitDownWidget;        
     }
 }

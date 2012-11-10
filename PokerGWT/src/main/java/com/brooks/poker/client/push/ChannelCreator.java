@@ -12,15 +12,15 @@ import com.google.gwt.user.client.Timer;
 public class ChannelCreator{
 
     public void connect(){
-        PokerApplication.getService().connectToChannel(new Callback<String>(){
+        PokerApplication.getService().connectToChannel(UniqueIdGenerator.uuid(), new Callback<ChannelKey>(){
             @Override
-            public void onSuccess(String result){
+            public void onSuccess(ChannelKey result){
                 schedulePoller(result);
             }
         });
     }
 
-    private void schedulePoller(final String token){
+    private void schedulePoller(final ChannelKey token){
         Timer timer = new Timer(){
             @Override
             public void run(){

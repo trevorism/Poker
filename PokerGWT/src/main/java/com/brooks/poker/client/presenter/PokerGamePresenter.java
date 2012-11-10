@@ -14,31 +14,29 @@ import com.brooks.poker.client.push.GameStateMessage;
 import com.brooks.poker.client.push.UpdateActionsEvent;
 import com.brooks.poker.client.util.GridLocation;
 import com.brooks.poker.client.util.GridLocationUtil;
-import com.brooks.poker.client.view.SitDownWidget;
-import com.brooks.poker.client.view.TableGrid;
+import com.brooks.poker.client.view.UserSetup;
+import com.brooks.poker.client.view.PokerGameView;
 import com.brooks.poker.client.widget.player.BlankWidget;
-import com.brooks.poker.client.widget.player.InHandHidingCardsWidget;
 import com.brooks.poker.client.widget.player.PlayerShowingWidget;
 import com.brooks.poker.client.widget.player.PlayerShowingWidgetFactory;
 import com.brooks.poker.client.widget.player.PotWidget;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * @author Trevor
  * 
  */
-public class TableGridPresenter{
+public class PokerGamePresenter{
 
     private static final int MAX_PLAYERS = 8;
 
     private long id;
-    private TableGrid view;
+    private PokerGameView view;
     private User[] usersInPosition;
     private boolean[] localIndex;
     private Map<GridLocation, IsWidget> gridWidgets;
 
-    public TableGridPresenter(TableGrid view){
+    public PokerGamePresenter(PokerGameView view){
         this.view = view;
         this.usersInPosition = new User[MAX_PLAYERS];
         this.localIndex = new boolean[MAX_PLAYERS];
@@ -67,7 +65,7 @@ public class TableGridPresenter{
     private void initTableGrid(){
         for (int i = 0; i < MAX_PLAYERS; i++){
             GridLocation location = GridLocationUtil.indexToGridLocation(i);
-            SitDownWidget widget = PokerApplication.getViewFactory().createWidget(this, i);
+            UserSetup widget = PokerApplication.getViewFactory().createWidget(this, i);
             addWidgetToView(location, widget);
         }
         PotWidget potWidget = new PotWidget();

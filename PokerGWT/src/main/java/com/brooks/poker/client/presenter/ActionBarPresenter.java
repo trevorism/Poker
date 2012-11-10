@@ -18,9 +18,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 public class ActionBarPresenter{
     
     private ActionBar view;
-    private TableGridPresenter presenter;
+    private PokerGamePresenter presenter;
     
-    public ActionBarPresenter(ActionBar view, TableGridPresenter presenter){
+    public ActionBarPresenter(ActionBar view, PokerGamePresenter presenter){
         this.view = view;
         this.presenter = presenter;
         addClickHandlers();

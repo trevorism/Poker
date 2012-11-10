@@ -3,7 +3,7 @@ package com.brooks.poker.client.presenter;
 import com.brooks.common.client.callback.Callback;
 import com.brooks.poker.client.PokerApplication;
 import com.brooks.poker.client.model.User;
-import com.brooks.poker.client.view.SitDownWidget;
+import com.brooks.poker.client.view.UserSetup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
@@ -11,13 +11,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
  * @author Trevor
  * 
  */
-public class SitDownPresenter{
+public class UserSetupPresenter{
 
-    private final SitDownWidget sitDownWidget;
-    private final TableGridPresenter tablePresenter;
+    private final UserSetup sitDownWidget;
+    private final PokerGamePresenter tablePresenter;
     private final int index;
 
-    public SitDownPresenter(SitDownWidget widget, TableGridPresenter tablePresenter, int index){
+    public UserSetupPresenter(UserSetup widget, PokerGamePresenter tablePresenter, int index){
         this.sitDownWidget = widget;
         this.tablePresenter = tablePresenter;
         this.index = index;
