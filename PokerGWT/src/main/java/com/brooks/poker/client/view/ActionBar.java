@@ -35,6 +35,7 @@ public class ActionBar extends Composite{
         this.call = new Button("Call");
         this.raise = new Button("Raise");
         this.howMuch = new HowMuchDialog();
+        this.user = User.NULL_USER;
         
         buildWidget();
         
@@ -44,6 +45,7 @@ public class ActionBar extends Composite{
         mainPanel.add(promptLabel);
         mainPanel.add(actionBar);
         initWidget(mainPanel);
+        mainPanel.setSpacing(8);
     }
     
     public void setPrompt(String text){
@@ -51,7 +53,7 @@ public class ActionBar extends Composite{
     }
     
     public void startGame(){
-        this.user = new User();
+        this.user = User.NULL_USER;
         actionBar.clear();
         promptLabel.setText("");
         actionBar.add(startGame);

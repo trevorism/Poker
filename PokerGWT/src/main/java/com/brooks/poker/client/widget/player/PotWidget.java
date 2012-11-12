@@ -60,6 +60,8 @@ public class PotWidget extends Composite{
     }
     
     public void applyPotState(PotState state){
+        if(state.getPots().size() == 0)
+            return;
         potLabel.setValue(state.getPot(0).getPot());
         amountOwedLabel.setValue(state.getPot(0).getAmountOwed());
     }

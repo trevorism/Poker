@@ -5,12 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.brooks.poker.client.model.User;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 /**
  * @author Trevor
@@ -20,12 +18,14 @@ public class PendingPlayerDao{
     private static final String PENDING_PLAYER_ENTITY = "player-entity";
     private static final String PLAYER_NAME = "player-name";
     private static final String PLAYER_INDEX = "player-index";
+    private static final String GAME_ID = "game-id";
 
-    public List<IndexedString> queryForPendingPlayers(){
+    public List<IndexedString> queryForPendingPlayers(long gameId){
         List<IndexedString> pendingUserList = new LinkedList<IndexedString>();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-        Query query = new Query(PENDING_PLAYER_ENTITY);
+        Filter filter = new FilterPredicate(GAME_ID, FilterOperator.EQUAL, gameId);
+        Query query = new Query(PENDING_PLAYER_ENTITY).setFilter(filter);
         PreparedQuery prepared = datastore.prepare(query);
         
         Iterator<Entity> iterable = prepared.asIterator();
@@ -41,20 +41,22 @@ public class PendingPlayerDao{
     }
     
 
-    public void addUser(User user){
+    public void addUser(User user, long gameId){
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
         Entity entity = new Entity(PENDING_PLAYER_ENTITY);
+        entity.setProperty(GAME_ID, gameId);
         entity.setProperty(PLAYER_NAME, user.getName());
         entity.setProperty(PLAYER_INDEX, user.getIndex());
         
         datastore.put(entity);
     }
 
-    public void deleteIndexedStrings(){
+    public void deleteIndexedStrings(long gameId){
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-        Query query = new Query(PENDING_PLAYER_ENTITY);
+        Filter filter = new FilterPredicate(GAME_ID, FilterOperator.EQUAL, gameId);
+        Query query = new Query(PENDING_PLAYER_ENTITY).setFilter(filter);
         PreparedQuery prepared = datastore.prepare(query);
 
         List<Key> keys = new LinkedList<Key>();

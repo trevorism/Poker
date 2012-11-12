@@ -43,7 +43,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     @Override
     public ChannelKey connectToChannel(String clientKey){
         long id = sequenceNumberDao.getPendingGameSequenceNumber();
-        List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers();        
+        List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers(id);        
         gameStateDao.savePendingGame(pendingUsers, id);
         return createChannelKey(clientKey, id);
     }
@@ -55,14 +55,15 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
     @Override
     public void addUser(User user) throws PokerException{
         String username = user.getName();
+        long id = sequenceNumberDao.getPendingGameSequenceNumber();
 
-        List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers();
+        List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers(id);
         boolean found = findName(pendingUsers, username);
         if (found)
             throw new PokerException("A player already has joined the game with that name.");
-        pendingPlayerDao.addUser(user);
+        pendingPlayerDao.addUser(user, id);
 
-        gameStateDao.savePendingGame(pendingPlayerDao.queryForPendingPlayers(), -1);
+        gameStateDao.savePendingGame(pendingPlayerDao.queryForPendingPlayers(id), -1);
 
     }
 
@@ -76,8 +77,8 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
 
     @Override
     public void startGame() throws PokerException{
-        List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers();
         long id = sequenceNumberDao.getPendingGameSequenceNumber();
+        List<IndexedString> pendingUsers = pendingPlayerDao.queryForPendingPlayers(id);
         final GameState gameState = createGameState(pendingUsers, id);
 
         Thread thread = ThreadManager.createBackgroundThread(new Runnable(){
@@ -89,7 +90,7 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
         });
         thread.start();
         sequenceNumberDao.incrementSequenceNumber();
-        pendingPlayerDao.deleteIndexedStrings();
+        pendingPlayerDao.deleteIndexedStrings(id);
     }
 
     private void playGame(GameState gameState){
@@ -132,7 +133,6 @@ public class PokerServiceImpl extends RemoteServiceServlet implements PokerServi
 
     @Override
     public PushEvent receiveServerPush(ChannelKey key){
-        System.out.println("IN server push");
         return new GameStateMessage(gameStateDao.retrieveGameState());
     }
 

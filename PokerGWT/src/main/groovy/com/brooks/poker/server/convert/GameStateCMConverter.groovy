@@ -1,10 +1,6 @@
 package com.brooks.poker.server.convert
 
-import com.brooks.poker.client.model.CardCM
-import com.brooks.poker.client.model.GameStateCM
-import com.brooks.poker.client.model.PotCM
-import com.brooks.poker.client.model.PotState
-import com.brooks.poker.client.model.User
+import com.brooks.poker.client.model.*
 import com.brooks.poker.game.data.GameState
 import com.google.appengine.api.datastore.EmbeddedEntity
 import com.google.appengine.api.datastore.Entity
@@ -112,9 +108,10 @@ class GameStateCMConverter{
 
     private PotState createPot(List<EmbeddedEntity> potEntity){
         PotState potState = new PotState()
-        if(!potEntity)
+        if(!potEntity){
+            potState.addPot(new PotCM());
             return potState
-
+        }
         potEntity.each { EmbeddedEntity ee ->
             PotCM pot = new PotCM()
             pot.pot = ee.getProperty("pot")

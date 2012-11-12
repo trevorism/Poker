@@ -7,8 +7,8 @@ import java.io.Serializable;
  *
  */
 public class PotCM implements Serializable{
+   
     private static final long serialVersionUID = 1L;
-    
     private int pot;
     private int amountOwed;
     

@@ -43,7 +43,6 @@ public class EventDrivenPlayerAction implements PlayerAction{
     public BettingOutcome getBettingOutcome(GameState gameState, Player player){
         try{
             GameStateCM clientModel = converter.convert(gameState, player.getName());
-            System.out.println("Sending game state for player " + player.getName() + " " + gameState.getId());
             new GameStateDao().saveGameState(clientModel);
 
             outcome = BettingOutcomeFactory.createFoldOutcome();
@@ -64,13 +63,11 @@ public class EventDrivenPlayerAction implements PlayerAction{
 
         @Override
         public void handle(PlayerActionEvent event){
-            System.out.println("Player " + playerName + " event fired " + event.getUser().getName());
             if (invalidEvent(event)){
                 return;
             }
             
             Action action = event.getAction();
-            System.out.println("Action class is " + action.getAction());
             if (action.getAction() == UserAction.FOLD)
                 outcome = BettingOutcomeFactory.createFoldOutcome();
             if (action.getAction() == UserAction.CALL)
@@ -78,7 +75,6 @@ public class EventDrivenPlayerAction implements PlayerAction{
             if (action.getAction() == UserAction.RAISE)
                 outcome = BettingOutcomeFactory.createRaiseOutcome(action.getBetAmount());
 
-            System.out.println("outcome is " + outcome.getClass().getName());
             semaphore.release();
         }
 

@@ -3,7 +3,9 @@ package com.brooks.poker.client.push;
 import com.brooks.common.client.callback.Callback;
 import com.brooks.common.client.event.EventBus;
 import com.brooks.poker.client.PokerApplication;
+import com.brooks.poker.client.model.PotState;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Trevor
@@ -29,8 +31,9 @@ public class ChannelCreator{
                     public void onSuccess(PushEvent message){
                         if(message == null)
                             return;
-                        if(message instanceof GameStateMessage)
+                        if(message instanceof GameStateMessage){
                             EventBus.getInstance().fireEvent((GameStateMessage) message);
+                        }
                     }
                 });
             }

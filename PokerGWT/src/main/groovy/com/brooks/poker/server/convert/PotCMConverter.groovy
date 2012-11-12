@@ -12,6 +12,8 @@ class PotCMConverter{
         pots.getPots().each {
             potState.addPot(convertPot(it))
         }
+        if(pots.getPots().size() == 0)
+            potState.addPot(new PotCM())
         return potState
     }
     

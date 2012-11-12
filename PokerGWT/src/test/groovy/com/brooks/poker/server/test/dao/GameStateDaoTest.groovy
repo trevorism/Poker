@@ -4,6 +4,7 @@ import com.brooks.poker.client.model.GameStateCM
 import com.brooks.poker.client.model.User
 import com.brooks.poker.game.data.BlindsAnte
 import com.brooks.poker.game.data.GameState
+import com.brooks.poker.game.data.pot.Pot
 import com.brooks.poker.player.Player
 import com.brooks.poker.player.action.NullPlayerAction
 import com.brooks.poker.server.convert.GameStateCMConverter
@@ -55,10 +56,10 @@ public class GameStateDaoTest{
     public void testCreateGame(){
         User user = new User(name:"Trevor", index:3)
         PendingPlayerDao ppd = new PendingPlayerDao()
-        List<IndexedString> pendingUsers = ppd.queryForPendingPlayers()
-        ppd.addUser(user)
+        List<IndexedString> pendingUsers = ppd.queryForPendingPlayers(0)
+        ppd.addUser(user, 0)
         
-        List pendingPlayers = ppd.queryForPendingPlayers();
+        List pendingPlayers = ppd.queryForPendingPlayers(0);
         assert pendingPlayers
         assert pendingPlayers.size() == 1
         assert pendingPlayers.get(0).getIndex() == 3
@@ -83,9 +84,8 @@ public class GameStateDaoTest{
         GameStateCM cm = dao.retrieveGameState()
         assert cm.getPotState()
         assert cm.getCommunityCards() != null
-//        cm.getAllUsers().each {
-//            assert it.index != -1
-//        }
+        assert cm.getPotState().hasOnePot() == true
+
     }
 
     
@@ -93,16 +93,20 @@ public class GameStateDaoTest{
 		assert clientModel.id == 2
 		assert clientModel.allUsers.size() == 3
 		assert clientModel.communityCards.size() == 0
-		assert clientModel.started == false
 	}
 
 	private GameStateCM createClientModel() {
 		BlindsAnte blindsAnte = createBlindsAnte()
 		List<Player> players = createPlayers()
 		GameState gameState = GameState.configureGameState(blindsAnte, players)
-        gameState.setId(-1);
+        gameState.setId(2);
 		GameStateCMConverter converter = new GameStateCMConverter();
 		GameStateCM clientModel = converter.convert(gameState)
+        
+        assert clientModel.getPotState().hasOnePot() == true
+        assert clientModel.getPotState().getPot(0).pot == 0
+        
+        
 		return clientModel
 	}
 
@@ -118,7 +122,9 @@ public class GameStateDaoTest{
 		List<Player> players = []
         players.add(new Player("Trevor",1000, new NullPlayerAction()));
         players.add(new Player("Brooks",1000, new NullPlayerAction()));
-        players.add(new Player("Vaughn",1000, new NullPlayerAction()));        
+        Player p = new Player("Vaughn",1000, new NullPlayerAction())
+        p.pendingBet = 20
+        players.add(p);        
 		return players
 	}
     

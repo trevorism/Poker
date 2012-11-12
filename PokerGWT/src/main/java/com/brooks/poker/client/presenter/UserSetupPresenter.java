@@ -47,6 +47,7 @@ public class UserSetupPresenter{
         user.setChips(0);
         user.setPendingBet(0);
         user.setIndex(index);
+        user.setInHand(true);
         return user;
     }
 }
