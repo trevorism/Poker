@@ -13,27 +13,27 @@ import com.brooks.poker.player.Player;
  */
 public class GameState{
     
-    private long id;
+    private static final int MAXIMUM_NUMBER_OF_PLAYERS = 20;
+	private static final int MINIMUM_NUMBER_OF_PLAYERS = 2;
+	
+	private long id;
     private final BlindsAnte blindsAnte;
     private final Table table;
     private final Deck deck;
     private final Pots pots;
     private final CommunityCards communityCards;
         
-    protected GameState(){
-        blindsAnte = new BlindsAnte();
-        table = new Table();
-        deck = new Deck();
-        pots = new Pots();
-        communityCards = new CommunityCards();
+    private GameState(BlindsAnte blindsAnte){
+        this.blindsAnte = blindsAnte;
+        this.table = new Table();
+        this.deck = new Deck();
+        this.pots = new Pots();
+        this.communityCards = new CommunityCards();
     }
 
     public static GameState configureGameState(BlindsAnte blindsAnte, List<Player> players){
-        GameState gameState = new GameState();
-        gameState.blindsAnte.bigBlind = blindsAnte.bigBlind;
-        gameState.blindsAnte.smallBlind = blindsAnte.smallBlind;
-        gameState.blindsAnte.ante = blindsAnte.ante;
-        
+        GameState gameState = new GameState(blindsAnte);
+
         for(Player player: players){
             gameState.getTable().joinTable(player);
         }
@@ -45,9 +45,9 @@ public class GameState{
         Set<Player> players = table.getAllPlayers();
         if(players == null)
             return true;
-        if(players.size() < 2)
+        if(players.size() < MINIMUM_NUMBER_OF_PLAYERS)
             return true;
-        if(players.size() > 20)
+        if(players.size() > MAXIMUM_NUMBER_OF_PLAYERS)
             return true;        
         return false;
     }

@@ -17,11 +17,7 @@ public final class PokerTestUtils{
     private PokerTestUtils(){}
     
     public static GameState getDefaultGameState(List<Player> players){
-        BlindsAnte blindsAnte = new BlindsAnte();
-        blindsAnte.ante = 0;
-        blindsAnte.smallBlind = 25;
-        blindsAnte.bigBlind = 35;
-
+        BlindsAnte blindsAnte = new BlindsAnte(35,25,0);
         GameState gameState = GameState.configureGameState(blindsAnte, players);
         
         gameState.getTable().setDealer(players.get(0));

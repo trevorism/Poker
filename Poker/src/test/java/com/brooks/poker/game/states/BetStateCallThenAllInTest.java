@@ -39,7 +39,6 @@ public class BetStateCallThenAllInTest{
     public void setUp(){
         List<Player> players = PlayerTestSetups.allCallingPlayers();
         gameState = PokerTestUtils.getDefaultGameState(players);
-        gameState.getBlindsAnte().bigBlind = 20;
         
         p1 = PlayerTestSetups.getPlayer1();
         p2 = PlayerTestSetups.getPlayer2();
