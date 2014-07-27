@@ -16,23 +16,22 @@ public class GameState{
     private static final int MAXIMUM_NUMBER_OF_PLAYERS = 20;
 	private static final int MINIMUM_NUMBER_OF_PLAYERS = 2;
 	
-	private long id;
-    private final BlindsAnte blindsAnte;
+    private BlindsAnte blindsAnte = BlindsAnte.NO_BLINDS_ANTE;
     private final Table table;
     private final Deck deck;
     private final Pots pots;
     private final CommunityCards communityCards;
         
-    private GameState(BlindsAnte blindsAnte){
-        this.blindsAnte = blindsAnte;
+    private GameState(){
         this.table = new Table();
         this.deck = new Deck();
         this.pots = new Pots();
         this.communityCards = new CommunityCards();
     }
 
-    public static GameState configureGameState(BlindsAnte blindsAnte, List<Player> players){
-        GameState gameState = new GameState(blindsAnte);
+    public static GameState configureTournamentGameState(BlindsAnte blindsAnte, List<Player> players){
+        GameState gameState = new GameState();
+        gameState.blindsAnte = blindsAnte;
 
         for(Player player: players){
             gameState.getTable().joinTable(player);
@@ -99,11 +98,7 @@ public class GameState{
     public Table getTable(){
         return table;
     }
-
-    public BlindsAnte getBlindsAnte(){
-        return blindsAnte;
-    }
-    
+   
     public Pots getPots(){
         return pots;
     }
@@ -112,12 +107,12 @@ public class GameState{
         return communityCards;
     }
 
-    public long getId(){
-        return id;
+    public BlindsAnte getBlindsAnte(){
+        return blindsAnte;
     }
-
-    public void setId(long id){
-        this.id = id;
-    }
+    
+    public void setBlindsAnte(BlindsAnte blindsAnte) {
+		this.blindsAnte = blindsAnte;
+	}   
         
 }
