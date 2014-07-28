@@ -11,20 +11,5 @@ repositories {
 }
 
 dependencies {
-    testCompile	'junit:junit:4.10'
-}
-
-repositories {
-    ivy {
-        name "repo"
-        url "file://C:/Users/Trevor/.ivy2/cache"
-        artifactPattern "C:/Users/Trevor/.ivy2/cache/[organisation]/[module]-[revision](-[classifier]).[ext]"
-    }
-}
-
-uploadArchives {
-    tasks.uploadArchives.getOutputs().dir('C:/Users/Trevor/.ivy2/cache/com.brooks/Poker')
-    repositories {
-        add project.repositories.repo
-    }
+    testCompile	'junit:junit:4.11'
 }

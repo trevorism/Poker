@@ -69,6 +69,10 @@ public final class HandValue implements Comparable<HandValue>{
         return true;
     }
 
+    public String toString(){
+    	return type.toString() + " " + tieBreaker.toString();
+    }
+    
     private int compareTieBreakers(HandValue handValue){
         int value = 0;
         for (int i = 0; i < this.tieBreaker.size(); i++){

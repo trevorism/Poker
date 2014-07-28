@@ -30,7 +30,7 @@ public class FlushTest extends HandValueEvaluatorBaseTest{
         List<Card> cards = new ArrayList<Card>();
 
         cards.add(new Card(Suit.HEARTS, Value.ACE));
-        cards.add(new Card(Suit.SPADES, Value.ACE));
+        cards.add(new Card(Suit.SPADES, Value.KING));
         cards.add(new Card(Suit.HEARTS, Value.SEVEN));
         cards.add(new Card(Suit.HEARTS, Value.FOUR));
         cards.add(new Card(Suit.HEARTS, Value.THREE));

@@ -53,7 +53,8 @@ public class Flush extends HandValueEvaluator {
         while (tieBreaker.size() != Hand.HAND_SIZE){
             Card card = CardUtils.findCard(cards, new Card(suit,maxValue));            
             if(card.isNullCard()){
-                break;
+            	maxValue = CardUtils.findMaximum(cards, maxValue.ordinal());
+            	continue;
             }
 
             tieBreaker.add(card.getValue());

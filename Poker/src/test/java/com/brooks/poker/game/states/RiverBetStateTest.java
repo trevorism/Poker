@@ -1,6 +1,6 @@
 package com.brooks.poker.game.states;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class RiverBetStateTest{
     @Test
     public void testGetNextPhase(){
         RiverBetState rbs = new RiverBetState(PokerTestUtils.getDefaultGameState(PlayerTestSetups.allCallingPlayers()));        
-        Assert.assertEquals(GamePhase.END_HAND, rbs.getNextPhase());
+        assertEquals(GamePhase.END_HAND, rbs.getNextPhase());
     }
 
 }
