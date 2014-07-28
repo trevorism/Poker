@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+group = 'com.brooks'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile project(':Poker')
+    testCompile "junit:junit:4.11"
+}
+
