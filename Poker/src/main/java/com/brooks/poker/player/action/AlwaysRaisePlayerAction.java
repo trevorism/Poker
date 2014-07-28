@@ -1,5 +1,6 @@
 package com.brooks.poker.player.action;
 
+import com.brooks.poker.game.GameActions;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.outcome.BettingOutcome;
 import com.brooks.poker.outcome.BettingOutcomeFactory;
@@ -19,8 +20,8 @@ public class AlwaysRaisePlayerAction implements PlayerAction{
     }
 
     private int getBetAmount(GameState gameState){
-        if (gameState.getMinBet() > RAISE_AMOUNT)
-            return gameState.getMinBet();
+        if (GameActions.getMinBet(gameState) > RAISE_AMOUNT)
+            return GameActions.getMinBet(gameState);
 
         return RAISE_AMOUNT;
     }

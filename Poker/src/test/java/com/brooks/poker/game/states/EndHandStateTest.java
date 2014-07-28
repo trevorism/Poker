@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.brooks.poker.game.data.GamePhase;
 import com.brooks.poker.game.data.GameState;
+import com.brooks.poker.game.progress.EndHandState;
 import com.brooks.poker.outcome.BettingOutcome;
 import com.brooks.poker.outcome.BettingOutcomeFactory;
 import com.brooks.poker.player.Player;

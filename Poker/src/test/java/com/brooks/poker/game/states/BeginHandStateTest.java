@@ -1,23 +1,25 @@
 package com.brooks.poker.game.states;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.brooks.poker.cards.Card;
+import com.brooks.poker.game.GameActions;
 import com.brooks.poker.game.data.CommunityCards;
 import com.brooks.poker.game.data.GamePhase;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.game.data.Table;
 import com.brooks.poker.game.data.pot.Pot;
 import com.brooks.poker.game.data.pot.Pots;
+import com.brooks.poker.game.progress.BeginHandState;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.util.PlayerTestSetups;
 import com.brooks.poker.util.PokerTestUtils;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 /**
  * @author Trevor
@@ -60,7 +62,7 @@ public class BeginHandStateTest{
     }
     
     private void assertBettingIsReset(){
-        assertEquals(gameState.getBlindsAnte().bigBlind, gameState.getMinBet());
+        assertEquals(gameState.getBlindsAnte().bigBlind, GameActions.getMinBet(gameState));
         assertEquals(0, gameState.getPots().getCurrentBet()); 
     }
 

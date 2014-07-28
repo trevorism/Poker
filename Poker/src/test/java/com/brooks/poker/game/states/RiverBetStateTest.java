@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.brooks.poker.game.data.GamePhase;
+import com.brooks.poker.game.progress.RiverBetState;
 import com.brooks.poker.util.PlayerTestSetups;
 import com.brooks.poker.util.PokerTestUtils;
 

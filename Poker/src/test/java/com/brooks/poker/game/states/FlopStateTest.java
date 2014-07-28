@@ -8,11 +8,11 @@ import org.junit.Test;
 import com.brooks.poker.cards.Card;
 import com.brooks.poker.game.data.GamePhase;
 import com.brooks.poker.game.data.GameState;
+import com.brooks.poker.game.progress.FlopState;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.util.PokerTestUtils;
 
 import static com.brooks.poker.util.PlayerTestSetups.programmaticPlayers;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 

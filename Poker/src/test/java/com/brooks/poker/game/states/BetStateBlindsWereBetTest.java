@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.brooks.poker.game.data.GameState;
+import com.brooks.poker.game.progress.BetState;
+import com.brooks.poker.game.progress.FirstBetState;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.util.PlayerTestSetups;
 import com.brooks.poker.util.PokerTestUtils;

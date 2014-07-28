@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.game.data.pot.Pot;
 import com.brooks.poker.game.data.pot.Pots;
+import com.brooks.poker.game.progress.FlopBetState;
 import com.brooks.poker.outcome.CallOutcome;
 import com.brooks.poker.outcome.RaiseOutcome;
 import com.brooks.poker.outcome.BettingOutcomeFactory;
@@ -16,7 +17,6 @@ import com.brooks.poker.util.PlayerTestSetups;
 import com.brooks.poker.util.PokerTestUtils;
 
 import static com.brooks.poker.util.PokerTestUtils.assertPlayerChipCount;
-
 import static org.junit.Assert.assertEquals;
 
 /**

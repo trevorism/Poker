@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.brooks.poker.game.data.GameState;
+import com.brooks.poker.game.progress.TurnBetState;
 import com.brooks.poker.outcome.RaiseOutcome;
 import com.brooks.poker.outcome.BettingOutcomeFactory;
 import com.brooks.poker.player.Player;
@@ -18,7 +19,6 @@ import static com.brooks.poker.util.PlayerTestSetups.getPlayer2;
 import static com.brooks.poker.util.PlayerTestSetups.getPlayer3;
 import static com.brooks.poker.util.PlayerTestSetups.programPlayerAction;
 import static com.brooks.poker.util.PlayerTestSetups.programmaticPlayers;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

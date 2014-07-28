@@ -1,5 +1,6 @@
 package com.brooks.poker.outcome;
 
+import com.brooks.poker.game.GameActions;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.player.Player;
 
@@ -16,7 +17,7 @@ public class CallOutcome implements BettingOutcome{
     public void modifyGameState(GameState gameState, Player player){
         int betAmount = getBetAmount(gameState, player);        
         player.requestBet(betAmount);
-        gameState.updateCurrentBet(player.getPendingBet());
+        GameActions.updateCurrentBet(gameState.getPots(), player.getPendingBet());
 
         if (player.isAllIn()){
             gameState.getPots().insertSubpot(player);

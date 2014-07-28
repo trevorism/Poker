@@ -1,25 +1,27 @@
 package com.brooks.poker.game.states;
 
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import com.brooks.poker.game.data.GameState;
-import com.brooks.poker.game.data.pot.Pot;
-import com.brooks.poker.game.data.pot.Pots;
-import com.brooks.poker.outcome.RaiseOutcome;
-import com.brooks.poker.outcome.BettingOutcomeFactory;
-import com.brooks.poker.player.Player;
-import com.brooks.poker.util.PokerTestUtils;
-
 import static com.brooks.poker.util.PlayerTestSetups.getPlayer1;
 import static com.brooks.poker.util.PlayerTestSetups.getPlayer2;
 import static com.brooks.poker.util.PlayerTestSetups.getPlayer3;
 import static com.brooks.poker.util.PlayerTestSetups.programmaticPlayers;
 import static com.brooks.poker.util.PokerTestUtils.assertPlayerChipCount;
-
 import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.brooks.poker.game.GameActions;
+import com.brooks.poker.game.data.GameState;
+import com.brooks.poker.game.data.pot.Pot;
+import com.brooks.poker.game.data.pot.Pots;
+import com.brooks.poker.game.progress.BetState;
+import com.brooks.poker.game.progress.FlopBetState;
+import com.brooks.poker.outcome.BettingOutcomeFactory;
+import com.brooks.poker.outcome.RaiseOutcome;
+import com.brooks.poker.player.Player;
+import com.brooks.poker.util.PokerTestUtils;
 
 /**
  * @author Trevor
@@ -58,7 +60,7 @@ public class BetStateTest{
         fixedBet.modifyGameState(gameState, p3);
         fixedBet.modifyGameState(gameState, p1);
         fixedBet.modifyGameState(gameState, p2);
-        gameState.endBettingRound();
+        GameActions.endBettingRound(gameState);
         
         assertPlayerBets();
         assertPotsCount(4);
