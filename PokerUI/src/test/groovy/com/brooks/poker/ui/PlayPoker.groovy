@@ -11,7 +11,7 @@ import com.brooks.poker.player.Player
 import com.brooks.poker.player.action.AlwaysCallPlayerAction
 
 /**
- * @author trevo_000
+ * @author Trevor
  *
  */
 class PlayPoker {
@@ -19,7 +19,7 @@ class PlayPoker {
 	public static void main(String [] args){
 		Player trevor = new Player("Trevor", 1000, new AlwaysCallPlayerAction())
 		Player vaughn = new Player("Vaughn", 1000, new AlwaysCallPlayerAction())
-		Player brooks = new Player("Brooks", 1000, new UserPromptedAction())
+		Player brooks = new Player("Brooks", 1000, new AlwaysCallPlayerAction())
 		
 		List<Player> players = [trevor, vaughn, brooks]
 		

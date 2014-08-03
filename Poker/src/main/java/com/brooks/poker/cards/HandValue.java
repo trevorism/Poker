@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.brooks.poker.cards.Card.Value;
+import com.brooks.poker.util.EnumPrinter;
 
 /**
  * @author Trevor
@@ -70,7 +71,7 @@ public final class HandValue implements Comparable<HandValue>{
     }
 
     public String toString(){
-    	return type.toString() + " " + tieBreaker.toString();
+    	return EnumPrinter.convertCase(type) + " " + tieBreaker.toString();
     }
     
     private int compareTieBreakers(HandValue handValue){

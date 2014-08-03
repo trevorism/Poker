@@ -1,8 +1,9 @@
 package com.brooks.poker.ui
 
-import com.brooks.poker.game.data.GameState;
+import com.brooks.poker.game.data.GameState
 import com.brooks.poker.game.handler.GameStateHandlerAdaptor
-import com.brooks.poker.player.Player;
+import com.brooks.poker.player.Player
+import com.brooks.poker.util.EnumPrinter
 
 class PrintGameState extends GameStateHandlerAdaptor {
 
@@ -23,7 +24,7 @@ class PrintGameState extends GameStateHandlerAdaptor {
 		player.hand.cards.each {
 			print "${it}, "
 		}
-		println (player.hand.handValue)
+		println player.hand.handValue
 	}
 	
 }

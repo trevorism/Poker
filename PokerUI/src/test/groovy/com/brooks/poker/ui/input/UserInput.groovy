@@ -76,7 +76,7 @@ class UserInput {
 	}
 
 	private int requestBetAmount(int betAmount, int minBet) {
-		prompt("How much would you like to bet?")
+		prompt("How much would you like to bet (minimum ${minBet})?")
 		String input = readInput()
 		betAmount = convertToBetAmount(input, minBet)
 		return betAmount
