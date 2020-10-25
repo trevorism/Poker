@@ -1,15 +1,13 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-
-group = 'com.brooks'
-version = '1.0'
+apply plugin: 'groovy'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-	compile project(':Poker')
-    testCompile "junit:junit:4.11"
+    implementation 'org.codehaus.groovy:groovy-all:2.5.8'
+
+	implementation project(':Poker')
+    testImplementation "junit:junit:4.13"
 }
 
