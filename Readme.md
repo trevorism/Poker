@@ -24,8 +24,16 @@ To get user input, replace `new AlwaysCallPlayerAction()` with `new UserPrompted
 
 ##Future work
 
-One day, I may create a web app that displays the GameState. Contributions here are welcome.
+Contributions welcome! Submit pull requests.
+
+I built this to test machine learning algorithms on a non-trivial problem.
+
+One day, I may create a web app shows the tournament.
 
 ## Use
 
-Free to use; MIT license.
+Free to use; [MIT License](https://github.com/trevorism/Poker/blob/master/LICENSE)
+
+##About me
+
+[trevorism.com](https://trevorism.com)
