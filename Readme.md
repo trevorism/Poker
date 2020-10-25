@@ -16,13 +16,13 @@ No limit texas hold'em implementation.
 Run `main()` in PokerUI/src/main/groovy/com.brooks.poker.ui.PlayPoker.groovy
 To get user input, replace `new AlwaysCallPlayerAction()` with `new UserPromptedAction()`
 
-## Organization
+## Code Organization
 
 `Poker` contains the engine for running the game. It's pure java, version >= 8 will work.
 
 `PokerUI` is a simple print out for the game. Supports a tournament style game with up to 20 players at a table. This is written in groovy 2.5.8
 
-##Future work
+## Future work
 
 Contributions welcome! Submit pull requests.
 
@@ -34,6 +34,6 @@ One day, I may create a web app shows the tournament.
 
 Free to use; [MIT License](https://github.com/trevorism/Poker/blob/master/LICENSE)
 
-##About me
+## About me
 
 [trevorism.com](https://trevorism.com)
