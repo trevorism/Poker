@@ -13,7 +13,7 @@ No limit texas hold'em implementation.
 
 ## To Play
 
-Run `main()` in PokerUI/src/main/groovy/com.brooks.poker.ui.PlayPoker.groovy
+Run `main()` in (https://github.com/trevorism/Poker/blob/master/PokerUI/src/main/groovy/com/brooks/poker/ui/PlayPoker.groovy)
 To get user input, replace `new AlwaysCallPlayerAction()` with `new UserPromptedAction()`
 
 ## Code Organization
