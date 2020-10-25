@@ -32,7 +32,7 @@ One day, I may create a web app shows the tournament.
 
 ## Use
 
-Free to use; [MIT License](https://github.com/trevorism/Poker/blob/master/LICENSE)
+[MIT License](https://github.com/trevorism/Poker/blob/master/LICENSE)
 
 ## About me
 
