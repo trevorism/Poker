@@ -35,7 +35,7 @@ public class StraightFlush extends Straight{
     }
 
     private HandValue calculateStraightFlush(List<Card> cards, Value maxValue, Suit suit){
-        List<Value> tieBreaker = new LinkedList<Value>();
+        List<Value> tieBreaker = new LinkedList<>();
         tieBreaker.add(maxValue);
 
         for (int i = 1; i < Hand.HAND_SIZE; i++){

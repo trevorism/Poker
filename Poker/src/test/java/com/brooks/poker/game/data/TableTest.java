@@ -97,13 +97,9 @@ public class TableTest{
     }
     
     private void assertEachActivePlayerIsTouched(){
-        table.executeOnEachActivePlayer(p1, new PlayerCommand(){
-
-            @Override
-            public void execute(Player player){
-                assertEquals(playersInOrder.get(0), player);
-                playersInOrder.remove(0);
-            }
+        table.executeOnEachActivePlayer(p1, player -> {
+            assertEquals(playersInOrder.get(0), player);
+            playersInOrder.remove(0);
         });
         assertPlayersInOrderIsEmpty();
     }

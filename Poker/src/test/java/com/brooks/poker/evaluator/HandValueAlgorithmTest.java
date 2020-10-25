@@ -29,7 +29,7 @@ public class HandValueAlgorithmTest{
     }
 
     private List<Card> createHighCardHand(){
-        List<Card> cards = new ArrayList<Card>();
+        List<Card> cards = new ArrayList<>();
         cards.add(new Card(Suit.SPADES, Value.THREE));
         cards.add(new Card(Suit.HEARTS, Value.FOUR));
         cards.add(new Card(Suit.DIAMONDS, Value.SIX));

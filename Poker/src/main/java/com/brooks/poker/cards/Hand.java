@@ -17,7 +17,7 @@ public class Hand implements Comparable<Hand>{
 
     public static final int HAND_SIZE = 5;
 
-    private List<Card> cards;
+    private final List<Card> cards;
     private HandValue handValue;
 
     public Hand(){

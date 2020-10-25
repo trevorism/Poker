@@ -95,14 +95,14 @@ public class PotResultTest{
     
     private Pot setupThreePlayerPot(int potAmount){
         Pot pot = new Pot(players);        
-        pot.placeBet(POT_AMOUNT);
+        pot.placeBet(potAmount);
         return pot;
     }
     
     private Pot setupFourPlayerPot(int potAmount){
         players.add(p4);
         Pot pot = new Pot(players);        
-        pot.placeBet(POT_AMOUNT);
+        pot.placeBet(potAmount);
         return pot;
     }
 

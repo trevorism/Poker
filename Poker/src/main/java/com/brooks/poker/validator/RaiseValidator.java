@@ -30,10 +30,7 @@ public class RaiseValidator implements BettingValidator{
     public boolean validateBet(int bet){
         if(bet >= playerChipCount)
             return true;
-        if(bet >= betMustBeAtLeast)
-            return true;        
-        
-        return false;
+        return bet >= betMustBeAtLeast;
     }
 
     @Override

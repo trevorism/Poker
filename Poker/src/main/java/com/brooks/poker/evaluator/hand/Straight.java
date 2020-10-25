@@ -33,7 +33,7 @@ public class Straight extends HandValueEvaluator{
     }
 
     private HandValue calculateStraight(List<Card> cards, Value maxValue){
-        List<Value> tieBreaker = new LinkedList<Value>();
+        List<Value> tieBreaker = new LinkedList<>();
         tieBreaker.add(maxValue);
 
         for (int i = 1; i < Hand.HAND_SIZE; i++){
@@ -62,9 +62,7 @@ public class Straight extends HandValueEvaluator{
     }
     
     protected boolean impossibleStraight(Value maxValue){
-        if (maxValue.ordinal() - (Hand.HAND_SIZE-1) < 0)
-            return true;
-        return false;
+        return maxValue.ordinal() - (Hand.HAND_SIZE - 1) < 0;
     }
 
     protected boolean fiveToAceSpecialCase(Value maxValue, int index){

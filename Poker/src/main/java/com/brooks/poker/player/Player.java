@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.brooks.poker.player;
 
 import com.brooks.poker.cards.Card;
@@ -30,9 +27,7 @@ public class Player{
     }
 
     public boolean isNullPlayer(){
-        if (name.equals(""))
-            return true;
-        return false;
+        return name.equals("");
     }
 
     public void requestBet(int betAmount){
@@ -96,9 +91,7 @@ public class Player{
     }
 
     private int actualAmountToBeAdded(int requestedAmount){
-        if (requestedAmount < pendingBet)
-            return requestedAmount;
-        return pendingBet;
+        return Math.min(requestedAmount, pendingBet);
     }
 
     private void updatePendingBet(int amountToBeAdded){

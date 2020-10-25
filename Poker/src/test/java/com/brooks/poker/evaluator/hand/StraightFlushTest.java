@@ -27,7 +27,7 @@ public class StraightFlushTest extends HandValueEvaluatorBaseTest{
 
     @Override
     protected List<Card> createValidHand(){
-        List<Card> cards = new ArrayList<Card>();
+        List<Card> cards = new ArrayList<>();
 
         cards.add(new Card(Suit.CLUBS, Value.SIX));
         cards.add(new Card(Suit.CLUBS, Value.TWO));
@@ -41,14 +41,14 @@ public class StraightFlushTest extends HandValueEvaluatorBaseTest{
 
     @Override
     protected List<Value> createTieBreakerForValidHand(){
-        List<Value> value = new ArrayList<Value>();
+        List<Value> value = new ArrayList<>();
         value.add(Value.SIX);
         return value;
     }
 
     @Override
     protected List<Card> createInvalidHand(){
-        List<Card> cards = new ArrayList<Card>();
+        List<Card> cards = new ArrayList<>();
 
         cards.add(new Card(Suit.CLUBS, Value.SEVEN));
         cards.add(new Card(Suit.SPADES, Value.KING));

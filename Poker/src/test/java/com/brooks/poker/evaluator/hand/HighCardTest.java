@@ -27,7 +27,7 @@ public class HighCardTest extends HandValueEvaluatorBaseTest{
 
     @Override
     protected List<Card> createValidHand(){
-        List<Card> cards = new ArrayList<Card>();
+        List<Card> cards = new ArrayList<>();
 
         cards.add(new Card(Suit.CLUBS, Value.ACE));
         cards.add(new Card(Suit.SPADES, Value.JACK));
@@ -40,7 +40,7 @@ public class HighCardTest extends HandValueEvaluatorBaseTest{
 
     @Override
     protected List<Value> createTieBreakerForValidHand(){
-        List<Value> value = new ArrayList<Value>();
+        List<Value> value = new ArrayList<>();
         value.add(Value.ACE);
         value.add(Value.JACK);
         value.add(Value.NINE);
@@ -51,7 +51,7 @@ public class HighCardTest extends HandValueEvaluatorBaseTest{
 
     @Override
     protected List<Card> createInvalidHand(){
-        List<Card> cards = new ArrayList<Card>();
+        List<Card> cards = new ArrayList<>();
 
         cards.add(new Card(Suit.CLUBS, Value.ACE));
         cards.add(new Card(Suit.SPADES, Value.SEVEN));

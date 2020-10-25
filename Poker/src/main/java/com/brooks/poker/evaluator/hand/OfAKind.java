@@ -31,7 +31,7 @@ public abstract class OfAKind extends HandValueEvaluator{
     }
 
     private List<Value> calculateTieBreaker(List<Card> cards, Value ofAKindValue){
-        List<Value> tieBreaker = new LinkedList<Value>();
+        List<Value> tieBreaker = new LinkedList<>();
         tieBreaker.add(ofAKindValue);
 
         int finalTieBreakerSize = (Hand.HAND_SIZE + 1) - ofAKindCount();

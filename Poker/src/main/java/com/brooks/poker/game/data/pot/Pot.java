@@ -21,7 +21,7 @@ public class Pot{
     }
 
     Pot(Collection<Player> players, int amountOwed){
-        this.eligiblePlayers = new HashSet<Player>(players);
+        this.eligiblePlayers = new HashSet<>(players);
         this.pot = 0;
         this.amountOwed = amountOwed;
     }

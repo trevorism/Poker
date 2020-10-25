@@ -25,7 +25,7 @@ public class TwoPair extends HandValueEvaluator {
      
 	@Override
 	protected HandValue evaluate(List<Card> cards) {
-	    pairCount = new ArrayList<Value>();
+	    pairCount = new ArrayList<>();
 	    Value maxValue = CardUtils.findMaximum(cards);
 
         while (maxValue.ordinal() > Value.NULL.ordinal()){
@@ -45,7 +45,7 @@ public class TwoPair extends HandValueEvaluator {
 	}
 
     private List<Value> calculateTieBreaker(List<Card> cards){
-        List<Value> tieBreaker = new LinkedList<Value>();
+        List<Value> tieBreaker = new LinkedList<>();
         tieBreaker.add(pairCount.get(0));
         tieBreaker.add(pairCount.get(1));
         

@@ -23,7 +23,7 @@ public class Flush extends HandValueEvaluator {
     
 	@Override
 	public HandValue evaluate(List<Card> cards) {
-	    suitHandValues = new LinkedList<HandValue>();
+	    suitHandValues = new LinkedList<>();
 	    
 	    for(Suit suit : Suit.values()){
 	        suitHandValues.add(calculateForSuit(cards, suit));	    
@@ -46,7 +46,7 @@ public class Flush extends HandValueEvaluator {
     }
    
     private List<Value> calculateTieBreaker(List<Card> cards, Suit suit){
-        List<Value> tieBreaker = new LinkedList<Value>();
+        List<Value> tieBreaker = new LinkedList<>();
         
         Value maxValue = CardUtils.findMaximum(cards);
         

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.brooks.poker.cards;
 
 import java.util.HashSet;
@@ -75,7 +72,7 @@ public class CardUtils{
     }
 
     public static Set<Suit> findSuitsForValue(List<Card> cards, Value value){
-        Set<Suit> suits = new HashSet<Suit>();
+        Set<Suit> suits = new HashSet<>();
         for (Card card : cards){
             if (card.getValue().equals(value))
                 suits.add(card.getSuit());

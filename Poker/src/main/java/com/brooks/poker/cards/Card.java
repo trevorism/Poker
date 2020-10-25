@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.brooks.poker.cards;
 
 import com.brooks.poker.util.EnumPrinter;

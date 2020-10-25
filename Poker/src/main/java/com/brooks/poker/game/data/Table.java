@@ -18,8 +18,8 @@ import com.brooks.poker.player.Player;
 
 public class Table{
 
-    private final List<Player> collapsedPositions = new ArrayList<Player>();
-    private final Set<Player> notActivePlayers = new HashSet<Player>();
+    private final List<Player> collapsedPositions = new ArrayList<>();
+    private final Set<Player> notActivePlayers = new HashSet<>();
     private int dealerIndex = -1;
 
     public Player getNextActivePlayer(Player startPlayer){
@@ -84,20 +84,14 @@ public class Table{
     }
 
     public Set<Player> getAllPlayers(){
-        Set<Player> allPlayers = new HashSet<Player>(collapsedPositions);
-        return allPlayers;
+        return new HashSet<>(collapsedPositions);
     }
 
     public List<Player> getSortedActivePlayers(){
-        final List<Player> activePlayers = new LinkedList<Player>();
+        final List<Player> activePlayers = new LinkedList<>();
 
         Player firstActivePlayer = getNextActivePlayer(getDealer());
-        executeOnEachActivePlayer(firstActivePlayer, new PlayerCommand(){
-            @Override
-            public void execute(Player player){
-                activePlayers.add(player);
-            }
-        });
+        executeOnEachActivePlayer(firstActivePlayer, activePlayers::add);
 
         return activePlayers;
     }

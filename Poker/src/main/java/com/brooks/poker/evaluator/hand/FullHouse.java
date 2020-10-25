@@ -29,7 +29,7 @@ public class FullHouse extends HandValueEvaluator{
     }
 
     private HandValue evaluate(HandValue tripsHandValue, HandValue twoPairHandValue){
-        List<Value> tieBreaker = new LinkedList<Value>();
+        List<Value> tieBreaker = new LinkedList<>();
         tieBreaker.add(tripsHandValue.getTieBreakerAt(0));
 
         Value firstTieBreakerOfTwoPair = twoPairHandValue.getTieBreakerAt(0);

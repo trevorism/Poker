@@ -27,10 +27,10 @@ public class HandValueAlgorithm{
         return INSTANCE;
     }
     
-    private List<HandValueEvaluator> orderedHandEvaluators;
+    private final List<HandValueEvaluator> orderedHandEvaluators;
     
     protected HandValueAlgorithm(){
-        orderedHandEvaluators = new LinkedList<HandValueEvaluator>();
+        orderedHandEvaluators = new LinkedList<>();
         orderedHandEvaluators.add(new StraightFlush());
         orderedHandEvaluators.add(new FourOfAKind());
         orderedHandEvaluators.add(new FullHouse());

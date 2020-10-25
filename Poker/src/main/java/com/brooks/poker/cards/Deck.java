@@ -23,8 +23,8 @@ public class Deck{
 
     public Deck(){
 
-        cards = new ArrayList<Card>(DECK_SIZE);
-        usedCards = new ArrayList<Card>();
+        cards = new ArrayList<>(DECK_SIZE);
+        usedCards = new ArrayList<>();
 
         for (Suit suit : Suit.values()){
             for (Value value : Value.values()){

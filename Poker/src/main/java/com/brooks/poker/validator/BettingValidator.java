@@ -7,7 +7,7 @@ package com.brooks.poker.validator;
  */
 public interface BettingValidator{
 
-    public boolean validateBet(int bet);
+    boolean validateBet(int bet);
 
-    public int getMinRaise();
+    int getMinRaise();
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.brooks.poker.evaluator;
 
 import java.util.List;

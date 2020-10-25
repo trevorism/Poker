@@ -12,10 +12,10 @@ import com.brooks.poker.player.Player;
  * 
  */
 public class PotResult {
-	private List<PotWinner> potWinners;
+	private final List<PotWinner> potWinners;
 
 	public PotResult() {
-		potWinners = new LinkedList<PotWinner>();
+		potWinners = new LinkedList<>();
 	}
 
 	public void resolvePot(Pot pot) {
@@ -24,7 +24,7 @@ public class PotResult {
 	}
 
 	private List<Player> collectWinners(Pot pot) {
-		List<Player> winners = new LinkedList<Player>();
+		List<Player> winners = new LinkedList<>();
 
 		for (Player player : pot.getEligiblePlayers()) {
 			if (winners.isEmpty())
@@ -71,7 +71,7 @@ public class PotResult {
 	}
 
 	public Set<Player> getWinningPlayers() {
-		Set<Player> players = new HashSet<Player>();
+		Set<Player> players = new HashSet<>();
 		for (PotWinner potWinner : potWinners) {
 			players.add(potWinner.player);
 		}
