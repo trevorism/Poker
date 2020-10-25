@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.brooks.poker.evaluator.hand.PairTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-10-25T21:55:25" hostname="TREV" time="0.0">
-  <properties/>
-  <testcase name="testEvaluate" classname="com.brooks.poker.evaluator.hand.PairTest" time="0.0"/>
-  <testcase name="testEvaluateWithInvalidHand" classname="com.brooks.poker.evaluator.hand.PairTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

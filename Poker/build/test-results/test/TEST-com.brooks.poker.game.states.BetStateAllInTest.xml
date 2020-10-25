@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.brooks.poker.game.states.BetStateAllInTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-10-25T21:55:25" hostname="TREV" time="0.002">
-  <properties/>
-  <testcase name="testAllInPlayer1" classname="com.brooks.poker.game.states.BetStateAllInTest" time="0.001"/>
-  <testcase name="testAllInPlayer2" classname="com.brooks.poker.game.states.BetStateAllInTest" time="0.001"/>
-  <testcase name="testAllInPlayer3" classname="com.brooks.poker.game.states.BetStateAllInTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

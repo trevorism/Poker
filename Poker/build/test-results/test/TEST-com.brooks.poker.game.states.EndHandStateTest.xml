@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.brooks.poker.game.states.EndHandStateTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-10-25T21:55:25" hostname="TREV" time="0.0">
-  <properties/>
-  <testcase name="testGetNextPhase" classname="com.brooks.poker.game.states.EndHandStateTest" time="0.0"/>
-  <testcase name="testHandleState" classname="com.brooks.poker.game.states.EndHandStateTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
