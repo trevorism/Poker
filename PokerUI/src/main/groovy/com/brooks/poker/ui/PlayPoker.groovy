@@ -19,7 +19,7 @@ class PlayPoker {
 	static void main(String [] args){
 		Player trevor = new Player("Trevor", 1000, new AlwaysCallPlayerAction())
 		Player vaughn = new Player("Vaughn", 1000, new AlwaysCallPlayerAction())
-		Player brooks = new Player("Brooks", 1000, new AlwaysCallPlayerAction())
+		Player brooks = new Player("Brooks", 1000, new UserPromptedAction())
 		
 		List<Player> players = [trevor, vaughn, brooks]
 		
