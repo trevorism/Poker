@@ -7,6 +7,8 @@
 
 No limit texas hold'em implementation.
 
+Latest version is: 1.2.0
+
 ## To Build
 
 `gradlew clean build`

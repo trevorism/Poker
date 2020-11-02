@@ -60,7 +60,7 @@ public abstract class BetState extends GameProgressHandler {
         }
         return true;
     }
-    
+
     private Player ensurePlayerIsActive(Player startPlayer) {
         Table table = gameState.getTable();
         if (table.isInactive(startPlayer)) {

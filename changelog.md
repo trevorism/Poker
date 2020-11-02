@@ -1,5 +1,8 @@
 # ChangeLog
 
+## [1.2.0]
+* Fixed a bug where infinte loops were created in rare cases.
+
 ## [1.1.0]
 
 * Fixed a bug where the pot was split during an all-in event when it was unnecessary to do so.
