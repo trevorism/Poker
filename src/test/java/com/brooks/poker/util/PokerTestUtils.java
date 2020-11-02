@@ -31,5 +31,14 @@ public final class PokerTestUtils{
         assertEquals(0, player.getPendingBet());
     }
 
+    public static GameState getCrazyGameState(List<Player> players){
+        BlindsAnte blindsAnte = new BlindsAnte(35,25,0);
+        GameState gameState = GameState.configureTournamentGameState(blindsAnte, players);
+
+        gameState.getTable().setDealer(players.get(2));
+        gameState.getPots().reset(gameState.getTable().getAllPlayers());
+
+        return gameState;
+    }
     
 }

@@ -1,8 +1,6 @@
-/**
- * 
- */
 package com.brooks.poker.game.progress;
 
+import com.brooks.poker.game.BettingRound;
 import com.brooks.poker.game.GameActions;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.game.data.Table;
@@ -15,66 +13,47 @@ import com.brooks.poker.player.action.PlayerAction;
 
 /**
  * @author Trevor
- * 
  */
-public abstract class BetState extends GameProgressHandler{
+public abstract class BetState extends GameProgressHandler {
 
     private Player actionOnPlayer;
-    
-    public BetState(GameState gameState){
+
+    public BetState(GameState gameState) {
         super(gameState);
     }
 
-    public void bettingRound(Player startPlayer){
+    public void bettingRound(Player startPlayer) {
+        Table table = gameState.getTable();
+        BettingRound bettingRound = new BettingRound(gameState, startPlayer, false);
         actionOnPlayer = startPlayer;
-        firstPlayerBets();
-
-        if (shouldEndRound())
-            return;
-
-        Table table = gameState.getTable();
-        Player endPlayer = getEndPlayer();
-        actionOnPlayer = table.getNextActivePlayer(actionOnPlayer);
-
-        eachPlayerAfterTheFirstBets(endPlayer);
-    }
-
-    private void firstPlayerBets(){
-        actionOnPlayer = ensurePlayerIsActive(actionOnPlayer);
-        modifyGameState(actionOnPlayer);
-    }
-
-    private void eachPlayerAfterTheFirstBets(Player endPlayer){
-        Table table = gameState.getTable();
-        while (!actionOnPlayer.equals(endPlayer)){
+        while (!bettingRound.isComplete()){
+            actionOnPlayer = ensurePlayerIsActive(actionOnPlayer);
+            int currentBet = gameState.getPots().getCurrentBet();
             modifyGameState(actionOnPlayer);
-            if (shouldEndRound())
-                return;
-
-            if (hasMaxBet(endPlayer, actionOnPlayer)){
-                endPlayer = actionOnPlayer;
+            bettingRound.actionComplete(actionOnPlayer);
+            if(gameState.getPots().getCurrentBet() != currentBet){
+                bettingRound = new BettingRound(gameState, actionOnPlayer, true);
             }
-
             actionOnPlayer = table.getNextActivePlayer(actionOnPlayer);
         }
         GameActions.endBettingRound(gameState);
     }
 
-    private void modifyGameState(Player player){
+    private void modifyGameState(Player player) {
         PlayerAction playerAction = player.getAction();
         BettingOutcome outcome = playerAction.getBettingOutcome(gameState, player);
         outcome.modifyGameState(gameState, player);
     }
 
-    protected void betBlindAnte(Player player, int amount){
+    protected void betBlindAnte(Player player, int amount) {
         BettingOutcome outcome = BettingOutcomeFactory.createBlindsOutcome(amount);
         outcome.modifyGameState(gameState, player);
     }
 
-    public boolean onePlayerInThePot(){
+    public boolean onePlayerInThePot() {
         Pots pots = gameState.getPots();
 
-        for (Pot pot : pots.getPots()){
+        for (Pot pot : pots.getPots()) {
             int count = pot.getEligiblePlayerCount();
             if (count > 1)
                 return false;
@@ -82,55 +61,51 @@ public abstract class BetState extends GameProgressHandler{
         return true;
     }
 
-    private boolean onePlayerAtTheTable(){
+    private boolean onePlayerAtTheTable() {
         Table table = gameState.getTable();
-        if (table.getActivePlayersSize() <= 1)
-            return true;
-        return false;
+        return table.getActivePlayersSize() <= 1;
     }
 
-    private boolean shouldEndRound(){
-        if (onePlayerInThePot() || onePlayerAtTheTable()){
-        	GameActions.endBettingRound(gameState);
+    private boolean shouldEndRound() {
+        if (onePlayerInThePot() || onePlayerAtTheTable()) {
+            GameActions.endBettingRound(gameState);
             return true;
         }
         return false;
     }
 
-    private Player getEndPlayer(){
+    private Player getEndPlayer() {
         int maxBet = 0;
         Player endPlayer = Player.NOBODY;
         Table table = gameState.getTable();
 
-        for (Player player : table.getSortedActivePlayers()){
-            if (player.getPendingBet() > maxBet){
+        for (Player player : table.getSortedActivePlayers()) {
+            if (player.getPendingBet() > maxBet) {
                 maxBet = player.getPendingBet();
                 endPlayer = player;
             }
         }
 
-        if (endPlayer.isNullPlayer()){
+        if (endPlayer.isNullPlayer()) {
             return actionOnPlayer;
         }
         return endPlayer;
 
     }
 
-    private Player ensurePlayerIsActive(Player startPlayer){
+    private Player ensurePlayerIsActive(Player startPlayer) {
         Table table = gameState.getTable();
-        if (table.isInactive(startPlayer)){
+        if (table.isInactive(startPlayer)) {
             startPlayer = table.getNextActivePlayer(startPlayer);
         }
         return startPlayer;
     }
 
-    private boolean hasMaxBet(Player prevPlayer, Player player){
-        if (player.getPendingBet() > prevPlayer.getPendingBet())
-            return true;
-        return false;
+    private boolean hasMaxBet(Player prevPlayer, Player player) {
+        return player.getPendingBet() > prevPlayer.getPendingBet();
     }
 
-    public Player getActionOnPlayer(){
+    public Player getActionOnPlayer() {
         return actionOnPlayer;
     }
 

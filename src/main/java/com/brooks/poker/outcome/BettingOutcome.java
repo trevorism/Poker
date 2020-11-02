@@ -8,7 +8,7 @@ import com.brooks.poker.player.Player;
  */
 public interface BettingOutcome{
     
-    public void modifyGameState(GameState gameState, Player player);
+    void modifyGameState(GameState gameState, Player player);
 
-    public int getBetAmount(GameState gameState, Player player);
+    int getBetAmount(GameState gameState, Player player);
 }
