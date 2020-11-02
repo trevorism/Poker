@@ -90,14 +90,9 @@ public class Pots{
         Set<Player> eligiblePlayers = potToBeSplit.getEligiblePlayers();
         eligiblePlayers.remove(player);
 
-        if(eligiblePlayers.size() > 1) {
-            Pot newPot = new Pot(eligiblePlayers, diffBet);
-            int index = pots.indexOf(potToBeSplit);
-            pots.add(index + 1, newPot);
-        }
-        else if(eligiblePlayers.size() == 1){
-            eligiblePlayers.iterator().next().addChips(diffBet);
-        }
+        Pot newPot = new Pot(eligiblePlayers, diffBet);
+        int index = pots.indexOf(potToBeSplit);
+        pots.add(index + 1, newPot);
     }
 
 }

@@ -63,9 +63,11 @@ public class BetStateTest{
         GameActions.endBettingRound(gameState);
         
         assertPlayerBets();
-        assertPotsCount(2);
+        assertPotsCount(4);
         assertMainPot();
         assertSubPot1();
+        assertSubPot2();
+        assertSubPot3();
 
         betState.bettingRound(p3);
     }
@@ -95,7 +97,22 @@ public class BetStateTest{
         Pot subPot = pots.getPots().get(1);
 
         assertEquals(0, subPot.getAmountOwed());
-        assertEquals(60, subPot.getPotAmount());
+        assertEquals(40, subPot.getPotAmount());
     }
 
+    private void assertSubPot2(){
+        Pots pots = gameState.getPots();
+        Pot subPot = pots.getPots().get(2);
+
+        assertEquals(0, subPot.getAmountOwed());
+        assertEquals(20, subPot.getPotAmount());
+    }
+
+    private void assertSubPot3(){
+        Pots pots = gameState.getPots();
+        Pot subPot = pots.getPots().get(3);
+
+        assertEquals(0, subPot.getAmountOwed());
+        assertEquals(0, subPot.getPotAmount());
+    }
 }

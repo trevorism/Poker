@@ -75,9 +75,11 @@ public class BetStateAllInTest{
         flopBetState.bettingRound(p3);
 
         assertPlayerBets();
-        assertPotsExist(2);
+        assertPotsExist(3);
         assertMainPot();
         assertSubPot1();
+        assertSubPot2();
+
     }
 
     @Test
@@ -89,9 +91,10 @@ public class BetStateAllInTest{
         flopBetState.bettingRound(p2);
 
         assertPlayerBets();
-        assertPotsExist(2);
+        assertPotsExist(3);
         assertMainPot();
         assertSubPot1();
+        assertSubPot2();
 
     }
 

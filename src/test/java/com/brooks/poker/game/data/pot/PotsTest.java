@@ -139,10 +139,11 @@ public class PotsTest{
 
 
     private void assertMultiSplitSuccessful(){
-        assertPotCount(3);
+        assertPotCount(4);
         assertMainPotSplit();
         assertSubPot1Split();
         assertSubPot2Split();
+        assertSubPot3Split();
     }
 
     private void assertSubPot1Split(){
@@ -152,6 +153,11 @@ public class PotsTest{
 
     private void assertSubPot2Split(){
         Pot subPot = pots.getPots().get(2);
+        assertEquals(20, subPot.getAmountOwed());
+    }
+
+    private void assertSubPot3Split(){
+        Pot subPot = pots.getPots().get(3);
         assertEquals(0, subPot.getAmountOwed());
     }
 
