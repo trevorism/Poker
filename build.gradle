@@ -1,1 +1,24 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url uri("http://trevorism-build.eastus.cloudapp.azure.com/nexus/repository/maven-releases")
+        }
+    }
+    dependencies {
+        classpath 'com.trevorism:gradle-release-plugin:0.4.0'
+    }
+}
+
+
 apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: "com.trevorism.gradle.release"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.1'
+}

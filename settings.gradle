@@ -1,1 +1,1 @@
-include 'Poker', 'PokerUI'
+rootProject.name='poker'
