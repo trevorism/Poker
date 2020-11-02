@@ -137,7 +137,6 @@ public class PotsTest{
         assertTrue(pots.getPots().size() == count);
     }
 
-
     private void assertMultiSplitSuccessful(){
         assertPotCount(4);
         assertMainPotSplit();

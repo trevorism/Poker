@@ -62,7 +62,6 @@ public final class PlayerTestSetups{
         return players;
     }
 
-    
     public static List<Player> allCallingPlayers(){
         player1 = new Player("p1", PLAYER_ONE_CHIPS, new AlwaysCallPlayerAction());
         player2 = new Player("p2", PLAYER_TWO_CHIPS, new AlwaysCallPlayerAction());

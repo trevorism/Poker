@@ -60,49 +60,13 @@ public abstract class BetState extends GameProgressHandler {
         }
         return true;
     }
-
-    private boolean onePlayerAtTheTable() {
-        Table table = gameState.getTable();
-        return table.getActivePlayersSize() <= 1;
-    }
-
-    private boolean shouldEndRound() {
-        if (onePlayerInThePot() || onePlayerAtTheTable()) {
-            GameActions.endBettingRound(gameState);
-            return true;
-        }
-        return false;
-    }
-
-    private Player getEndPlayer() {
-        int maxBet = 0;
-        Player endPlayer = Player.NOBODY;
-        Table table = gameState.getTable();
-
-        for (Player player : table.getSortedActivePlayers()) {
-            if (player.getPendingBet() > maxBet) {
-                maxBet = player.getPendingBet();
-                endPlayer = player;
-            }
-        }
-
-        if (endPlayer.isNullPlayer()) {
-            return actionOnPlayer;
-        }
-        return endPlayer;
-
-    }
-
+    
     private Player ensurePlayerIsActive(Player startPlayer) {
         Table table = gameState.getTable();
         if (table.isInactive(startPlayer)) {
             startPlayer = table.getNextActivePlayer(startPlayer);
         }
         return startPlayer;
-    }
-
-    private boolean hasMaxBet(Player prevPlayer, Player player) {
-        return player.getPendingBet() > prevPlayer.getPendingBet();
     }
 
     public Player getActionOnPlayer() {
