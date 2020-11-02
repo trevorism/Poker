@@ -89,10 +89,12 @@ public class Pots{
 
         Set<Player> eligiblePlayers = potToBeSplit.getEligiblePlayers();
         eligiblePlayers.remove(player);
-        Pot newPot = new Pot(eligiblePlayers, diffBet);
 
-        int index = pots.indexOf(potToBeSplit);
-        pots.add(index + 1, newPot);
+        if(eligiblePlayers.size() > 1) {
+            Pot newPot = new Pot(eligiblePlayers, diffBet);
+            int index = pots.indexOf(potToBeSplit);
+            pots.add(index + 1, newPot);
+        }
     }
 
 }

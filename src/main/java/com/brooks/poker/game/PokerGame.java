@@ -25,13 +25,12 @@ public class PokerGame {
 
             if (GameActions.invalid(gameState)) {
                 currentPhase = GamePhase.END_GAME;
-            }
-            else {
+            } else {
                 currentPhase = handler.getNextPhase();
             }
 
         }
         gameState.invokeGameStateHandlerFor(currentPhase);
     }
-
+    
 }
