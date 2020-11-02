@@ -95,6 +95,9 @@ public class Pots{
             int index = pots.indexOf(potToBeSplit);
             pots.add(index + 1, newPot);
         }
+        else if(eligiblePlayers.size() == 1){
+            eligiblePlayers.iterator().next().addChips(diffBet);
+        }
     }
 
 }
