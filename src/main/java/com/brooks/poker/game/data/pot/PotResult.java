@@ -1,9 +1,6 @@
 package com.brooks.poker.game.data.pot;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.brooks.poker.player.Player;
 
@@ -62,7 +59,12 @@ public class PotResult {
 			player.addChips(awardAmount);
 			addPotWinner(player, awardAmount);
 		}
-
+		//Give the remainder to a random winner, so as to not lose chips from the game.
+		if(potAmount % winners.size() != 0){
+			Random random = new Random();
+			int index = random.nextInt(winners.size());
+			winners.get(index).addChips(potAmount % winners.size());
+		}
 	}
 
 	private void addPotWinner(Player player, int amount) {

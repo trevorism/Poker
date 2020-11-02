@@ -89,8 +89,8 @@ public class PotResultTest{
 
         assertPlayerChipCount(p1, p1TotalChips);
         assertPlayerChipCount(p2, p2TotalChips);
-        assertPlayerChipCount(p3, p3TotalChips + potAmount/2);
-        assertPlayerChipCount(p4, p4TotalChips + potAmount/2);
+        assertTrue(p3.getChipCount() == p3TotalChips + potAmount/2 || p3.getChipCount() == p3TotalChips + potAmount/2 + 1);
+        assertTrue(p4.getChipCount() == p4TotalChips + potAmount/2 || p4.getChipCount() == p4TotalChips + potAmount/2 + 1);
     }
     
     private Pot setupThreePlayerPot(int potAmount){

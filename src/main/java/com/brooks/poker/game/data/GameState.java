@@ -14,14 +14,17 @@ import com.brooks.poker.player.Player;
 public class GameState{
 	
     private BlindsAnte blindsAnte;
+    private GamePhase gamePhase;
     private final Table table;
     private final Deck deck;
     private final Pots pots;
     private final CommunityCards communityCards;
     private final GameStateHandlerCollection gameStateHandlerCollection;
+
     
     private GameState(){
     	this.blindsAnte = BlindsAnte.NO_BLINDS_ANTE;
+    	this.gamePhase = GamePhase.BEGIN_GAME;
         this.table = new Table();
         this.deck = new Deck();
         this.pots = new Pots();
@@ -72,4 +75,11 @@ public class GameState{
 		this.blindsAnte = blindsAnte;
 	}
 
+    public GamePhase getGamePhase() {
+        return gamePhase;
+    }
+
+    public void setGamePhase(GamePhase gamePhase) {
+        this.gamePhase = gamePhase;
+    }
 }

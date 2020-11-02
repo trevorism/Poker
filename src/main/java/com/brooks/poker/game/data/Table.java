@@ -1,93 +1,87 @@
 package com.brooks.poker.game.data;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import com.brooks.poker.cards.CardUtils;
 import com.brooks.poker.command.PlayerCommand;
 import com.brooks.poker.player.Player;
 
+import java.util.*;
+
 /**
  * @author Trevor
- * 
  */
 
-public class Table{
+public class Table {
 
     private final List<Player> collapsedPositions = new ArrayList<>();
     private final Set<Player> notActivePlayers = new HashSet<>();
     private int dealerIndex = -1;
 
-    public Player getNextActivePlayer(Player startPlayer){
+    public Player getNextActivePlayer(Player startPlayer) {
         Player player = getNextPlayer(startPlayer);
 
-        while (notActivePlayers.contains(player)){
+        while (notActivePlayers.contains(player)) {
             player = getNextPlayer(player);
-            if (player.isNullPlayer()){
+            if (player.isNullPlayer()) {
                 return Player.NOBODY;
             }
-            if (player.equals(startPlayer)){
+            if (player.equals(startPlayer)) {
                 return Player.NOBODY;
             }
         }
         return player;
     }
 
-    public void makeNextPlayerDealer(){
+    public void makeNextPlayerDealer() {
         Player nextPlayer = getNextPlayer(getDealer());
         setDealer(nextPlayer);
     }
 
-    public Player getDealer(){
+    public Player getDealer() {
         if (dealerIndex < 0 || dealerIndex >= collapsedPositions.size())
             dealerIndex = 0;
 
         return collapsedPositions.get(dealerIndex);
     }
 
-    public void setDealer(Player player){
+    public void setDealer(Player player) {
         dealerIndex = collapsedPositions.indexOf(player);
     }
 
-    public void joinTable(Player player){
+    public void joinTable(Player player) {
         collapsedPositions.add(player);
     }
 
-    public void removePlayer(Player player){
+    public void removePlayer(Player player) {
         collapsedPositions.remove(player);
     }
 
-    public void makeInactive(Player player){
+    public void makeInactive(Player player) {
         notActivePlayers.add(player);
     }
 
-    public boolean isInactive(Player player){
+    public boolean isInactive(Player player) {
         return notActivePlayers.contains(player);
     }
 
-    public void randomizeDealer(){
+    public void randomizeDealer() {
         Random random = new Random();
         dealerIndex = random.nextInt(collapsedPositions.size());
     }
 
-    public void reset(){
+    public void reset() {
         notActivePlayers.clear();
-        for (Player player : getAllPlayers()){
+        for (Player player : getAllPlayers()) {
             player.reset();
         }
-        if(dealerIndex == -1)
+        if (dealerIndex == -1)
             randomizeDealer();
     }
 
-    public Set<Player> getAllPlayers(){
+    public Set<Player> getAllPlayers() {
         return new HashSet<>(collapsedPositions);
     }
 
-    public List<Player> getSortedActivePlayers(){
+    public List<Player> getSortedActivePlayers() {
         final List<Player> activePlayers = new LinkedList<>();
 
         Player firstActivePlayer = getNextActivePlayer(getDealer());
@@ -96,16 +90,16 @@ public class Table{
         return activePlayers;
     }
 
-    public int getActivePlayersSize(){
+    public int getActivePlayersSize() {
         return collapsedPositions.size() - notActivePlayers.size();
     }
 
-    public void executeOnEachActivePlayer(Player startPlayer, PlayerCommand command){
+    public void executeOnEachActivePlayer(Player startPlayer, PlayerCommand command) {
         if (isInactive(startPlayer))
             startPlayer = getNextActivePlayer(startPlayer);
         Player firstPlayer = startPlayer;
 
-        do{
+        do {
             command.execute(startPlayer);
             startPlayer = getNextActivePlayer(startPlayer);
 
@@ -115,7 +109,7 @@ public class Table{
         } while (!firstPlayer.equals(startPlayer));
     }
 
-    private Player getNextPlayer(Player player){
+    private Player getNextPlayer(Player player) {
         int playerIndex = collapsedPositions.indexOf(player);
         if (playerIndex == -1)
             return Player.NOBODY;
