@@ -61,7 +61,7 @@ public class BetStateAllInTest{
         flopBetState.bettingRound(p2);
 
         assertPlayerBets();
-        assertThreePotsExist();
+        assertTwoPotsExist();
         assertMainPot();
         assertSubPot1();
         assertSubPot2();
@@ -75,10 +75,10 @@ public class BetStateAllInTest{
         flopBetState.bettingRound(p3);
 
         assertPlayerBets();
-        assertThreePotsExist();
+        assertTwoPotsExist();
         assertMainPot();
         assertSubPot1();
-        assertSubPot2();
+//        assertSubPot2();
     }
 
     @Test
@@ -90,10 +90,10 @@ public class BetStateAllInTest{
         flopBetState.bettingRound(p2);
 
         assertPlayerBets();
-        assertThreePotsExist();
+        assertTwoPotsExist();
         assertMainPot();
         assertSubPot1();
-        assertSubPot2();
+//        assertSubPot2();
     }
 
     
@@ -103,9 +103,9 @@ public class BetStateAllInTest{
         assertPlayerChipCount(p3, 0);
     }
 
-    private void assertThreePotsExist(){
+    private void assertTwoPotsExist(){
         Pots pots = gameState.getPots();
-        assertEquals(3, pots.getPots().size());
+        assertEquals(2, pots.getPots().size());
     }
 
     private void assertMainPot(){

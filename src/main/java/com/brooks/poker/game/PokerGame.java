@@ -32,5 +32,5 @@ public class PokerGame {
         }
         gameState.invokeGameStateHandlerFor(currentPhase);
     }
-    
+
 }
