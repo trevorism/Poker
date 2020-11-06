@@ -96,6 +96,23 @@ public final class PlayerTestSetups{
         return players;
     }
 
+    public static List<Player> allFoldingPlayers(){
+        player1 = new Player("p1", PLAYER_ONE_CHIPS, new AlwaysFoldPlayerAction());
+        player2 = new Player("p2", PLAYER_TWO_CHIPS, new AlwaysFoldPlayerAction());
+        player3 = new Player("p3", PLAYER_THREE_CHIPS, new AlwaysFoldPlayerAction());
+
+        givePlayerTwoPair(player1);
+        givePlayerHighCard(player2);
+        givePlayerTrips(player3);
+
+        List<Player> players = new LinkedList<Player>();
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+
+        return players;
+    }
+
     public static Player getPlayer1(){
         return player1;
     }

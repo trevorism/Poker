@@ -1,5 +1,8 @@
 # ChangeLog
 
+## [1.4.0]
+* Fixed a bug for which allowed a player to fold when it was the only one left in the hand.
+
 ## [1.3.0]
 * Fixed a bug for determining whether action should occur in rare cases with all-ins
 

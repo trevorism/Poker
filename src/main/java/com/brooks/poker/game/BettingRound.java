@@ -2,6 +2,7 @@ package com.brooks.poker.game;
 
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.game.data.Table;
+import com.brooks.poker.game.data.pot.Pot;
 import com.brooks.poker.player.Player;
 
 import java.util.HashMap;
@@ -27,8 +28,20 @@ public class BettingRound {
             return true;
         }
 
+        if(playerIsOnlyEligiblePlayerLeft(gameState, startPlayer)){
+            return true;
+        }
+
         for (Boolean playerFinished : hasPlayerHadATurn.values()) {
             if (!playerFinished)
+                return false;
+        }
+        return true;
+    }
+
+    private boolean playerIsOnlyEligiblePlayerLeft(GameState gameState, Player startPlayer) {
+        for(Pot pot : gameState.getPots().getPots()){
+            if(pot.getEligiblePlayerCount() > 1)
                 return false;
         }
         return true;
