@@ -23,6 +23,10 @@ public class BettingRound {
     }
 
     public boolean isComplete() {
+        if(hasPlayerHadATurn.size() <= 1 && gameState.getPots().getCurrentBet() == 0){
+            return true;
+        }
+
         for (Boolean playerFinished : hasPlayerHadATurn.values()) {
             if (!playerFinished)
                 return false;

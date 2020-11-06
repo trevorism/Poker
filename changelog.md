@@ -1,7 +1,10 @@
 # ChangeLog
 
+## [1.3.0]
+* Fixed a bug for determining whether action should occur in rare cases with all-ins
+
 ## [1.2.0]
-* Fixed a bug where infinte loops were created in rare cases.
+* Fixed a bug where infinite loops were created in rare cases.
 
 ## [1.1.0]
 

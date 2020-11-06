@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.brooks.poker.game.progress;
 
 import com.brooks.poker.game.data.GamePhase;

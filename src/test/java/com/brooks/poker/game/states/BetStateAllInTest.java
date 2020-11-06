@@ -72,7 +72,7 @@ public class BetStateAllInTest{
         gameState.getTable().setDealer(p1);
         RaiseOutcome fixedBet = BettingOutcomeFactory.createRaiseOutcome(BET_AMOUNT);
         fixedBet.modifyGameState(gameState, p2);
-        flopBetState.bettingRound(p3);
+        flopBetState.bettingRound(p2);
 
         assertPlayerBets();
         assertPotsExist(3);

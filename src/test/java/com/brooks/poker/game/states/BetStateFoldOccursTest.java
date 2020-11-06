@@ -57,4 +57,26 @@ public class BetStateFoldOccursTest{
         assertPlayerChipCount(p3, p3TotalChips);
 
     }
+
+    @Test
+    public void testBettingRoundWithP2Dealer(){
+        gameState.getTable().setDealer(p2);
+        flopBetState.handleState();
+
+        assertPlayerChipCount(p1, p1TotalChips - AlwaysRaisePlayerAction.RAISE_AMOUNT);
+        assertPlayerChipCount(p2, p2TotalChips - AlwaysRaisePlayerAction.RAISE_AMOUNT);
+        assertPlayerChipCount(p3, p3TotalChips);
+
+    }
+
+    @Test
+    public void testBettingRoundWithP3Dealer() {
+        gameState.getTable().setDealer(p3);
+        flopBetState.handleState();
+
+        assertPlayerChipCount(p1, p1TotalChips - AlwaysRaisePlayerAction.RAISE_AMOUNT);
+        assertPlayerChipCount(p2, p2TotalChips - AlwaysRaisePlayerAction.RAISE_AMOUNT);
+        assertPlayerChipCount(p3, p3TotalChips);
+
+    }
 }
