@@ -1,5 +1,8 @@
 # ChangeLog
 
+## [1.5.0]
+* Fixed a bug which prohibited raising by smaller than double the current bet
+
 ## [1.4.0]
 * Fixed a bug for which allowed a player to fold when it was the only one left in the hand.
 
