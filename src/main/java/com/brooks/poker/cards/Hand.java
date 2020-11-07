@@ -21,7 +21,7 @@ public class Hand implements Comparable<Hand>{
     private HandValue handValue;
 
     public Hand(){
-        this(new ArrayList<Card>());
+        this(new ArrayList<>());
     }
 
     public Hand(List<Card> cards){

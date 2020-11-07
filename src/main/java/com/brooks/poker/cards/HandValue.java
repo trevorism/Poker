@@ -12,7 +12,7 @@ import com.brooks.poker.util.EnumPrinter;
  */
 public final class HandValue implements Comparable<HandValue>{
 
-    public static HandValue NOT_VALID_HAND = new HandValue(HandValueType.NULL_VALUE, Collections.<Value> emptyList());
+    public static HandValue NOT_VALID_HAND = new HandValue(HandValueType.NULL_VALUE, Collections.emptyList());
 
     public enum HandValueType{
         NULL_VALUE, HIGH_CARD, PAIR, TWO_PAIR, THREE_OF_A_KIND, STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH

@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Table {
 
-    private final List<Player> collapsedPositions = new ArrayList<>();
+    private final List<Player> allPlayers = new ArrayList<>();
     private final Set<Player> notActivePlayers = new HashSet<>();
     private int dealerIndex = -1;
 
@@ -37,22 +37,22 @@ public class Table {
     }
 
     public Player getDealer() {
-        if (dealerIndex < 0 || dealerIndex >= collapsedPositions.size())
+        if (dealerIndex < 0 || dealerIndex >= allPlayers.size())
             dealerIndex = 0;
 
-        return collapsedPositions.get(dealerIndex);
+        return allPlayers.get(dealerIndex);
     }
 
     public void setDealer(Player player) {
-        dealerIndex = collapsedPositions.indexOf(player);
+        dealerIndex = allPlayers.indexOf(player);
     }
 
     public void joinTable(Player player) {
-        collapsedPositions.add(player);
+        allPlayers.add(player);
     }
 
     public void removePlayer(Player player) {
-        collapsedPositions.remove(player);
+        allPlayers.remove(player);
     }
 
     public void makeInactive(Player player) {
@@ -65,7 +65,7 @@ public class Table {
 
     public void randomizeDealer() {
         Random random = new Random();
-        dealerIndex = random.nextInt(collapsedPositions.size());
+        dealerIndex = random.nextInt(allPlayers.size());
     }
 
     public void reset() {
@@ -78,7 +78,7 @@ public class Table {
     }
 
     public Set<Player> getAllPlayers() {
-        return new HashSet<>(collapsedPositions);
+        return new HashSet<>(allPlayers);
     }
 
     public List<Player> getSortedActivePlayers() {
@@ -91,7 +91,7 @@ public class Table {
     }
 
     public int getActivePlayersSize() {
-        return collapsedPositions.size() - notActivePlayers.size();
+        return allPlayers.size() - notActivePlayers.size();
     }
 
     public void executeOnEachActivePlayer(Player startPlayer, PlayerCommand command) {
@@ -110,12 +110,12 @@ public class Table {
     }
 
     private Player getNextPlayer(Player player) {
-        int playerIndex = collapsedPositions.indexOf(player);
+        int playerIndex = allPlayers.indexOf(player);
         if (playerIndex == -1)
             return Player.NOBODY;
 
-        int nextIndex = CardUtils.circularIncrement(playerIndex, collapsedPositions.size());
-        return collapsedPositions.get(nextIndex);
+        int nextIndex = CardUtils.circularIncrement(playerIndex, allPlayers.size());
+        return allPlayers.get(nextIndex);
     }
 
 }

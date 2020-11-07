@@ -17,7 +17,6 @@ public class GameActions {
     private GameActions() {
     }
 
-
     public static void beginHand(GameState gameState) {
         gameState.getTable().reset();
         gameState.getDeck().reset();

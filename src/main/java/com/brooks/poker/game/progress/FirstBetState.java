@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.brooks.poker.game.progress;
 
@@ -14,34 +14,34 @@ import com.brooks.poker.player.Player;
 /**
  * @author Trevor Small blind, big blind, and a round of betting.
  */
-public class FirstBetState extends BetState{
+public class FirstBetState extends BetState {
 
-    public FirstBetState(GameState gameState){
+    public FirstBetState(GameState gameState) {
         super(gameState);
     }
 
     @Override
-    public void handleState(){
+    public void handleState() {
         ante();
         Player actionOn = blinds();
         bettingRound(actionOn);
     }
 
     @Override
-    public GamePhase getNextPhase(){
+    public GamePhase getNextPhase() {
         if (onePlayerInThePot())
             return GamePhase.END_HAND;
 
         return GamePhase.FLOP;
     }
 
-    private void ante(){
+    private void ante() {
         Table table = gameState.getTable();
         table.executeOnEachActivePlayer(GameActions.getPlayerAfterDealer(gameState), new AnteCommand());
         GameActions.endBettingRound(gameState);
     }
 
-    private Player blinds(){
+    private Player blinds() {
         BlindsAnte blinds = gameState.getBlindsAnte();
         Player player = GameActions.getPlayerAfterDealer(gameState);
 
@@ -55,9 +55,9 @@ public class FirstBetState extends BetState{
         return table.getNextActivePlayer(player);
     }
 
-    private class AnteCommand implements PlayerCommand{
+    private class AnteCommand implements PlayerCommand {
         @Override
-        public void execute(Player player){
+        public void execute(Player player) {
             int ante = gameState.getBlindsAnte().ante;
             betBlindAnte(player, ante);
         }

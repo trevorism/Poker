@@ -42,18 +42,20 @@ public class BetStateAlwaysFoldTest {
     @Test
     public void testBettingRound(){
         RaiseOutcome fixedBet40 = BettingOutcomeFactory.createRaiseOutcome(40);
-        CallOutcome call = BettingOutcomeFactory.createCallOutcome();
         RaiseOutcome fixedBet50 = BettingOutcomeFactory.createRaiseOutcome(50);
 
         fixedBet40.modifyGameState(gameState, p3);
-        call.modifyGameState(gameState, p1);
-        fixedBet50.modifyGameState(gameState, p2);
-        flopBetState.bettingRound(p3);
+        fixedBet50.modifyGameState(gameState, p1);
+        flopBetState.bettingRound(p2);
+
+        assertPlayerChipCount(p1, 50);
+        assertPlayerChipCount(p2, 120);
+        assertPlayerChipCount(p3, 40);
 
         gameState.getPots().awardWinners();
 
-        assertPlayerChipCount(p1, 60);
-        assertPlayerChipCount(p2, 200);
+        assertPlayerChipCount(p1, 140);
+        assertPlayerChipCount(p2, 120);
         assertPlayerChipCount(p3, 40);
 
     }

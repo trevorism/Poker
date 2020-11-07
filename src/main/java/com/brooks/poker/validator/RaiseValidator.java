@@ -21,7 +21,7 @@ public class RaiseValidator implements BettingValidator{
             betMustBeAtLeast = gameState.getBlindsAnte().bigBlind;
         }
         else{
-            betMustBeAtLeast = currentBet * 2 - player.getPendingBet();            
+            betMustBeAtLeast = currentBet - player.getPendingBet();
         }
         
     }
