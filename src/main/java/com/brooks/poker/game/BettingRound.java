@@ -28,7 +28,7 @@ public class BettingRound {
             return true;
         }
 
-        if(playerIsOnlyEligiblePlayerLeft(gameState, startPlayer)){
+        if(isOnlyOneEligiblePlayerLeft(gameState)){
             return true;
         }
 
@@ -39,7 +39,7 @@ public class BettingRound {
         return true;
     }
 
-    private boolean playerIsOnlyEligiblePlayerLeft(GameState gameState, Player startPlayer) {
+    public static boolean isOnlyOneEligiblePlayerLeft(GameState gameState) {
         for(Pot pot : gameState.getPots().getPots()){
             if(pot.getEligiblePlayerCount() > 1)
                 return false;

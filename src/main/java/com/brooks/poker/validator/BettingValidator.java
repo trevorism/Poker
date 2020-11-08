@@ -8,6 +8,6 @@ package com.brooks.poker.validator;
 public interface BettingValidator{
 
     boolean validateBet(int bet);
-
+    boolean canRaise();
     int getMinRaise();
 }

@@ -1,5 +1,8 @@
 # ChangeLog
 
+## [1.6.0]
+* Fixed a bug which allowed a player to raise when it was the only player left for action
+
 ## [1.5.0]
 * Fixed a bug which prohibited raising by smaller than double the current bet
 

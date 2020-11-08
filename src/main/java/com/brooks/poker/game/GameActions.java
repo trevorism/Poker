@@ -4,6 +4,7 @@ import com.brooks.poker.cards.Card;
 import com.brooks.poker.cards.Deck;
 import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.game.data.Table;
+import com.brooks.poker.game.data.pot.Pot;
 import com.brooks.poker.game.data.pot.Pots;
 import com.brooks.poker.player.Player;
 
@@ -58,7 +59,7 @@ public class GameActions {
     }
 
     public static int getMinBet(GameState gameState) {
-        int minBet = gameState.getPots().getCurrentBet() * 2;
+        int minBet = gameState.getPots().getCurrentBet() + gameState.getBlindsAnte().bigBlind;
         if (minBet < gameState.getBlindsAnte().bigBlind) {
             minBet = gameState.getBlindsAnte().bigBlind;
         }
@@ -73,5 +74,6 @@ public class GameActions {
             return true;
         return players.size() > MAXIMUM_NUMBER_OF_PLAYERS;
     }
+
 
 }

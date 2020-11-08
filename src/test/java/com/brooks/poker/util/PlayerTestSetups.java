@@ -54,7 +54,7 @@ public final class PlayerTestSetups{
         givePlayerHighCard(player2);
         givePlayerTrips(player3);
         
-        List<Player> players = new LinkedList<Player>();
+        List<Player> players = new LinkedList<>();
         players.add(player1);
         players.add(player2);
         players.add(player3);
