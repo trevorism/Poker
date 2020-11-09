@@ -44,7 +44,6 @@ public class PotsTest{
         p1 = getPlayer1();
         p2 = getPlayer2();
         p3 = getPlayer3();
-        
     }
 
     @Test
@@ -94,7 +93,7 @@ public class PotsTest{
     private void assertPotValuesAreAccurate(){
         Pot pot = pots.getPots().get(0);
         assertEquals(0, pot.getAmountOwed());
-        assertEquals(table.getActivePlayersSize() * BET_AMOUNT, pot.getPotAmount());
+        assertEquals(table.getSortedActivePlayers().size() * BET_AMOUNT, pot.getPotAmount());
     }
     
     private void whenWinnerIsAwarded(){

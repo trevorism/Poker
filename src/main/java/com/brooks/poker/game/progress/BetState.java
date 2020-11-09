@@ -25,9 +25,8 @@ public abstract class BetState extends GameProgressHandler {
     public void bettingRound(Player startPlayer) {
         Table table = gameState.getTable();
         BettingRound bettingRound = new BettingRound(gameState, startPlayer, false);
-        actionOnPlayer = startPlayer;
+        actionOnPlayer = ensurePlayerIsActive(startPlayer);
         while (!bettingRound.isComplete()){
-            actionOnPlayer = ensurePlayerIsActive(actionOnPlayer);
             int currentBet = gameState.getPots().getCurrentBet();
             modifyGameState(actionOnPlayer);
             bettingRound.actionComplete(actionOnPlayer);

@@ -24,9 +24,9 @@ public class BettingRound {
     }
 
     public boolean isComplete() {
-        if(hasPlayerHadATurn.size() <= 1 && gameState.getPots().getCurrentBet() == 0){
-            return true;
-        }
+        //if(hasPlayerHadATurn.size() <= 1 && gameState.getPots().getCurrentBet() == 0){
+        //    return true;
+       // }
 
         if(isOnlyOneEligiblePlayerLeft(gameState)){
             return true;
@@ -51,12 +51,13 @@ public class BettingRound {
         hasPlayerHadATurn.put(player.getName(), true);
     }
 
-
     private Map<String, Boolean> createActionMap() {
         Table table = gameState.getTable();
         HashMap<String, Boolean> map = new HashMap<>();
         for (Player player : table.getSortedActivePlayers()) {
-            map.put(player.getName(), false);
+            if(!player.isAllIn()) {
+                map.put(player.getName(), false);
+            }
         }
         return map;
     }

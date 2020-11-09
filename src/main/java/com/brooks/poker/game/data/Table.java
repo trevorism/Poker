@@ -13,22 +13,18 @@ import java.util.*;
 public class Table {
 
     private final List<Player> allPlayers = new ArrayList<>();
-    private final Set<Player> notActivePlayers = new HashSet<>();
+    private final Set<Player> foldedPlayers = new HashSet<>();
     private int dealerIndex = -1;
 
     public Player getNextActivePlayer(Player startPlayer) {
         Player player = getNextPlayer(startPlayer);
 
-        while (notActivePlayers.contains(player)) {
+        while (foldedPlayers.contains(player)) {
             player = getNextPlayer(player);
             if (player.isNullPlayer()) {
                 return Player.NOBODY;
             }
             if (player.equals(startPlayer)) {
-                if (notActivePlayers.contains(startPlayer)) {
-                    return Player.NOBODY;
-                }
-
                 return startPlayer;
             }
         }
@@ -60,11 +56,11 @@ public class Table {
     }
 
     public void makeInactive(Player player) {
-        notActivePlayers.add(player);
+        foldedPlayers.add(player);
     }
 
     public boolean isInactive(Player player) {
-        return notActivePlayers.contains(player);
+        return foldedPlayers.contains(player);
     }
 
     public void randomizeDealer() {
@@ -73,7 +69,7 @@ public class Table {
     }
 
     public void reset() {
-        notActivePlayers.clear();
+        foldedPlayers.clear();
         for (Player player : getAllPlayers()) {
             player.reset();
         }
@@ -92,10 +88,6 @@ public class Table {
         executeOnEachActivePlayer(firstActivePlayer, activePlayers::add);
 
         return activePlayers;
-    }
-
-    public int getActivePlayersSize() {
-        return allPlayers.size() - notActivePlayers.size();
     }
 
     public void executeOnEachActivePlayer(Player startPlayer, PlayerCommand command) {
