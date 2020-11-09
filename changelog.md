@@ -1,5 +1,8 @@
 # ChangeLog
 
+## [1.8.0]
+* Fixed a tricky bug during heads up play when the small blind and the big blind puts a player all-in
+
 ## [1.7.0]
 * Fixed a tricky bug during heads up play when the small blind puts a player all-in, when that player is the big blind.
 
