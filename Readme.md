@@ -7,7 +7,7 @@
 
 No limit texas hold'em implementation.
 
-Latest version is: 1.7.0
+Latest version is: 1.8.0
 
 ## To Build
 
