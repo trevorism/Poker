@@ -2,7 +2,10 @@ package com.brooks.poker.game.data.pot;
 
 import com.brooks.poker.player.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Trevor
@@ -23,8 +26,14 @@ public class Pots {
 
     public PotResult awardWinners() {
         PotResult result = new PotResult();
-        for (Pot pot : pots) {
-            result.resolvePot(pot);
+        for (int i = pots.size() - 1; i >= 0; i--) {
+            Pot pot = pots.get(i);
+            if (pot.getEligiblePlayerCount() == 0 && pot.getPotAmount() != 0 && i != 0) {
+                Pot previousPot = pots.get(i - 1);
+                previousPot.placeBet(pot.getPotAmount());
+            } else {
+                result.resolvePot(pot);
+            }
         }
         return result;
     }

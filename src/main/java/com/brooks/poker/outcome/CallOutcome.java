@@ -22,6 +22,7 @@ public class CallOutcome implements BettingOutcome{
         if (player.isAllIn()){
             gameState.getPots().insertSubpot(player);
         }
+
     }
 
     @Override
