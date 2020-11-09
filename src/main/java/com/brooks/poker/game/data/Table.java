@@ -25,7 +25,11 @@ public class Table {
                 return Player.NOBODY;
             }
             if (player.equals(startPlayer)) {
-                return Player.NOBODY;
+                if (notActivePlayers.contains(startPlayer)) {
+                    return Player.NOBODY;
+                }
+
+                return startPlayer;
             }
         }
         return player;

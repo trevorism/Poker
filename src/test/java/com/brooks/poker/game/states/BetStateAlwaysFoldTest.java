@@ -4,7 +4,6 @@ import com.brooks.poker.game.data.GameState;
 import com.brooks.poker.game.progress.FlopBetState;
 import com.brooks.poker.game.progress.TurnBetState;
 import com.brooks.poker.outcome.BettingOutcomeFactory;
-import com.brooks.poker.outcome.CallOutcome;
 import com.brooks.poker.outcome.RaiseOutcome;
 import com.brooks.poker.player.Player;
 import com.brooks.poker.util.PlayerTestSetups;
@@ -59,4 +58,6 @@ public class BetStateAlwaysFoldTest {
         assertPlayerChipCount(p3, 40);
 
     }
+
+
 }

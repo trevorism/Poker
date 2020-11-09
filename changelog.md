@@ -1,5 +1,8 @@
 # ChangeLog
 
+## [1.6.1]
+* Cleaned up getNextActivePlayer on the Table
+
 ## [1.6.0]
 * Fixed a bug which allowed a player to raise when it was the only player left for action
 
