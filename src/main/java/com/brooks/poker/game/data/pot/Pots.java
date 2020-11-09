@@ -2,10 +2,7 @@ package com.brooks.poker.game.data.pot;
 
 import com.brooks.poker.player.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Trevor
@@ -19,8 +16,18 @@ public class Pots {
     }
 
     public void fold(Player player) {
-        for (Pot pot : pots) {
-            pot.removePlayerFromPot(player);
+        List<Integer> removePots = new LinkedList<>();
+        for (int i = pots.size() - 1; i >= 0; i--) {
+            Pot pot = pots.get(i);
+            boolean doesThisRemovalMakeThePotEmpty = pot.removePlayerFromPot(player);
+            if (doesThisRemovalMakeThePotEmpty && i != 0) {
+                Pot previousPot = pots.get(i - 1);
+                previousPot.placeBet(pot.getPotAmount());
+                removePots.add(i);
+            }
+        }
+        for (int index : removePots) {
+            pots.remove(index);
         }
     }
 
