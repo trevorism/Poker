@@ -16,18 +16,8 @@ public class Pots {
     }
 
     public void fold(Player player) {
-        List<Integer> removePots = new LinkedList<>();
-        for (int i = pots.size() - 1; i >= 0; i--) {
-            Pot pot = pots.get(i);
-            boolean doesThisRemovalMakeThePotEmpty = pot.removePlayerFromPot(player);
-            if (doesThisRemovalMakeThePotEmpty && i != 0) {
-                Pot previousPot = pots.get(i - 1);
-                previousPot.placeBet(pot.getPotAmount());
-                removePots.add(i);
-            }
-        }
-        for (int index : removePots) {
-            pots.remove(index);
+        for (Pot pot : pots) {
+            pot.removePlayerFromPot(player);
         }
     }
 

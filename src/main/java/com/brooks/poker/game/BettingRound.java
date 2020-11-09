@@ -24,9 +24,9 @@ public class BettingRound {
     }
 
     public boolean isComplete() {
-        //if(hasPlayerHadATurn.size() <= 1 && gameState.getPots().getCurrentBet() == 0){
-        //    return true;
-       // }
+        if(hasPlayerHadATurn.size() <= 1 && gameState.getPots().getCurrentBet() == startPlayer.getPendingBet()){
+            return true;
+        }
 
         if(isOnlyOneEligiblePlayerLeft(gameState)){
             return true;

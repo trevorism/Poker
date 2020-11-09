@@ -24,39 +24,48 @@ public class BetStateTwoPlayersAllInAndFold {
 
     private Player p1;
     private Player p2;
-    private Player p3;
 
     private GameState gameState;
     private FirstBetState firstBetState;
 
     @Before
     public void setUp() {
-        List<Player> players = Arrays.asList(new Player("p1", 20, new AlwaysFoldPlayerAction()),
-                new Player("p2", 20, new AlwaysFoldPlayerAction()),
-                new Player("p3", 20, new AlwaysFoldPlayerAction()));
+        List<Player> players = Arrays.asList(new Player("p1", 50, new AlwaysFoldPlayerAction()),
+                new Player("p2", 20, new AlwaysFoldPlayerAction()));
         gameState = PokerTestUtils.getDefaultGameState(players);
 
         p1 = players.get(0);
         p2 = players.get(1);
-        p3 = players.get(2);
 
         firstBetState = new FirstBetState(gameState);
     }
 
     @Test
-    public void testBettingRound() {
+    public void testBettingRoundWithPlayer1Dealer() {
+        gameState.getTable().setDealer(p1);
         firstBetState.handleState();
 
-        assertPlayerChipCount(p1, 20);
+        assertPlayerChipCount(p1, 15);
         assertPlayerChipCount(p2, 0);
-        assertPlayerChipCount(p3, 0);
 
         gameState.getPots().awardWinners();
 
-        assertPlayerChipCount(p1, 20);
-        assertPlayerChipCount(p2, 20);
-        assertPlayerChipCount(p3, 20);
-
+        assertPlayerChipCount(p1, 70);
+        assertPlayerChipCount(p2, 0);
     }
 
+
+    @Test
+    public void testBettingRoundWithPlayer2Dealer() {
+        gameState.getTable().setDealer(p2);
+        firstBetState.handleState();
+
+        assertPlayerChipCount(p1, 25);
+        assertPlayerChipCount(p2, 0);
+
+        gameState.getPots().awardWinners();
+
+        assertPlayerChipCount(p1, 50);
+        assertPlayerChipCount(p2, 20);
+    }
 }

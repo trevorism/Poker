@@ -7,7 +7,7 @@
 
 No limit texas hold'em implementation.
 
-Latest version is: 1.6.1
+Latest version is: 1.7.0
 
 ## To Build
 
@@ -20,7 +20,13 @@ To get user input, replace `new AlwaysCallPlayerAction()` with `new UserPrompted
 
 ## Code Organization
 
-`Poker` contains the engine for running the game. It's pure java, version >= 8 will work.
+`Poker` contains the engine for running the game. It's pure java, with no external dependencies! Java version >= 8 will work.
+
+#How to use
+
+See https://github.com/trevorism/Poker-bots for creating your own poker agents.
+
+See https://github.com/trevorism/Poker-ui for a command line game. 
 
 ## Future work
 

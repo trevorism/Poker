@@ -49,9 +49,8 @@ public class Pot {
         pot += bet;
     }
 
-    boolean removePlayerFromPot(Player player) {
+    void removePlayerFromPot(Player player) {
         eligiblePlayers.remove(player);
-        return eligiblePlayers.size() == 0;
     }
 
 }
