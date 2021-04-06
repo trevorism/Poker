@@ -10,7 +10,6 @@ buildscript {
     }
 }
 
-
 apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: "com.trevorism.gradle.release"
